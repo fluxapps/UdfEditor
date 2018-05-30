@@ -348,6 +348,7 @@ return array(
     'ilValidator' => $baseDir . '/../../../../../../../Services/Repository/classes/class.ilValidator.php',
     'pdoDB' => $baseDir . '/../../../../../../../Services/ActiveRecord/Connector/DataBase/class.pdoDB.php',
     'xudfContentGUI' => $baseDir . '/classes/Content/class.xudfContentGUI.php',
+    'xudfFormConfigurationGUI' => $baseDir . '/classes/Settings/class.xudfFormConfigurationGUI.php',
     'xudfGUI' => $baseDir . '/classes/class.xudfGUI.php',
     'xudfSetting' => $baseDir . '/classes/Settings/class.xudfSetting.php',
     'xudfSettingsGUI' => $baseDir . '/classes/Settings/class.xudfSettingsGUI.php',

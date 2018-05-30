@@ -349,6 +349,7 @@ class ComposerStaticInit1c22df155950907b6fe5aeed56cd3404
         'ilValidator' => __DIR__ . '/../..' . '/../../../../../../../Services/Repository/classes/class.ilValidator.php',
         'pdoDB' => __DIR__ . '/../..' . '/../../../../../../../Services/ActiveRecord/Connector/DataBase/class.pdoDB.php',
         'xudfContentGUI' => __DIR__ . '/../..' . '/classes/Content/class.xudfContentGUI.php',
+        'xudfFormConfigurationGUI' => __DIR__ . '/../..' . '/classes/Settings/class.xudfFormConfigurationGUI.php',
         'xudfGUI' => __DIR__ . '/../..' . '/classes/class.xudfGUI.php',
         'xudfSetting' => __DIR__ . '/../..' . '/classes/Settings/class.xudfSetting.php',
         'xudfSettingsGUI' => __DIR__ . '/../..' . '/classes/Settings/class.xudfSettingsGUI.php',

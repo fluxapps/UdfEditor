@@ -26,6 +26,10 @@ abstract class xudfGUI {
      */
     protected $tpl;
     /**
+     * @var ilTabsGUI
+     */
+    protected $tabs;
+    /**
      * @var ilUdfEditorPlugin
      */
     protected $pl;
@@ -43,6 +47,7 @@ abstract class xudfGUI {
         $this->user = $DIC['ilUser'];
         $this->lng = $DIC['lng'];
         $this->tpl = $DIC['tpl'];
+        $this->tabs = $DIC['ilTabs'];
         $this->pl = ilUdfEditorPlugin::getInstance();
         $this->parent_gui = $parent_gui;
     }
@@ -55,9 +60,24 @@ abstract class xudfGUI {
         switch ($next_class) {
             default:
                 $cmd = $this->ctrl->getCmd(self::CMD_STANDARD);
-                $this->{$cmd};
+                $this->performCommand($cmd);
                 break;
         }
+    }
+
+    /**
+     * @param $cmd
+     */
+    protected function performCommand($cmd) {
+        $this->setSubtabs();
+        $this->{$cmd}();
+    }
+
+    /**
+     *
+     */
+    protected function setSubtabs() {
+        // overwrite if class has subtabs
     }
 
     /**
