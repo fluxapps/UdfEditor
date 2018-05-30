@@ -25,6 +25,7 @@
       "../../../../../../../Services/Table",
       "../../../../../../../Services/Form",
       "../../../../../../../Services/Repository",
+      "../../../../../../../Services/Object",
       "../../../../../../../Services/Component",
       "../../../../../../../Services/ActiveRecord",
       "../../../../../../../Services/UIComponent",

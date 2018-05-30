@@ -1,17 +1,14 @@
 <?php
 
 /**
- * Class xudfSettingsGUI
+ * Class xudfContentGUI
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-class xudfSettingsGUI extends xudfGUI {
-
+class xudfContentGUI extends xudfGUI {
 
 
     protected function index() {
         echo 123;
     }
-
-
 }

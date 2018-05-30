@@ -29,19 +29,27 @@ abstract class xudfGUI {
      * @var ilUdfEditorPlugin
      */
     protected $pl;
+    /**
+     * @var
+     */
+    protected $parent_gui;
 
     /**
      * xudfGUI constructor.
      */
-    public function __construct() {
+    public function __construct($parent_gui) {
         global $DIC;
         $this->ctrl = $DIC['ctrl'];
         $this->user = $DIC['ilUser'];
         $this->lng = $DIC['lng'];
         $this->tpl = $DIC['tpl'];
         $this->pl = ilUdfEditorPlugin::getInstance();
+        $this->parent_gui = $parent_gui;
     }
 
+    /**
+     *
+     */
     public function executeCommand() {
         $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
@@ -51,4 +59,9 @@ abstract class xudfGUI {
                 break;
         }
     }
+
+    /**
+     *
+     */
+    protected abstract function index();
 }
