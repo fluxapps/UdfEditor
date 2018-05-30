@@ -73,7 +73,7 @@ class xudfFormConfigurationGUI extends xudfGUI {
 
 
     protected function create() {
-        $element = new xudfContentElement();
+        $element = new xudfContentElement($_POST['element_id']);
         $element->setIsSeparator($_POST[xudfFormConfigurationFormGUI::F_IS_SEPARATOR]);
 
         $xudfFormConfigurationFormGUI = new xudfFormConfigurationFormGUI($this, $element);
@@ -97,6 +97,12 @@ class xudfFormConfigurationGUI extends xudfGUI {
         }
         ilUtil::sendSuccess($this->pl->txt('form_saved'), true);
         $this->ctrl->redirect($this, self::CMD_STANDARD);
+    }
+
+    protected function edit() {
+        $element = xudfContentElement::find($_GET['element_id']);
+        $xudfFormConfigurationFormGUI = new xudfFormConfigurationFormGUI($this, $element);
+        $this->tpl->setContent($xudfFormConfigurationFormGUI->getHTML());
     }
 
 }

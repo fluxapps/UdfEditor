@@ -11,6 +11,8 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
     const F_DESCRIPTION = 'description';
     const F_UDF_FIELD = 'udf_field';
     const F_IS_SEPARATOR = 'is_separator';
+    const F_ELEMENT_ID = 'element_id';
+
 
     /**
      * @var ilCtrl
@@ -48,38 +50,56 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
         $this->setTitle($this->element->getId() ? $this->lng->txt('edit') : $this->lng->txt('create'));
         $this->setFormAction($this->ctrl->getFormAction($parent_gui));
 
+        $this->initForm();
+
+    }
+
+    /**
+     *
+     */
+    protected function initForm() {
+        $input = new ilHiddenInputGUI(self::F_IS_SEPARATOR);
+        $input->setValue($this->element->isSeparator());
+        $this->addItem($input);
+
+        if ($this->element->getId()) {
+            $input = new ilHiddenInputGUI(self::F_ELEMENT_ID);
+            $input->setValue($this->element->getId());
+            $this->addItem($input);
+        }
+
         if ($this->element->isSeparator()) {
             $this->initSeparatorForm();
         } else {
             $this->initUdfFieldForm();
         }
+
+        $this->addCommandButton(xudfFormConfigurationGUI::CMD_CREATE, $this->lng->txt('save'));
     }
 
     /**
      *
      */
     protected function initUdfFieldForm() {
-        $input = new ilHiddenInputGUI(self::F_IS_SEPARATOR);
-        $input->setValue(0);
-        $this->addItem($input);
-
         // UDF FIELD
         $input = new ilSelectInputGUI($this->lng->txt(self::F_UDF_FIELD), self::F_UDF_FIELD);
-        $input->setOptions(array(1 => 'test1', 2 => 'test2'));
+
+        /** @var ilUserDefinedFields $udf_fields */
+        $udf_fields = ilUserDefinedFields::_getInstance()->getDefinitions();
+        $options = array();
+        foreach ($udf_fields as $udf_field) {
+            $options[$udf_field['field_id']] = $udf_field['field_name'];
+        }
+        $input->setOptions($options);
+        $input->setRequired(true);
         $this->addItem($input);
 
         // DESCRIPTION
         $input = new ilTextInputGUI($this->lng->txt(self::F_DESCRIPTION), self::F_DESCRIPTION);
         $this->addItem($input);
-
-        $this->addCommandButton(xudfFormConfigurationGUI::CMD_CREATE, $this->lng->txt('save'));
     }
 
     protected function initSeparatorForm() {
-        $input = new ilHiddenInputGUI(self::F_IS_SEPARATOR);
-        $input->setValue(1);
-        $this->addItem($input);
-
         // TITLE
         $input = new ilTextInputGUI($this->lng->txt(self::F_TITLE), self::F_TITLE);
         $this->addItem($input);
@@ -87,8 +107,6 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
         // DESCRIPTION
         $input = new ilTextInputGUI($this->lng->txt(self::F_DESCRIPTION), self::F_DESCRIPTION);
         $this->addItem($input);
-
-        $this->addCommandButton(xudfFormConfigurationGUI::CMD_CREATE, $this->lng->txt('save'));
     }
 
     /**
@@ -115,7 +133,7 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
 
         $this->element->setObjId($this->parent_gui->getObjId());
         $this->element->setTitle($this->getInput(self::F_TITLE));
-        $this->element->setDescription($this->getInput(self::F_TITLE));
+        $this->element->setDescription($this->getInput(self::F_DESCRIPTION));
         $this->element->setUdfField($this->getInput(self::F_UDF_FIELD));
         $this->element->store();
 
