@@ -11,7 +11,7 @@ class ilUdfEditorPlugin extends ilRepositoryObjectPlugin {
     const PLUGIN_ID = 'xudf';
 
     function getPluginName() {
-        return 'UDF Editor';
+        return 'UdfEditor';
     }
 
     /**

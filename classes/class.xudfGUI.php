@@ -30,6 +30,10 @@ abstract class xudfGUI {
      */
     protected $tabs;
     /**
+     * @var ilToolbarGUI
+     */
+    protected $toolbar;
+    /**
      * @var ilUdfEditorPlugin
      */
     protected $pl;
@@ -40,14 +44,16 @@ abstract class xudfGUI {
 
     /**
      * xudfGUI constructor.
+     * @param ilObjUdfEditorGUI $parent_gui
      */
-    public function __construct($parent_gui) {
+    public function __construct(ilObjUdfEditorGUI $parent_gui) {
         global $DIC;
-        $this->ctrl = $DIC['ctrl'];
+        $this->ctrl = $DIC['ilCtrl'];
         $this->user = $DIC['ilUser'];
         $this->lng = $DIC['lng'];
         $this->tpl = $DIC['tpl'];
         $this->tabs = $DIC['ilTabs'];
+        $this->toolbar = $DIC['ilToolbar'];
         $this->pl = ilUdfEditorPlugin::getInstance();
         $this->parent_gui = $parent_gui;
     }
@@ -78,6 +84,20 @@ abstract class xudfGUI {
      */
     protected function setSubtabs() {
         // overwrite if class has subtabs
+    }
+
+    /**
+     * @return int
+     */
+    public function getObjId() {
+       return $this->parent_gui->getObjId();
+    }
+
+    /**
+     * @return ilObjUdfEditor
+     */
+    public function getObject() {
+        return $this->parent_gui->getObject();
     }
 
     /**

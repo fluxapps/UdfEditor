@@ -12,7 +12,7 @@ class ilObjUdfEditor extends ilObjectPlugin {
      * @return string
      */
     protected function initType() {
-        return ilUdfEditorPlugin::PLUGIN_ID;
+        $this->type = ilUdfEditorPlugin::PLUGIN_ID;
     }
 
     /**

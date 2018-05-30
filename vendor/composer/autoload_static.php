@@ -348,10 +348,14 @@ class ComposerStaticInit1c22df155950907b6fe5aeed56cd3404
         'ilUtil' => __DIR__ . '/../..' . '/../../../../../../../Services/Utilities/classes/class.ilUtil.php',
         'ilValidator' => __DIR__ . '/../..' . '/../../../../../../../Services/Repository/classes/class.ilValidator.php',
         'pdoDB' => __DIR__ . '/../..' . '/../../../../../../../Services/ActiveRecord/Connector/DataBase/class.pdoDB.php',
+        'xudfContentElement' => __DIR__ . '/../..' . '/classes/Content/class.xudfContentElement.php',
         'xudfContentGUI' => __DIR__ . '/../..' . '/classes/Content/class.xudfContentGUI.php',
-        'xudfFormConfigurationGUI' => __DIR__ . '/../..' . '/classes/Settings/class.xudfFormConfigurationGUI.php',
+        'xudfFormConfigurationFormGUI' => __DIR__ . '/../..' . '/classes/Settings/FormConfiguration/class.xudfFormConfigurationFormGUI.php',
+        'xudfFormConfigurationGUI' => __DIR__ . '/../..' . '/classes/Settings/FormConfiguration/class.xudfFormConfigurationGUI.php',
+        'xudfFormConfigurationTableGUI' => __DIR__ . '/../..' . '/classes/Settings/FormConfiguration/class.xudfFormConfigurationTableGUI.php',
         'xudfGUI' => __DIR__ . '/../..' . '/classes/class.xudfGUI.php',
         'xudfSetting' => __DIR__ . '/../..' . '/classes/Settings/class.xudfSetting.php',
+        'xudfSettingsFormGUI' => __DIR__ . '/../..' . '/classes/Settings/class.xudfSettingsFormGUI.php',
         'xudfSettingsGUI' => __DIR__ . '/../..' . '/classes/Settings/class.xudfSettingsGUI.php',
     );
 
