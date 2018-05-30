@@ -15,4 +15,21 @@ class ilObjUdfEditor extends ilObjectPlugin {
         return ilUdfEditorPlugin::PLUGIN_ID;
     }
 
+    /**
+     *
+     */
+    protected function doCreate() {
+        $xudfSetting = new xudfSetting();
+        $xudfSetting->setObjId($this->getId());
+        $xudfSetting->create();
+    }
+
+    /**
+     *
+     */
+    protected function beforeDelete() {
+        xudfSetting::find($this->getId())->delete();
+    }
+
+
 }

@@ -13,7 +13,24 @@ class ilObjUdfEditorListGUI extends ilObjectPluginListGUI {
     }
 
     function initCommands() {
-        // TODO: Implement initCommands() method.
+        $this->timings_enabled = false;
+        $this->subscribe_enabled = false;
+        $this->payment_enabled = false;
+        $this->link_enabled = false;
+        $this->info_screen_enabled = true;
+        $this->delete_enabled = true;
+        $this->cut_enabled = false;
+        $this->copy_enabled = false;
+
+        $commands = [
+            [
+                "permission" => "read",
+                "cmd" => ilObjUdfEditorGUI::CMD_INDEX,
+                "default" => true,
+            ]
+        ];
+
+        return $commands;
     }
 
     function initType() {
