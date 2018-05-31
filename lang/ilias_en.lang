@@ -10,3 +10,4 @@ udf_field_type_3#:#Textarea
 show_infotab#:#Show Tab "Info"
 delete_confirmation_text#:#Do you really want to delete the following element?
 msg_successfully_deleted#:#Element deleted successfully.
+form_saved#:#Changes saved successfully.

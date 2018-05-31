@@ -10,3 +10,4 @@ udf_field_type_3#:#Textbereich
 show_infotab#:#Tab "Info" anzeigen
 delete_confirmation_text#:#Sind Sie sicher, dass Sie folgendes Element löschen möchten?
 msg_successfully_deleted#:#Element erfolgreich gelöscht.
+form_saved#:#Änderungen erfolgreich gespeichert.

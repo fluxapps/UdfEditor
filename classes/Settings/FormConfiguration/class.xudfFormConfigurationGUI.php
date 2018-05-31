@@ -111,7 +111,7 @@ class xudfFormConfigurationGUI extends xudfGUI {
      *
      */
     protected function update() {
-        $element = new xudfContentElement(); // TODO POST['elment_ID]
+        $element = new xudfContentElement($_POST['element_id']);
 
         $xudfFormConfigurationFormGUI = new xudfFormConfigurationFormGUI($this, $element);
         $xudfFormConfigurationFormGUI->setValuesByPost();

@@ -16,13 +16,37 @@ class xudfContentGUI extends xudfGUI {
     protected function setSubtabs() {
         if (ilObjUdfEditorAccess::hasWriteAccess()) {
             $this->tabs->addSubTab(self::SUBTAB_SHOW, $this->lng->txt(self::SUBTAB_SHOW), $this->ctrl->getLinkTarget($this));
-            $this->tabs->addSubTab(self::SUBTAB_EDIT_PAGE, $this->lng->txt(self::SUBTAB_EDIT_PAGE), $this->ctrl->getLinkTargetByClass(xudfFormConfigurationGUI::class, self::CMD_STANDARD));
+            $this->tabs->addSubTab(self::SUBTAB_EDIT_PAGE, $this->lng->txt(self::SUBTAB_EDIT_PAGE), $this->ctrl->getLinkTargetByClass(xudfPageObjectGUI::class, 'edit'));
             $this->tabs->setSubTabActive(self::SUBTAB_SHOW);
         }
     }
 
+    public function executeCommand() {
+        $this->setSubtabs();
+        $next_class = $this->ctrl->getNextClass();
+        switch ($next_class) {
+            case 'xudfpageobjectgui':
+                $this->tabs->activateSubTab(self::SUBTAB_EDIT_PAGE);
+                $xudfPageObjectGUI = new xudfPageObjectGUI($this);
+                $html = $this->ctrl->forwardCommand($xudfPageObjectGUI);
+                $this->tpl->setContent($html);
+                break;
+            default:
+                $cmd = $this->ctrl->getCmd(self::CMD_STANDARD);
+                $this->performCommand($cmd);
+                break;
+        }
+        // these are automatically rendered by the pageobject gui
+        $this->tabs->removeTab('edit');
+        $this->tabs->removeTab('history');
+        $this->tabs->removeTab('clipboard');
+        $this->tabs->removeTab('pg');
+    }
+
 
     protected function index() {
-        echo 123;
+        $page_obj_gui = new xudfPageObjectGUI($this);
+        $form = new xudfContentFormGUI($this);
+        $this->tpl->setContent($page_obj_gui->getHTML() . $form->getHTML());
     }
 }

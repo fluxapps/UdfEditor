@@ -149,21 +149,31 @@ class xudfContentElement extends ActiveRecord {
     /**
      * @return int
      */
-    public function getUdfField() {
+    public function getUdfFieldId() {
         return $this->udf_field;
     }
 
     /**
      * @param int $udf_field
      */
-    public function setUdfField($udf_field) {
+    public function setUdfFieldId($udf_field) {
         $this->udf_field = $udf_field;
+    }
+
+    /**
+     * @return array
+     */
+    public function getUdfFieldDefinition() {
+        return ilUserDefinedFields::_getInstance()->getDefinition($this->getUdfFieldId());
     }
 
     /**
      * @return String
      */
     public function getTitle() {
+        if (!$this->isSeparator()) {
+            return $this->getUdfFieldDefinition()['field_name'];
+        }
         return $this->title;
     }
 

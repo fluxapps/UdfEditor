@@ -62,6 +62,7 @@ abstract class xudfGUI {
      *
      */
     public function executeCommand() {
+        $this->setSubtabs();
         $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
             default:
@@ -75,7 +76,6 @@ abstract class xudfGUI {
      * @param $cmd
      */
     protected function performCommand($cmd) {
-        $this->setSubtabs();
         $this->{$cmd}();
     }
 

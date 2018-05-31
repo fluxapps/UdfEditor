@@ -38,6 +38,7 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
     /**
      * xudfFormConfigurationFormGUI constructor.
      * @param xudfFormConfigurationGUI $parent_gui
+     * @param xudfContentElement $element
      */
     public function __construct(xudfFormConfigurationGUI $parent_gui, xudfContentElement $element) {
         global $DIC;
@@ -46,7 +47,6 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
         $this->pl = ilUdfEditorPlugin::getInstance();
         $this->parent_gui = $parent_gui;
         $this->element = $element;
-        $this->settings = xudfSetting::find($this->parent_gui->getObjId());
         $this->setTitle($this->element->getId() ? $this->lng->txt('edit') : $this->lng->txt('create'));
         $this->setFormAction($this->ctrl->getFormAction($parent_gui));
 
@@ -117,10 +117,10 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
         $values = array(
             self::F_TITLE => $this->element->getTitle(),
             self::F_DESCRIPTION => $this->element->getDescription(),
-            self::F_UDF_FIELD => $this->element->getUdfField(),
+            self::F_UDF_FIELD => $this->element->getUdfFieldId(),
         );
 
-        $this->setValuesByArray($values);
+        $this->setValuesByArray($values, true);
     }
 
 
@@ -135,7 +135,7 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
         $this->element->setObjId($this->parent_gui->getObjId());
         $this->element->setTitle($this->getInput(self::F_TITLE));
         $this->element->setDescription($this->getInput(self::F_DESCRIPTION));
-        $this->element->setUdfField($this->getInput(self::F_UDF_FIELD));
+        $this->element->setUdfFieldId($this->getInput(self::F_UDF_FIELD));
         $this->element->store();
 
         return true;
