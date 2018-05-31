@@ -1,0 +1,12 @@
+form_configuration#:#Formularkonfiguration
+add_udf_field#:#Benutzerdefiniertes Feld hinzufügen
+add_separator#:#Separator hinzufügen
+udf_type#:#UDF-Typ
+udf_required#:#UDF-Verpflichtend
+udf_field#:#UDF
+udf_field_type_1#:#Text
+udf_field_type_2#:#Auswahlliste
+udf_field_type_3#:#Textbereich
+show_infotab#:#Tab "Info" anzeigen
+delete_confirmation_text#:#Sind Sie sicher, dass Sie folgendes Element löschen möchten?
+msg_successfully_deleted#:#Element erfolgreich gelöscht.

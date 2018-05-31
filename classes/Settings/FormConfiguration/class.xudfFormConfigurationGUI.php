@@ -21,7 +21,11 @@ class xudfFormConfigurationGUI extends xudfGUI {
     const CMD_UPDATE = 'update';
     const CMD_DELETE = 'delete';
     const CMD_CONFIRM_DELETE = 'confirmDelete';
+    const CMD_REORDER = 'reorder';
 
+    /**
+     * @param $cmd
+     */
     protected function performCommand($cmd) {
         switch ($cmd) {
             case self::CMD_STANDARD:
@@ -35,12 +39,18 @@ class xudfFormConfigurationGUI extends xudfGUI {
     }
 
 
+    /**
+     *
+     */
     protected function setSubtabs() {
         $this->tabs->addSubTab(self::SUBTAB_SETTINGS, $this->lng->txt(self::SUBTAB_SETTINGS), $this->ctrl->getLinkTargetByClass(xudfSettingsGUI::class));
-        $this->tabs->addSubTab(self::SUBTAB_FORM_CONFIGURATION, $this->lng->txt(self::SUBTAB_FORM_CONFIGURATION), $this->ctrl->getLinkTargetByClass(xudfFormConfigurationGUI::class, self::CMD_STANDARD));
+        $this->tabs->addSubTab(self::SUBTAB_FORM_CONFIGURATION, $this->pl->txt(self::SUBTAB_FORM_CONFIGURATION), $this->ctrl->getLinkTargetByClass(xudfFormConfigurationGUI::class, self::CMD_STANDARD));
         $this->tabs->setSubTabActive(self::SUBTAB_FORM_CONFIGURATION);
     }
 
+    /**
+     *
+     */
     protected function initToolbar() {
         $add_udf_field = ilLinkButton::getInstance();
         $add_udf_field->setCaption($this->pl->txt('add_udf_field'), false);
@@ -53,16 +63,25 @@ class xudfFormConfigurationGUI extends xudfGUI {
         $this->toolbar->addButtonInstance($add_separator);
     }
 
+    /**
+     *
+     */
     protected function index() {
         $xudfFormConfigurationTableGUI = new xudfFormConfigurationTableGUI($this, self::CMD_STANDARD);
         $this->tpl->setContent($xudfFormConfigurationTableGUI->getHTML());
     }
 
+    /**
+     *
+     */
     protected function addUdfField() {
         $xudfFormConfigurationFormGUI = new xudfFormConfigurationFormGUI($this, new xudfContentElement());
         $this->tpl->setContent($xudfFormConfigurationFormGUI->getHTML());
     }
 
+    /**
+     *
+     */
     protected function addSeparator() {
         $element = new xudfContentElement();
         $element->setIsSeparator(true);
@@ -71,7 +90,9 @@ class xudfFormConfigurationGUI extends xudfGUI {
     }
 
 
-
+    /**
+     *
+     */
     protected function create() {
         $element = new xudfContentElement($_POST['element_id']);
         $element->setIsSeparator($_POST[xudfFormConfigurationFormGUI::F_IS_SEPARATOR]);
@@ -86,6 +107,9 @@ class xudfFormConfigurationGUI extends xudfGUI {
         $this->ctrl->redirect($this, self::CMD_STANDARD);
     }
 
+    /**
+     *
+     */
     protected function update() {
         $element = new xudfContentElement(); // TODO POST['elment_ID]
 
@@ -99,10 +123,57 @@ class xudfFormConfigurationGUI extends xudfGUI {
         $this->ctrl->redirect($this, self::CMD_STANDARD);
     }
 
+    /**
+     *
+     */
     protected function edit() {
         $element = xudfContentElement::find($_GET['element_id']);
         $xudfFormConfigurationFormGUI = new xudfFormConfigurationFormGUI($this, $element);
+        $xudfFormConfigurationFormGUI->fillForm();
         $this->tpl->setContent($xudfFormConfigurationFormGUI->getHTML());
+    }
+
+    /**
+     *
+     */
+    protected function delete() {
+        $element = new xudfContentElement($_GET['element_id']);
+
+        $text = $this->lng->txt('title') . ": {$element->getTitle()}<br>";
+        $text .= $this->lng->txt('description') . ": {$element->getDescription()}<br>";
+        $text .= $this->lng->txt('type') . ": " . ($element->isSeparator() ? 'Separator' : $this->pl->txt('udf_field'));
+
+        $confirmationGUI = new ilConfirmationGUI();
+        $confirmationGUI->addItem('element_id', $_GET['element_id'], $text);
+        $confirmationGUI->setFormAction($this->ctrl->getFormAction($this));
+        $confirmationGUI->setHeaderText($this->pl->txt('delete_confirmation_text'));
+        $confirmationGUI->setConfirm($this->lng->txt('delete'), self::CMD_CONFIRM_DELETE);
+        $confirmationGUI->setCancel($this->lng->txt('cancel'), self::CMD_STANDARD);
+
+        $this->tpl->setContent($confirmationGUI->getHTML());
+    }
+
+    /**
+     *
+     */
+    protected function confirmDelete() {
+        $element = new xudfContentElement($_POST['element_id']);
+        $element->delete();
+        ilUtil::sendSuccess($this->pl->txt('msg_successfully_deleted'), true);
+        $this->ctrl->redirect($this, self::CMD_STANDARD);
+    }
+
+    /**
+     *
+     */
+    protected function reorder() {
+        $sort = 10;
+        foreach ($_POST['ids'] as $id) {
+            $element = xudfContentElement::find($id);
+            $element->setSort($sort);
+            $element->update();
+            $sort += 10;
+        }
     }
 
 }

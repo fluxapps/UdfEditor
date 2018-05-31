@@ -32,35 +32,44 @@ class xudfFormConfigurationTableGUI extends ilTable2GUI {
         $tpl = $DIC['tpl'];
         $this->ctrl = $ilCtrl;
         $this->pl = ilUdfEditorPlugin::getInstance();
-//        $this->tpl_global = $tpl;
+        $this->tpl_global = $tpl;
 
         parent::__construct($parent_gui, $parent_cmd);
 
         $this->setFormAction($this->ctrl->getFormAction($parent_gui));
         $this->setRowTemplate($this->pl->getDirectory() . '/templates/default/tpl.form_configuration_table_row.html');
 
+        $this->tpl_global->addJavaScript($this->pl->getDirectory() . '/templates/default/sortable.js');
+        $this->tpl_global->addJavaScript($this->pl->getDirectory() . '/templates/default/waiter.js');
+        $this->tpl_global->addCss($this->pl->getDirectory() . '/templates/default/waiter.css');
+        $this->tpl_global->addOnLoadCode("xoctWaiter.init();");
+
+        $base_link = $this->ctrl->getLinkTarget($parent_gui, xudfFormConfigurationGUI::CMD_REORDER, '', true);
+        $this->tpl_global->addOnLoadCode("xudf = {'base_link': '$base_link'};");
+
         $this->initColumns();
         $this->setData(xudfContentElement::orderBy('sort')->getArray());
     }
 
     protected function initColumns() {
-//        $this->addColumn($this->pl->txt('sort'), 'sort', 20);
-        $this->addColumn($this->pl->txt('title'), 'title', 50);
-        $this->addColumn($this->pl->txt('description'),'description', 70);
-        $this->addColumn($this->pl->txt('type'),'type', 30);
+        $this->addColumn('', '', 10, true);
+        $this->addColumn($this->lng->txt('title'), 'title', 50);
+        $this->addColumn($this->lng->txt('description'),'description', 100);
+        $this->addColumn($this->lng->txt('type'),'type', 30);
         $this->addColumn($this->pl->txt('udf_type'),'udf_type', 30);
         $this->addColumn($this->pl->txt('udf_required'),'udf_required', 30);
         $this->addColumn('','', 10, true);
     }
 
     protected function fillRow($a_set) {
+        $udf_definition = ilUserDefinedFields::_getInstance()->getDefinition($a_set['udf_field']);
+
         $this->tpl->setVariable('ID', $a_set['id']);
-        $this->tpl->setVariable('TITLE', $a_set['title']);
+        $this->tpl->setVariable('TITLE', $udf_definition ? $udf_definition['field_name'] : $a_set['title']);
         $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
         $this->tpl->setVariable('TYPE', $a_set['is_separator'] ? 'Separator' : $this->pl->txt('udf_field'));
 
-        $udf_definition = ilUserDefinedFields::_getInstance()->getDefinition($a_set['udf_field']);
-        $this->tpl->setVariable('UDF_TYPE', $udf_definition ? $udf_definition['field_type'] : '&nbsp');
+        $this->tpl->setVariable('UDF_TYPE', $udf_definition ? $this->pl->txt('udf_field_type_' . $udf_definition['field_type']) : '&nbsp');
 
         if ($a_set['is_separator']) {
             $udf_required = '&nbsp';

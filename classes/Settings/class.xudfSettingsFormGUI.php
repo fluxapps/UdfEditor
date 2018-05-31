@@ -63,7 +63,7 @@ class xudfSettingsFormGUI extends ilPropertyFormGUI {
         $this->addItem($input);
 
         // SHOW INFOTAB
-        $input = new ilCheckboxInputGUI($this->lng->txt(self::F_SHOW_INFOTAB), self::F_SHOW_INFOTAB);
+        $input = new ilCheckboxInputGUI($this->pl->txt(self::F_SHOW_INFOTAB), self::F_SHOW_INFOTAB);
         $this->addItem($input);
 
         $this->addCommandButton(xudfSettingsGUI::CMD_UPDATE, $this->lng->txt('save'));

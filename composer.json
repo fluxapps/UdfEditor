@@ -31,7 +31,8 @@
       "../../../../../../../Services/UIComponent",
       "../../../../../../../Services/Utilities",
       "../../../../../../../Services/AccessControl",
-      "../../../../../../../Services/InfoScreen"
+      "../../../../../../../Services/InfoScreen",
+      "../../../../../../../Services/COPage"
     ]
   },
   "config": {

@@ -20,6 +20,16 @@ class xudfContentElement extends ActiveRecord {
     }
 
     /**
+     * @param $primary_key
+     * @param array $add_constructor_args
+     * @return self
+     */
+    public static function find($primary_key, array $add_constructor_args = array()) {
+        return parent::find($primary_key, $add_constructor_args);
+    }
+
+
+    /**
      * @var int
      *
      * @con_has_field    true

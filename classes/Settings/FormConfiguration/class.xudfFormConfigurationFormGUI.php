@@ -75,6 +75,7 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
         }
 
         $this->addCommandButton(xudfFormConfigurationGUI::CMD_CREATE, $this->lng->txt('save'));
+        $this->addCommandButton(xudfFormConfigurationGUI::CMD_STANDARD, $this->lng->txt('cancel'));
     }
 
     /**
@@ -82,7 +83,7 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
      */
     protected function initUdfFieldForm() {
         // UDF FIELD
-        $input = new ilSelectInputGUI($this->lng->txt(self::F_UDF_FIELD), self::F_UDF_FIELD);
+        $input = new ilSelectInputGUI($this->pl->txt(self::F_UDF_FIELD), self::F_UDF_FIELD);
 
         /** @var ilUserDefinedFields $udf_fields */
         $udf_fields = ilUserDefinedFields::_getInstance()->getDefinitions();
