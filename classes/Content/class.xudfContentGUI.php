@@ -47,6 +47,18 @@ class xudfContentGUI extends xudfGUI {
     protected function index() {
         $page_obj_gui = new xudfPageObjectGUI($this);
         $form = new xudfContentFormGUI($this);
+        $form->fillForm();
         $this->tpl->setContent($page_obj_gui->getHTML() . $form->getHTML());
+    }
+
+    protected function update() {
+        $form = new xudfContentFormGUI($this);
+        $form->setValuesByPost();
+        if (!$form->saveForm()) {
+            ilUtil::sendFailure($this->pl->txt('msg_incomplete'));
+            $this->tpl->setContent($form->getHTML());
+        }
+        ilUtil::sendSuccess($this->pl->txt('form_saved'), true);
+        $this->ctrl->redirect($this, self::CMD_STANDARD);
     }
 }

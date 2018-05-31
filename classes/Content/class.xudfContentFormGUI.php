@@ -16,9 +16,15 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
      */
     protected $lng;
     /**
+     * @var ilObjUser
+     */
+    protected $user;
+
+    /**
      * @var ilUdfEditorPlugin
      */
     protected $pl;
+
     /**
      * @var xudfContentGUI
      */
@@ -36,6 +42,7 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
         global $DIC;
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
+        $this->user = $DIC['ilUser'];
         $this->pl = ilUdfEditorPlugin::getInstance();
         $this->parent_gui = $parent_gui;
         $this->obj_id = $parent_gui->getObjId();
@@ -57,18 +64,25 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
                 $input->setInfo($element->getDescription());
                 $this->addItem($input);
             } else {
-                switch ($element->getUdfFieldDefinition()['field_type']) {
+                $definition = $element->getUdfFieldDefinition();
+                switch ($definition['field_type']) {
                     case 1:
                         $input = new ilTextInputGUI($element->getTitle(), $element->getUdfFieldId());
                         break;
                     case 2:
                         $input = new ilSelectInputGUI($element->getTitle(), $element->getUdfFieldId());
+                        $options = array();
+                        foreach ($definition['field_values'] as $key => $values) {
+                            $options[$values] = $values;
+                        }
+                        $input->setOptions($options);
                         break;
                     case 3:
                         $input = new ilTextAreaInputGUI($element->getTitle(), $element->getUdfFieldId());
                         break;
                 }
                 $input->setInfo($element->getDescription());
+                $input->setRequired($definition['required']);
                 $this->addItem($input);
             }
         }
@@ -80,12 +94,12 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
      *
      */
     public function fillForm() {
-        $values = array(
-            self::F_TITLE => $this->parent_gui->getObject()->getTitle(),
-            self::F_DESCRIPTION => $this->parent_gui->getObject()->getDescription(),
-            self::F_ONLINE => $this->settings->isOnline(),
-            self::F_SHOW_INFOTAB => $this->settings->isShowInfoTab(),
-        );
+        $udf_data = $this->user->getUserDefinedData();
+        $values = array();
+        /** @var xudfContentElement $element */
+        foreach (xudfContentElement::where(array('obj_id' => $this->obj_id, 'is_separator' => false))->get() as $element) {
+            $values[$element->getUdfFieldId()] = $udf_data['f_' . $element->getUdfFieldId()];
+        }
         $this->setValuesByArray($values);
     }
 
@@ -98,13 +112,13 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
             return false;
         }
 
-        $this->parent_gui->getObject()->setTitle($this->getInput(self::F_TITLE));
-        $this->parent_gui->getObject()->setDescription($this->getInput(self::F_DESCRIPTION));
-        $this->parent_gui->getObject()->update();
-
-        $this->settings->setIsOnline($this->getInput(self::F_ONLINE));
-        $this->settings->setShowInfoTab($this->getInput(self::F_SHOW_INFOTAB));
-        $this->settings->update();
+        $udf_data = $this->user->getUserDefinedData();
+        /** @var xudfContentElement $element */
+        foreach (xudfContentElement::where(array('obj_id' => $this->obj_id, 'is_separator' => false))->get() as $element) {
+            $udf_data[$element->getUdfFieldId()] = $this->getInput($element->getUdfFieldId());
+        }
+        $this->user->setUserDefinedData($udf_data);
+        $this->user->updateUserDefinedFields();
 
         return true;
     }
