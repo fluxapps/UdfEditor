@@ -13,3 +13,7 @@ msg_successfully_deleted#:#Element erfolgreich gelöscht.
 form_saved#:#Änderungen erfolgreich gespeichert.
 msg_incomplete#:#Eines oder mehrere Pflichtfelder sind noch nicht ausgefüllt.
 msg_fields_filled_out#:#Die erforderlichen Felder sind bereits ausgefüllt, können aber weiterhin bearbeitet werden. Dies kann zur Folge haben, dass zusätzliche Kurse zugewiesen werden - bestehende Kurse werden jedoch nicht entfernt.
+objs_xudf#:#UDF-Editors
+obj_xudf#:#UDF-Editor
+xudf_new#:#Neuen UDF-Editor anlegen
+xudf_add#:#Erstellen

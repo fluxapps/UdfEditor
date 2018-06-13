@@ -13,3 +13,7 @@ msg_successfully_deleted#:#Element deleted successfully.
 form_saved#:#Changes saved successfully.
 msg_incomplete#:#One or several of the mandatory fields are not yet filled out.
 msg_fields_filled_out#:#The mandatory fields have already been filled out. They can still be edited, what may lead to additional assignments to courses - however existing courses will not be deassigned.
+objs_xudf#:#UDF Editors
+obj_xudf#:#UDF Editor
+xudf_new#:#Create new UDF Editor
+xudf_add#:#Create

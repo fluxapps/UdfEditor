@@ -53,6 +53,10 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
                     $this->tpl->show();
                     break;
                 case 'xudfsettingsgui':
+                    if (!ilObjUdfEditorAccess::hasWriteAccess()) {
+                        ilUtil::sendFailure($this->pl->txt('access_denied'), true);
+                        $this->ctrl->returnToParent($this);
+                    }
                     if (!$this->ctrl->isAsynch()) {
                         $this->initHeader();
                         $this->setTabs();
@@ -63,6 +67,10 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
                     $this->tpl->show();
                     break;
                 case 'xudfformconfigurationgui':
+                    if (!ilObjUdfEditorAccess::hasWriteAccess()) {
+                        ilUtil::sendFailure($this->pl->txt('access_denied'), true);
+                        $this->ctrl->returnToParent($this);
+                    }
                     if (!$this->ctrl->isAsynch()) {
                         $this->initHeader();
                         $this->setTabs();
@@ -104,6 +112,8 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
         }
 
     }
+    
+    
 
     /**
      * @return int
@@ -211,5 +221,11 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
         return ilUdfEditorPlugin::PLUGIN_ID;
     }
 
+    /**
+     * @return bool
+     */
+    protected function supportsCloning() {
+        return false;
+    }
 
 }

@@ -8,10 +8,16 @@
 class xudfContentElement extends ActiveRecord {
 
 
+    /**
+     * @return string
+     */
     public function getConnectorContainerName() {
         return 'xudf_element';
     }
 
+    /**
+     *
+     */
     public function create() {
         $element = self::orderBy('sort')->first();
         $sort = $element ? ($element->getSort() + 10) : 10;

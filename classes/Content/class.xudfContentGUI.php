@@ -15,6 +15,9 @@ class xudfContentGUI extends xudfGUI {
     const CMD_RETURN_TO_PARENT = 'returnToParent';
 
 
+    /**
+     *
+     */
     protected function setSubtabs() {
         if (ilObjUdfEditorAccess::hasWriteAccess()) {
             $this->tabs->addSubTab(self::SUBTAB_SHOW, $this->lng->txt(self::SUBTAB_SHOW), $this->ctrl->getLinkTarget($this));
@@ -23,11 +26,18 @@ class xudfContentGUI extends xudfGUI {
         }
     }
 
+    /**
+     * @throws ilCtrlException
+     */
     public function executeCommand() {
         $this->setSubtabs();
         $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
             case 'xudfpageobjectgui':
+                if (!ilObjUdfEditorAccess::hasWriteAccess()) {
+                    ilUtil::sendFailure($this->pl->txt('access_denied'), true);
+                    $this->ctrl->returnToParent($this);
+                }
                 $this->tabs->activateSubTab(self::SUBTAB_EDIT_PAGE);
                 $xudfPageObjectGUI = new xudfPageObjectGUI($this);
                 $html = $this->ctrl->forwardCommand($xudfPageObjectGUI);
@@ -46,14 +56,16 @@ class xudfContentGUI extends xudfGUI {
     }
 
 
+    /**
+     *
+     */
     protected function index() {
         $has_open_fields = false;
         if (!$_GET['edit']) {
             $udf_values = $this->user->getUserDefinedData();
             /** @var xudfContentElement $element */
             foreach (xudfContentElement::where(array('obj_id' => $this->getObjId()))->get() as $element) {
-                $definition = $element->getUdfFieldDefinition();
-                if ($definition['required'] && !$udf_values['f_' . $element->getUdfFieldId()]) {
+                if (!$element->isSeparator() && !$udf_values['f_' . $element->getUdfFieldId()]) {
                     $has_open_fields = true;
                     break;
                 }
@@ -79,6 +91,9 @@ class xudfContentGUI extends xudfGUI {
         $this->tpl->setContent($page_obj_gui->getHTML() . $form->getHTML());
     }
 
+    /**
+     *
+     */
     protected function update() {
         $form = new xudfContentFormGUI($this);
         $form->setValuesByPost();
@@ -92,6 +107,9 @@ class xudfContentGUI extends xudfGUI {
         $this->ctrl->redirect($this, self::CMD_STANDARD);
     }
 
+    /**
+     *
+     */
     protected function returnToParent() {
         $this->ctrl->returnToParent($this->parent_gui);
     }
