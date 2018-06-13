@@ -35,10 +35,11 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
     protected $obj_id;
 
     /**
-     * xudfSettingsFormGUI constructor.
+     * xudfContentFormGUI constructor.
      * @param xudfContentGUI $parent_gui
+     * @param boolean $editable
      */
-    public function __construct(xudfContentGUI $parent_gui) {
+    public function __construct(xudfContentGUI $parent_gui, $editable = true) {
         global $DIC;
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
@@ -49,13 +50,13 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
 
 //        $this->setTitle($this->lng->txt('settings'));
         $this->setFormAction($this->ctrl->getFormAction($parent_gui));
-        $this->initForm();
+        $this->initForm($editable);
     }
 
     /**
      *
      */
-    protected function initForm() {
+    protected function initForm($editable) {
         /** @var xudfContentElement $element */
         foreach (xudfContentElement::where(array('obj_id' => $this->obj_id))->orderBy('sort')->get() as $element) {
             if ($element->isSeparator()) {
@@ -71,7 +72,7 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
                         break;
                     case 2:
                         $input = new ilSelectInputGUI($element->getTitle(), $element->getUdfFieldId());
-                        $options = array();
+                        $options = array('' => $this->lng->txt('please_choose'));
                         foreach ($definition['field_values'] as $key => $values) {
                             $options[$values] = $values;
                         }
@@ -83,11 +84,14 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
                 }
                 $input->setInfo($element->getDescription());
                 $input->setRequired($definition['required']);
+                $input->setDisabled(!$editable);
                 $this->addItem($input);
             }
         }
 
-        $this->addCommandButton(xudfSettingsGUI::CMD_UPDATE, $this->lng->txt('save'));
+        if ($editable) {
+            $this->addCommandButton(xudfSettingsGUI::CMD_UPDATE, $this->lng->txt('save'));
+        }
     }
 
     /**

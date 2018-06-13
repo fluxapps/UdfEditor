@@ -12,6 +12,8 @@ class xudfContentGUI extends xudfGUI {
     const SUBTAB_SHOW = 'show';
     const SUBTAB_EDIT_PAGE = 'edit_page';
 
+    const CMD_RETURN_TO_PARENT = 'returnToParent';
+
 
     protected function setSubtabs() {
         if (ilObjUdfEditorAccess::hasWriteAccess()) {
@@ -45,8 +47,34 @@ class xudfContentGUI extends xudfGUI {
 
 
     protected function index() {
+        $has_open_fields = false;
+        if (!$_GET['edit']) {
+            $udf_values = $this->user->getUserDefinedData();
+            /** @var xudfContentElement $element */
+            foreach (xudfContentElement::where(array('obj_id' => $this->getObjId()))->get() as $element) {
+                $definition = $element->getUdfFieldDefinition();
+                if ($definition['required'] && !$udf_values['f_' . $element->getUdfFieldId()]) {
+                    $has_open_fields = true;
+                    break;
+                }
+            }
+            if (!$has_open_fields) {
+                ilUtil::sendInfo($this->pl->txt('msg_fields_filled_out'));
+                // return button
+                $button = ilLinkButton::getInstance();
+                $button->setCaption('back');
+                $button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_RETURN_TO_PARENT));
+                $this->toolbar->addButtonInstance($button);
+                // edit button
+                $button = ilLinkButton::getInstance();
+                $button->setCaption('edit');
+                $this->ctrl->setParameter($this, 'edit', 1);
+                $button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_STANDARD));
+                $this->toolbar->addButtonInstance($button);
+            }
+        }
         $page_obj_gui = new xudfPageObjectGUI($this);
-        $form = new xudfContentFormGUI($this);
+        $form = new xudfContentFormGUI($this, $has_open_fields || $_GET['edit']);
         $form->fillForm();
         $this->tpl->setContent($page_obj_gui->getHTML() . $form->getHTML());
     }
@@ -56,9 +84,15 @@ class xudfContentGUI extends xudfGUI {
         $form->setValuesByPost();
         if (!$form->saveForm()) {
             ilUtil::sendFailure($this->pl->txt('msg_incomplete'));
-            $this->tpl->setContent($form->getHTML());
+            $page_obj_gui = new xudfPageObjectGUI($this);
+            $this->tpl->setContent($page_obj_gui->getHTML() . $form->getHTML());
+            return;
         }
         ilUtil::sendSuccess($this->pl->txt('form_saved'), true);
         $this->ctrl->redirect($this, self::CMD_STANDARD);
+    }
+
+    protected function returnToParent() {
+        $this->ctrl->returnToParent($this->parent_gui);
     }
 }

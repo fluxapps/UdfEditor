@@ -102,6 +102,7 @@ class xudfFormConfigurationGUI extends xudfGUI {
         if (!$xudfFormConfigurationFormGUI->saveForm()) {
             ilUtil::sendFailure($this->pl->txt('msg_incomplete'));
             $this->tpl->setContent($xudfFormConfigurationFormGUI->getHTML());
+            return;
         }
         ilUtil::sendSuccess($this->pl->txt('form_saved'), true);
         $this->ctrl->redirect($this, self::CMD_STANDARD);
@@ -118,6 +119,7 @@ class xudfFormConfigurationGUI extends xudfGUI {
         if (!$xudfFormConfigurationFormGUI->saveForm()) {
             ilUtil::sendFailure($this->pl->txt('msg_incomplete'));
             $this->tpl->setContent($xudfFormConfigurationFormGUI->getHTML());
+            return;
         }
         ilUtil::sendSuccess($this->pl->txt('form_saved'), true);
         $this->ctrl->redirect($this, self::CMD_STANDARD);

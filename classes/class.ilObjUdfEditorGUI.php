@@ -160,8 +160,6 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
             $this->tpl->setAlertProperties($list_gui->getAlertProperties());
         }
 
-//		$this->tpl->setTitleIcon(ilObjViMP::_getIcon($this->object_id));
-//        $this->tpl->setPermanentLink('xvmp', $_GET['ref_id']);
     }
 
 
