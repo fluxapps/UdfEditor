@@ -54,6 +54,7 @@ abstract class xudfGUI {
         $this->tpl = $DIC['tpl'];
         $this->tabs = $DIC['ilTabs'];
         $this->toolbar = $DIC['ilToolbar'];
+        $this->tree = $DIC->repositoryTree();
         $this->pl = ilUdfEditorPlugin::getInstance();
         $this->parent_gui = $parent_gui;
     }

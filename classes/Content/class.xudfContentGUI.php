@@ -111,6 +111,7 @@ class xudfContentGUI extends xudfGUI {
      *
      */
     protected function returnToParent() {
-        $this->ctrl->returnToParent($this->parent_gui);
+        $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->tree->getParentId($_GET['ref_id']));
+        $this->ctrl->redirectByClass(ilRepositoryGUI::class);
     }
 }
