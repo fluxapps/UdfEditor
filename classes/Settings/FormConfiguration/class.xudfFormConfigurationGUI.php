@@ -75,6 +75,11 @@ class xudfFormConfigurationGUI extends xudfGUI {
      *
      */
     protected function addUdfField() {
+        $udf_fields = ilUserDefinedFields::_getInstance()->getDefinitions();
+        if (!count($udf_fields)) {
+            ilUtil::sendFailure($this->pl->txt('msg_no_udfs'), true);
+            $this->ctrl->redirect($this, self::CMD_STANDARD);
+        }
         $xudfFormConfigurationFormGUI = new xudfFormConfigurationFormGUI($this, new xudfContentElement());
         $this->tpl->setContent($xudfFormConfigurationFormGUI->getHTML());
     }

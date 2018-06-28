@@ -61,10 +61,11 @@ class xudfContentGUI extends xudfGUI {
      */
     protected function index() {
         $has_open_fields = false;
-        if (!$_GET['edit']) {
+        $where = xudfContentElement::where(array('obj_id' => $this->getObjId()));
+        if (!$_GET['edit'] && $where->count()) {
             $udf_values = $this->user->getUserDefinedData();
             /** @var xudfContentElement $element */
-            foreach (xudfContentElement::where(array('obj_id' => $this->getObjId()))->get() as $element) {
+            foreach ($where->get() as $element) {
                 if (!$element->isSeparator() && !$udf_values['f_' . $element->getUdfFieldId()]) {
                     $has_open_fields = true;
                     break;

@@ -7,7 +7,7 @@ require_once __DIR__ . "/../vendor/autoload.php";
  * @author Theodor Truffer <tt@studer-raimann.ch>
  *
  * @ilCtrl_isCalledBy ilObjUdfEditorGUI: ilRepositoryGUI, ilObjPluginDispatchGUI, ilAdministrationGUI
- * @ilCtrl_Calls      ilObjUdfEditorGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI, ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls      ilObjUdfEditorGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI, ilCommonActionDispatcherGUI, ilEditClipboardGUI
  */
 class ilObjUdfEditorGUI extends ilObjectPluginGUI {
 
@@ -23,8 +23,10 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
      * ilObjUdfEditorGUI constructor.
      */
     public function __construct($a_ref_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0) {
+        global $DIC;
         parent::__construct($a_ref_id, $a_id_type, $a_parent_node_id);
         $this->pl = ilUdfEditorPlugin::getInstance();
+        $this->tabs = $DIC->tabs();
     }
 
 
