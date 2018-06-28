@@ -1,6 +1,6 @@
 ## Installation
 
-### Install H5P repository plugin
+### Install UdfEditor repository plugin
 Start at your ILIAS root directory 
 ```bash
 mkdir -p Customizing/global/plugins/Services/Repository/RepositoryObject
