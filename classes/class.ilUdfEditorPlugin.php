@@ -32,7 +32,9 @@ class ilUdfEditorPlugin extends ilRepositoryObjectPlugin {
     }
 
     protected function uninstallCustom() {
-        // TODO: Implement uninstallCustom() method.
+        global $DIC;
+        $DIC->database()->dropTable(xudfSetting::DB_TABLE_NAME, false);
+        $DIC->database()->dropTable(xudfContentElement::DB_TABLE_NAME, false);
     }
 
 
