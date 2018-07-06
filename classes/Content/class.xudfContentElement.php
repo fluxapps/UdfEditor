@@ -7,12 +7,13 @@
  */
 class xudfContentElement extends ActiveRecord {
 
+    const DB_TABLE_NAME = 'xudf_element';
 
     /**
      * @return string
      */
     public function getConnectorContainerName() {
-        return 'xudf_element';
+        return self::DB_TABLE_NAME;
     }
 
     /**

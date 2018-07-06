@@ -7,8 +7,10 @@
  */
 class xudfSetting extends ActiveRecord {
 
+    const DB_TABLE_NAME = 'xudf_setting';
+
     public function getConnectorContainerName() {
-        return 'xudf_setting';
+        return self::DB_TABLE_NAME;
     }
 
     /**
