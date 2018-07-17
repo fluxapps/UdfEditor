@@ -203,6 +203,20 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
     }
 
     /**
+     * @param ilInfoScreenGUI $info
+     */
+    function addInfoItems($info) {
+        $info->addSection($this->pl->txt('info_section_title'));
+        $fields_string = '';
+        foreach (xudfContentElement::where(array('obj_id' => $this->getObjId(), 'is_separator' => 0))->get() as $element) {
+            /** @var $element xudfContentElement */
+            $fields_string .= $element->getTitle() . '<br>';
+        }
+        $info->addProperty($this->pl->txt('info_section_subtitle'), $fields_string ? $fields_string : '-');
+    }
+
+
+    /**
      * @return string
      */
     function getAfterCreationCmd() {

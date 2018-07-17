@@ -18,3 +18,5 @@ objs_xudf#:#UDF-Editors
 obj_xudf#:#UDF-Editor
 xudf_new#:#Neuen UDF-Editor anlegen
 xudf_add#:#Erstellen
+info_section_title#:#Verwendete Benutzerinformationen
+info_section_subtitle#:#In diesem Objekt verwendete Benutzerfelder
