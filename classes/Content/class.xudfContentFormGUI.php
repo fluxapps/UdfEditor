@@ -122,7 +122,7 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
             $udf_data[$element->getUdfFieldId()] = $this->getInput($element->getUdfFieldId());
         }
         $this->user->setUserDefinedData($udf_data);
-        $this->user->updateUserDefinedFields();
+        $this->user->update();
 
         return true;
     }
