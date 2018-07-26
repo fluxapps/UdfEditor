@@ -104,8 +104,53 @@ class xudfContentGUI extends xudfGUI {
             $this->tpl->setContent($page_obj_gui->getHTML() . $form->getHTML());
             return;
         }
+        $this->checkAndSendNotification();
         ilUtil::sendSuccess($this->pl->txt('form_saved'), true);
         $this->ctrl->redirect($this, self::CMD_STANDARD);
+    }
+
+    /**
+     *
+     */
+    protected function checkAndSendNotification() {
+        if (xudfSetting::find($this->getObjId())->hasMailNotification()) {
+            $mail = new ilMail(ANONYMOUS_USER_ID);
+
+            $type = array('system');
+
+            $mail->setSaveInSentbox(false);
+            $mail->appendInstallationSignature(true);
+            $mail->sendMail(
+                $this->user->getLogin(),
+                '',
+                '',
+                'Benutzerdaten geändert',
+                $this->getNotificationMailBody(),
+                array(),
+                $type
+            );
+        }
+    }
+
+    protected function getNotificationMailBody() {
+        $body = 'Sehr geehrte/r [Vorname] [Nachname],';
+        $body .= '
+        
+        ';
+        $body .= 'Sie haben im Objekt „' . $this->getObject()->getTitle() . '“ die folgenden Angaben ausgewählt:';
+        $body .= '
+        
+        ';
+
+        $udf_data = $this->user->getUserDefinedData();
+        foreach (xudfContentElement::where(array('obj_id' => $this->getObjId(), 'is_separator' => false))->get() as $element) {
+            /** @var xudfContentElement $element */
+            $body .= $element->getTitle() . ': ' . $udf_data['f_' . $element->getUdfFieldId()];
+            $body .= '
+            ';
+        }
+        
+        return $body;
     }
 
     /**

@@ -20,3 +20,5 @@ xudf_new#:#Neuen UDF-Editor anlegen
 xudf_add#:#Erstellen
 info_section_title#:#Verwendete Benutzerinformationen
 info_section_subtitle#:#In diesem Objekt verwendete Benutzerfelder
+mail_notification#:#Email-Benachrichtigung
+mail_notification_info#:#Bei jedem Abspeichern des Formulars wird eine Benachrichtigung an den Benutzer geschickt.

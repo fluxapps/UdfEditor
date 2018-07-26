@@ -16,3 +16,8 @@ $DIC->database()->insert('copg_pobj_def', array(
     'component' => array('text', 'Customizing/global/plugins/Services/Repository/RepositoryObject/UdfEditor')
 ));
 ?>
+<#3>
+<?php
+require_once "Customizing/global/plugins/Services/Repository/RepositoryObject/UdfEditor/classes/Settings/class.xudfSetting.php";
+xudfSetting::updateDB();
+?>

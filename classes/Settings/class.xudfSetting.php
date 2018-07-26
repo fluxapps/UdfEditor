@@ -41,6 +41,15 @@ class xudfSetting extends ActiveRecord {
      * @con_is_notnull   true
      */
     protected $show_info_tab = false;
+    /**
+     * @var bool
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       1
+     * @con_is_notnull   true
+     */
+    protected $mail_notification = false;
 
     /**
      * @return int
@@ -82,6 +91,20 @@ class xudfSetting extends ActiveRecord {
      */
     public function setShowInfoTab($show_info_tab) {
         $this->show_info_tab = $show_info_tab;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasMailNotification() {
+        return $this->mail_notification;
+    }
+
+    /**
+     * @param bool $mail_notification
+     */
+    public function setMailNotification($mail_notification) {
+        $this->mail_notification = $mail_notification;
     }
 
     /**
