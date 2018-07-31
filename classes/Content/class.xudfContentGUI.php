@@ -120,11 +120,14 @@ class xudfContentGUI extends xudfGUI {
 
             $mail->setSaveInSentbox(false);
             $mail->appendInstallationSignature(true);
+
+            $settings = new ilSetting();
+            $inst_name = $settings->get('short_inst_name');
             $mail->sendMail(
                 $this->user->getLogin(),
                 '',
                 '',
-                'Benutzerdaten geändert',
+                ($inst_name ? $inst_name : 'ILIAS') . ': ' . $this->getObject()->getTitle(),
                 $this->getNotificationMailBody(),
                 array(),
                 $type
@@ -133,7 +136,7 @@ class xudfContentGUI extends xudfGUI {
     }
 
     protected function getNotificationMailBody() {
-        $body = 'Sehr geehrte/r [Vorname] [Nachname],';
+        $body = "Sehr geehrte/r {$this->user->getFirstname()} {$this->user->getLastname()},";
         $body .= '
         
         ';
