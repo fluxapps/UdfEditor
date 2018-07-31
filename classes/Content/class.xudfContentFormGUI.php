@@ -83,7 +83,7 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
                         break;
                 }
                 $input->setInfo($element->getDescription());
-                $input->setRequired(true);
+                $input->setRequired($definition['required']);
                 $input->setDisabled(!$editable);
                 $this->addItem($input);
             }
