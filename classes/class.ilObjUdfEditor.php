@@ -31,5 +31,11 @@ class ilObjUdfEditor extends ilObjectPlugin {
         xudfSetting::find($this->getId())->delete();
     }
 
+    /**
+     *
+     */
+    public function getStyleSheetId() {
+        ilObjStyleSheet::lookupObjectStyle($this->getId());
+    }
 
 }

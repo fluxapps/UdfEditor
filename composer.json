@@ -33,7 +33,8 @@
       "../../../../../../../Services/Utilities",
       "../../../../../../../Services/AccessControl",
       "../../../../../../../Services/InfoScreen",
-      "../../../../../../../Services/COPage"
+      "../../../../../../../Services/COPage",
+      "../../../../../../../Services/Style"
     ]
   },
   "config": {
