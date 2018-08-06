@@ -22,3 +22,15 @@ info_section_title#:#Verwendete Benutzerinformationen
 info_section_subtitle#:#In diesem Objekt verwendete Benutzerfelder
 mail_notification#:#Email-Benachrichtigung
 mail_notification_info#:#Bei jedem Abspeichern des Formulars wird eine Benachrichtigung an den Benutzer geschickt.
+xudf_new#:#Neues UdfEditor-Objekt anlegen
+xudf_add#:#Erstellen
+cat_create_xudf#:#UdfEditor Erstellen
+crs_create_xudf#:#UdfEditor Erstellen
+fold_create_xudf#:#UdfEditor Erstellen
+grp_create_xudf#:#UdfEditor Erstellen
+root_create_xudf#:#UdfEditor Erstellen
+xudf_visible#:#Anzeigen: UdfEditor ist sichtbar
+xudf_read#:#Lesezugriff: Videos können angezeigt werden
+xudf_write#:#Einstellungen bearbeiten: Einstellungen und Inhalte können bearbeitet werden
+xudf_delete#:#Löschen: Objekt kann gelöscht werden
+xudf_edit_permission#:#Rechteeinstellungen ändern: Rechteeinstellungen ändern
