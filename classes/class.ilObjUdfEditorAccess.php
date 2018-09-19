@@ -7,14 +7,14 @@ require_once __DIR__ . "/../vendor/autoload.php";
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilObjUdfEditorAccess extends ilObjectPluginAccess {
+
     /**
-     * @var ilObjH5PAccess
+     * @var ilObjUdfEditorAccess
      */
     protected static $instance = NULL;
 
-
     /**
-     * @return ilObjH5PAccess
+     * @return ilObjUdfEditorAccess
      */
     public static function getInstance() {
         if (self::$instance === NULL) {
