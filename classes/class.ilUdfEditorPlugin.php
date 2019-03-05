@@ -35,8 +35,7 @@ class ilUdfEditorPlugin extends ilRepositoryObjectPlugin {
         global $DIC;
         $DIC->database()->dropTable(xudfSetting::DB_TABLE_NAME, false);
         $DIC->database()->dropTable(xudfContentElement::DB_TABLE_NAME, false);
-        $DIC->database()
-		    ->manipulateF('DELETE FROM copg_pobj_def WHERE component=%s', [ 'text' ], [ 'Customizing/global/plugins/Services/Repository/RepositoryObject/UdfEditor' ]);
+        $DIC->database()->manipulateF('DELETE FROM copg_pobj_def WHERE component=%s', [ 'text' ], [ 'Customizing/global/plugins/Services/Repository/RepositoryObject/UdfEditor' ]);
     }
 
 
