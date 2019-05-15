@@ -41,11 +41,14 @@ class ilObjUdfEditorListGUI extends ilObjectPluginListGUI {
         return $commands;
     }
 
+	/**
+	 *
+	 */
     function initType() {
-        return ilUdfEditorPlugin::PLUGIN_ID;
+        $this->setType(ilUdfEditorPlugin::PLUGIN_ID);
     }
 
-    /**
+	/**
      * get all alert properties
      *
      * @return array
