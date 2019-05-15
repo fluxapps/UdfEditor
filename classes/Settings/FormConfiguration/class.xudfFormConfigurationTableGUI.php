@@ -48,7 +48,7 @@ class xudfFormConfigurationTableGUI extends ilTable2GUI {
         $this->tpl_global->addOnLoadCode("xudf = {'base_link': '$base_link'};");
 
         $this->initColumns();
-        $this->setData(xudfContentElement::orderBy('sort')->getArray());
+        $this->setData(xudfContentElement::where(['obj_id'=> ilObjUdfEditor::_lookupObjectId(filter_input(INPUT_GET, 'ref_id'))])->orderBy('sort')->getArray());
     }
 
     protected function initColumns() {

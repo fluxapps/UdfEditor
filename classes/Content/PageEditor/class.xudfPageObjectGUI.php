@@ -13,6 +13,8 @@ class xudfPageObjectGUI extends ilPageObjectGUI {
 
 
     public function __construct(xudfContentGUI $parent_gui) {
+    	$this->checkAndAddCOPageDefinition();
+
         // we always need a page object - create on demand
         if (! xudfPageObject::_exists(xudfPageObject::PARENT_TYPE, $parent_gui->getObjId())) {
             $page_obj = new xudfPageObject();
@@ -44,5 +46,21 @@ class xudfPageObjectGUI extends ilPageObjectGUI {
         return parent::executeCommand();
     }
 
+
+	/**
+	 * for some reason the entry in copg_pobj_def gets deleted from time to time, so we check and add it everytime now
+	 */
+    protected function checkAndAddCOPageDefinition() {
+	    global $DIC;
+    	$sql_query = $DIC->database()->query('SELECT * FROM copg_pobj_def WHERE parent_type = "xudf"');
+	    if ($DIC->database()->numRows($sql_query) === 0) {
+		    $DIC->database()->insert('copg_pobj_def', array(
+			    'parent_type' => array('text', 'xudf'),
+			    'class_name' => array('text', 'xudfPageObject'),
+			    'directory' => array('text', 'classes/Content/PageEditor'),
+			    'component' => array('text', 'Customizing/global/plugins/Services/Repository/RepositoryObject/UdfEditor')
+		    ));
+	    }
+    }
 
 }
