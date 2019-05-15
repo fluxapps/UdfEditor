@@ -22,7 +22,7 @@
   "autoload": {
     "classmap": [
       "./classes/",
-      "../../../../../../../Services/User",
+      "../../../../../../../Services/User/classes/class.ilUserDefinedFields.php",
       "../../../../../../../Services/Table",
       "../../../../../../../Services/Form",
       "../../../../../../../Services/Repository",
