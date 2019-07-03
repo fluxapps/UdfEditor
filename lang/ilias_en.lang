@@ -22,6 +22,8 @@ info_section_title#:#Used Personal Information
 info_section_subtitle#:#User defined fields used in this object
 mail_notification#:#Mail Notification
 mail_notification_info#:#Sends a notification mail to the user after saving the form.
+additional_notification#:#Additional Notification
+additional_notification_info#:#This email address will also be notified about any changes.
 xudf_new#:#Create new UdfEditor object
 xudf_add#:#Create
 cat_create_xudf#:#Create UdfEditor

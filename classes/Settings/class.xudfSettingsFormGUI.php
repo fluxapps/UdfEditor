@@ -12,6 +12,7 @@ class xudfSettingsFormGUI extends ilPropertyFormGUI {
     const F_ONLINE = 'online';
     const F_SHOW_INFOTAB = 'show_infotab';
     const F_MAIL_NOTIFICATION = 'mail_notification';
+    const F_ADDITIONAL_NOTIFICATION = 'additional_notification';
 
     /**
      * @var ilCtrl
@@ -29,6 +30,10 @@ class xudfSettingsFormGUI extends ilPropertyFormGUI {
      * @var xudfSettingsGUI
      */
     protected $parent_gui;
+	/**
+	 * @var xudfSetting
+	 */
+    protected $settings;
 
     /**
      * xudfSettingsFormGUI constructor.
@@ -72,6 +77,11 @@ class xudfSettingsFormGUI extends ilPropertyFormGUI {
         $input->setInfo($this->pl->txt(self::F_MAIL_NOTIFICATION . '_info'));
         $this->addItem($input);
 
+        // MAIL NOTIFICATION
+        $input = new ilTextInputGUI($this->pl->txt(self::F_ADDITIONAL_NOTIFICATION), self::F_ADDITIONAL_NOTIFICATION);
+        $input->setInfo($this->pl->txt(self::F_ADDITIONAL_NOTIFICATION . '_info'));
+        $this->addItem($input);
+
         $this->addCommandButton(xudfSettingsGUI::CMD_UPDATE, $this->lng->txt('save'));
     }
 
@@ -85,6 +95,7 @@ class xudfSettingsFormGUI extends ilPropertyFormGUI {
             self::F_ONLINE => $this->settings->isOnline(),
             self::F_SHOW_INFOTAB => $this->settings->isShowInfoTab(),
             self::F_MAIL_NOTIFICATION => $this->settings->hasMailNotification(),
+            self::F_ADDITIONAL_NOTIFICATION => $this->settings->getAdditionalNotification(),
         );
         $this->setValuesByArray($values);
     }
@@ -105,6 +116,7 @@ class xudfSettingsFormGUI extends ilPropertyFormGUI {
         $this->settings->setIsOnline($this->getInput(self::F_ONLINE));
         $this->settings->setShowInfoTab($this->getInput(self::F_SHOW_INFOTAB));
         $this->settings->setMailNotification($this->getInput(self::F_MAIL_NOTIFICATION));
+        $this->settings->setAdditionalNotification($this->getInput(self::F_ADDITIONAL_NOTIFICATION));
         $this->settings->update();
 
         return true;

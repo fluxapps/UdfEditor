@@ -113,7 +113,8 @@ class xudfContentGUI extends xudfGUI {
      *
      */
     protected function checkAndSendNotification() {
-        if (xudfSetting::find($this->getObjId())->hasMailNotification()) {
+    	$xudfSettings = xudfSetting::find($this->getObjId());
+        if ($xudfSettings->hasMailNotification()) {
             $mail = new ilMail(ANONYMOUS_USER_ID);
 
             $type = array('system');
@@ -126,7 +127,7 @@ class xudfContentGUI extends xudfGUI {
             $mail->sendMail(
                 $this->user->getLogin(),
                 '',
-                '',
+				$xudfSettings->getAdditionalNotification(),
                 ($inst_name ? $inst_name : 'ILIAS') . ': ' . $this->getObject()->getTitle(),
                 $this->getNotificationMailBody(),
                 array(),

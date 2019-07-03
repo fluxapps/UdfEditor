@@ -50,6 +50,14 @@ class xudfSetting extends ActiveRecord {
      * @con_is_notnull   true
      */
     protected $mail_notification = false;
+	/**
+	 * @var string
+	 *
+	 * @con_has_field    true
+	 * @con_fieldtype    text
+	 * @con_length       256
+	 */
+    protected $additional_notification = '';
 
     /**
      * @return int
@@ -106,6 +114,20 @@ class xudfSetting extends ActiveRecord {
     public function setMailNotification($mail_notification) {
         $this->mail_notification = $mail_notification;
     }
+
+	/**
+	 * @return string
+	 */
+	public function getAdditionalNotification() {
+		return $this->additional_notification;
+	}
+
+	/**
+	 * @param string $additional_notification
+	 */
+	public function setAdditionalNotification($additional_notification) {
+		$this->additional_notification = $additional_notification;
+	}
 
     /**
      * @param $primary_key
