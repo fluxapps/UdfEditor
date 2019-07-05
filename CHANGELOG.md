@@ -1,7 +1,7 @@
 # Changelog
 
 ## [1.2.0]
-- feature: additional notification to configured address
+- feature: additional notification to configured addresses
 
 ## [1.1.0]
 - ILIAS version support 5.3.x - 5.4.x
