@@ -22,8 +22,8 @@ info_section_title#:#Verwendete Benutzerinformationen
 info_section_subtitle#:#In diesem Objekt verwendete Benutzerfelder
 mail_notification#:#Email-Benachrichtigung
 mail_notification_info#:#Bei jedem Abspeichern des Formulars wird eine Benachrichtigung an den Benutzer geschickt.
-additional_notification#:#Zusätzliche Benachrichtigung
-additional_notification_info#:#Die hier angegebene Email-Adresse wird ebenfalls über Änderungen benachrichtigt.
+additional_notification#:#Weitere Benachrichtigungen
+additional_notification_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die zusätzlich per E-Mail benachrichtigt werden sollen.
 xudf_new#:#Neues UdfEditor-Objekt anlegen
 xudf_add#:#Erstellen
 cat_create_xudf#:#UdfEditor Erstellen

@@ -117,7 +117,7 @@ class xudfContentGUI extends xudfGUI {
         if ($xudfSettings->hasMailNotification()) {
             $mail = new ilMail(ANONYMOUS_USER_ID);
 
-            $type = array('system');
+            $type = array('normal');
 
             $mail->setSaveInSentbox(false);
             $mail->appendInstallationSignature(true);
