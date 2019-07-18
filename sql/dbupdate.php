@@ -35,3 +35,7 @@ if ($DIC->database()->numRows($sql_query) === 0) {
 	));
 }
 ?>
+<#5>
+<?php
+xudfSetting::updateDB();
+?>
