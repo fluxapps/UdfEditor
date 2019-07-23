@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.2.1]
+- bugfix: deleting udf led to fatal errors
+
 ## [1.2.0]
 - feature: additional notification to configured addresses
 

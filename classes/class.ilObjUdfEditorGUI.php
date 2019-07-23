@@ -1,4 +1,8 @@
 <?php
+
+use srag\Plugins\UdfEditor\Exception\UDFNotFoundException;
+use srag\DIC\UdfEditor\DICTrait;
+
 require_once __DIR__ . "/../vendor/autoload.php";
 
 /**
@@ -10,6 +14,9 @@ require_once __DIR__ . "/../vendor/autoload.php";
  * @ilCtrl_Calls      ilObjUdfEditorGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI, ilCommonActionDispatcherGUI, ilEditClipboardGUI
  */
 class ilObjUdfEditorGUI extends ilObjectPluginGUI {
+
+	use DICTrait;
+	const PLUGIN_CLASS_NAME = ilUdfEditorPlugin::class;
 
     const TAB_CONTENT = 'content';
     const TAB_INFO = 'info';
@@ -23,10 +30,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
      * ilObjUdfEditorGUI constructor.
      */
     public function __construct($a_ref_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0) {
-        global $DIC;
         parent::__construct($a_ref_id, $a_id_type, $a_parent_node_id);
-        $this->pl = ilUdfEditorPlugin::getInstance();
-        $this->tabs = $DIC->tabs();
     }
 
 
@@ -34,61 +38,61 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
      *
      */
     public function executeCommand() {
-        $next_class = $this->ctrl->getNextClass();
-        $cmd = $this->ctrl->getCmd();
+        $next_class = self::dic()->ctrl()->getNextClass();
+        $cmd = self::dic()->ctrl()->getCmd();
         if (!ilObjUdfEditorAccess::hasReadAccess() && $next_class != "ilinfoscreengui" && $cmd != "infoScreen") {
-            ilUtil::sendFailure($this->pl->txt('access_denied'), true);
-            $this->ctrl->returnToParent($this);
+            ilUtil::sendFailure(self::plugin()->translate('access_denied'), true);
+            self::dic()->ctrl()->returnToParent($this);
         }
         $this->tpl->getStandardTemplate();
 
         try {
             switch ($next_class) {
                 case 'xudfcontentgui':
-                    if (!$this->ctrl->isAsynch()) {
+                    if (!self::dic()->ctrl()->isAsynch()) {
                         $this->initHeader();
                         $this->setTabs();
                     }
-                    $this->tabs->activateTab(self::TAB_CONTENT);
+                    self::dic()->tabs()->activateTab(self::TAB_CONTENT);
                     $xvmpGUI = new xudfContentGUI($this);
-                    $this->ctrl->forwardCommand($xvmpGUI);
+                    self::dic()->ctrl()->forwardCommand($xvmpGUI);
                     $this->tpl->show();
                     break;
                 case 'xudfsettingsgui':
                     if (!ilObjUdfEditorAccess::hasWriteAccess()) {
-                        ilUtil::sendFailure($this->pl->txt('access_denied'), true);
-                        $this->ctrl->returnToParent($this);
+                        ilUtil::sendFailure(self::plugin()->translate('access_denied'), true);
+                        self::dic()->ctrl()->returnToParent($this);
                     }
-                    if (!$this->ctrl->isAsynch()) {
+                    if (!self::dic()->ctrl()->isAsynch()) {
                         $this->initHeader();
                         $this->setTabs();
                     }
-                    $this->tabs->activateTab(self::TAB_SETTINGS);
+                    self::dic()->tabs()->activateTab(self::TAB_SETTINGS);
                     $xvmpGUI = new xudfSettingsGUI($this);
-                    $this->ctrl->forwardCommand($xvmpGUI);
+                    self::dic()->ctrl()->forwardCommand($xvmpGUI);
                     $this->tpl->show();
                     break;
                 case 'xudfformconfigurationgui':
                     if (!ilObjUdfEditorAccess::hasWriteAccess()) {
-                        ilUtil::sendFailure($this->pl->txt('access_denied'), true);
-                        $this->ctrl->returnToParent($this);
+                        ilUtil::sendFailure(self::plugin()->translate('access_denied'), true);
+                        self::dic()->ctrl()->returnToParent($this);
                     }
-                    if (!$this->ctrl->isAsynch()) {
+                    if (!self::dic()->ctrl()->isAsynch()) {
                         $this->initHeader();
                         $this->setTabs();
                     }
-                    $this->tabs->activateTab(self::TAB_SETTINGS);
+                    self::dic()->tabs()->activateTab(self::TAB_SETTINGS);
                     $xvmpGUI = new xudfFormConfigurationGUI($this);
-                    $this->ctrl->forwardCommand($xvmpGUI);
+                    self::dic()->ctrl()->forwardCommand($xvmpGUI);
                     $this->tpl->show();
                     break;
 
                 case "ilinfoscreengui":
-                    if (!$this->ctrl->isAsynch()) {
+                    if (!self::dic()->ctrl()->isAsynch()) {
                         $this->initHeader();
                         $this->setTabs();
                     }
-                    $this->tabs->activateTab(self::TAB_INFO);
+                    self::dic()->tabs()->activateTab(self::TAB_INFO);
                     $this->checkPermission("visible");
                     $this->infoScreen();	// forwards command
                     $this->tpl->show();
@@ -143,14 +147,14 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
      *
      */
     protected function index() {
-        $this->ctrl->redirectByClass(xudfContentGUI::class);
+        self::dic()->ctrl()->redirectByClass(xudfContentGUI::class);
     }
 
     /**
      *
      */
     protected function showSettings() {
-        $this->ctrl->redirectByClass(xudfSettingsGUI::class);
+        self::dic()->ctrl()->redirectByClass(xudfSettingsGUI::class);
     }
 
     /**
@@ -182,18 +186,18 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
         global $DIC;
         $lng = $DIC['lng'];
 
-        $this->tabs_gui->addTab(self::TAB_CONTENT, $this->lng->txt(self::TAB_CONTENT), $this->ctrl->getLinkTargetByClass(xudfContentGUI::class, xudfContentGUI::CMD_STANDARD));
+        self::dic()->tabs()->addTab(self::TAB_CONTENT, self::dic()->language()->txt(self::TAB_CONTENT), self::dic()->ctrl()->getLinkTargetByClass(xudfContentGUI::class, xudfContentGUI::CMD_STANDARD));
 
         if (xudfSetting::find($this->obj_id)->isShowInfoTab()) {
-            $this->tabs_gui->addTab(self::TAB_INFO, $this->lng->txt(self::TAB_INFO . '_short'), $this->ctrl->getLinkTargetByClass(ilInfoScreenGUI::class));
+            self::dic()->tabs()->addTab(self::TAB_INFO, self::dic()->language()->txt(self::TAB_INFO . '_short'), self::dic()->ctrl()->getLinkTargetByClass(ilInfoScreenGUI::class));
         }
 
         if (ilObjUdfEditorAccess::hasWriteAccess()) {
-            $this->tabs_gui->addTab(self::TAB_SETTINGS, $this->lng->txt(self::TAB_SETTINGS), $this->ctrl->getLinkTargetByClass(xudfSettingsGUI::class, xudfSettingsGUI::CMD_STANDARD));
+            self::dic()->tabs()->addTab(self::TAB_SETTINGS, self::dic()->language()->txt(self::TAB_SETTINGS), self::dic()->ctrl()->getLinkTargetByClass(xudfSettingsGUI::class, xudfSettingsGUI::CMD_STANDARD));
         }
 
         if ($this->checkPermissionBool("edit_permission")) {
-            $this->tabs_gui->addTab("perm_settings", $lng->txt("perm_settings"), $this->ctrl->getLinkTargetByClass(array(
+            self::dic()->tabs()->addTab("perm_settings", $lng->txt("perm_settings"), self::dic()->ctrl()->getLinkTargetByClass(array(
                 get_class($this),
                 "ilpermissiongui",
             ), "perm"));
@@ -202,17 +206,23 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
         return true;
     }
 
-    /**
-     * @param ilInfoScreenGUI $info
-     */
+	/**
+	 * @param ilInfoScreenGUI $info
+	 * @throws \srag\DIC\UdfEditor\Exception\DICException
+	 */
     function addInfoItems($info) {
-        $info->addSection($this->pl->txt('info_section_title'));
+        $info->addSection(self::plugin()->translate('info_section_title'));
         $fields_string = '';
         foreach (xudfContentElement::where(array('obj_id' => $this->getObjId(), 'is_separator' => 0))->get() as $element) {
             /** @var $element xudfContentElement */
-            $fields_string .= $element->getTitle() . '<br>';
+            try {
+				$fields_string .= $element->getTitle() . '<br>';
+			} catch (UDFNotFoundException $e) {
+				self::dic()->logger()->root()->alert($e->getMessage());
+				self::dic()->logger()->root()->alert($e->getTraceAsString());
+			}
         }
-        $info->addProperty($this->pl->txt('info_section_subtitle'), $fields_string ? $fields_string : '-');
+        $info->addProperty(self::plugin()->translate('info_section_subtitle'), $fields_string ? $fields_string : '-');
     }
 
 

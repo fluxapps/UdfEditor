@@ -36,3 +36,6 @@ xudf_read#:#Lesezugriff: Videos können angezeigt werden
 xudf_write#:#Einstellungen bearbeiten: Einstellungen und Inhalte können bearbeitet werden
 xudf_delete#:#Löschen: Objekt kann gelöscht werden
 xudf_edit_permission#:#Rechteeinstellungen ändern: Rechteeinstellungen ändern
+field_not_found#:#[Feld nicht gefunden]
+msg_missing_udf#:#Mindestens ein benutzerdefiniertes Feld konnte nicht gefunden werden und wurde möglicherweise aus dem System gelöscht.
+msg_choose_new_type#:#Der ausgewählte Typ konnte nicht gefunden werden. Bitte wählen Sie einen neuen Typen aus der Liste aus.

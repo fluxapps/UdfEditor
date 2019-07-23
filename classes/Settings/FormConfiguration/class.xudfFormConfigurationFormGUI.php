@@ -1,5 +1,7 @@
 <?php
 
+use srag\Plugins\UdfEditor\Exception\UDFNotFoundException;
+
 /**
  * Class xudfFormConfigurationFormGUI
  *
@@ -100,7 +102,10 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
         $this->addItem($input);
     }
 
-    protected function initSeparatorForm() {
+	/**
+	 *
+	 */
+	protected function initSeparatorForm() {
         // TITLE
         $input = new ilTextInputGUI($this->lng->txt(self::F_TITLE), self::F_TITLE);
         $this->addItem($input);
@@ -114,8 +119,14 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
      *
      */
     public function fillForm() {
+    	try {
+			$title = $this->element->getTitle();
+		} catch (UDFNotFoundException $e) {
+    		ilUtil::sendInfo($this->pl->txt('msg_choose_new_type'));
+    		$title = '';
+		}
         $values = array(
-            self::F_TITLE => $this->element->getTitle(),
+            self::F_TITLE => $title,
             self::F_DESCRIPTION => $this->element->getDescription(),
             self::F_UDF_FIELD => $this->element->getUdfFieldId(),
         );

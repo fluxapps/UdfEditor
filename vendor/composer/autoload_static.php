@@ -6,6 +6,25 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit1c22df155950907b6fe5aeed56cd3404
 {
+    public static $prefixLengthsPsr4 = array (
+        's' => 
+        array (
+            'srag\\LibrariesNamespaceChanger\\' => 31,
+            'srag\\DIC\\UdfEditor\\' => 19,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'srag\\LibrariesNamespaceChanger\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src',
+        ),
+        'srag\\DIC\\UdfEditor\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/srag/dic/src',
+        ),
+    );
+
     public static $classMap = array (
         'ActiveRecord' => __DIR__ . '/../..' . '/../../../../../../../Services/ActiveRecord/class.ActiveRecord.php',
         'ActiveRecordList' => __DIR__ . '/../..' . '/../../../../../../../Services/ActiveRecord/class.ActiveRecordList.php',
@@ -582,6 +601,33 @@ class ComposerStaticInit1c22df155950907b6fe5aeed56cd3404
         'ilUtil' => __DIR__ . '/../..' . '/../../../../../../../Services/Utilities/classes/class.ilUtil.php',
         'ilValidator' => __DIR__ . '/../..' . '/../../../../../../../Services/Repository/classes/class.ilValidator.php',
         'pdoDB' => __DIR__ . '/../..' . '/../../../../../../../Services/ActiveRecord/Connector/DataBase/class.pdoDB.php',
+        'srag\\DIC\\UdfEditor\\DICStatic' => __DIR__ . '/..' . '/srag/dic/src/DICStatic.php',
+        'srag\\DIC\\UdfEditor\\DICStaticInterface' => __DIR__ . '/..' . '/srag/dic/src/DICStaticInterface.php',
+        'srag\\DIC\\UdfEditor\\DICTrait' => __DIR__ . '/..' . '/srag/dic/src/DICTrait.php',
+        'srag\\DIC\\UdfEditor\\DIC\\AbstractDIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/AbstractDIC.php',
+        'srag\\DIC\\UdfEditor\\DIC\\DICInterface' => __DIR__ . '/..' . '/srag/dic/src/DIC/DICInterface.php',
+        'srag\\DIC\\UdfEditor\\DIC\\Implementation\\ILIAS53DIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/Implementation/ILIAS53DIC.php',
+        'srag\\DIC\\UdfEditor\\DIC\\Implementation\\ILIAS54DIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/Implementation/ILIAS54DIC.php',
+        'srag\\DIC\\UdfEditor\\DIC\\Implementation\\ILIAS60DIC' => __DIR__ . '/..' . '/srag/dic/src/DIC/Implementation/ILIAS60DIC.php',
+        'srag\\DIC\\UdfEditor\\Database\\AbstractILIASDatabaseDetector' => __DIR__ . '/..' . '/srag/dic/src/Database/AbstractILIASDatabaseDetector.php',
+        'srag\\DIC\\UdfEditor\\Database\\DatabaseDetector' => __DIR__ . '/..' . '/srag/dic/src/Database/DatabaseDetector.php',
+        'srag\\DIC\\UdfEditor\\Database\\DatabaseInterface' => __DIR__ . '/..' . '/srag/dic/src/Database/DatabaseInterface.php',
+        'srag\\DIC\\UdfEditor\\Database\\PdoContextHelper' => __DIR__ . '/..' . '/srag/dic/src/Database/PdoContextHelper.php',
+        'srag\\DIC\\UdfEditor\\Database\\PdoStatementContextHelper' => __DIR__ . '/..' . '/srag/dic/src/Database/PdoStatementContextHelper.php',
+        'srag\\DIC\\UdfEditor\\Exception\\DICException' => __DIR__ . '/..' . '/srag/dic/src/Exception/DICException.php',
+        'srag\\DIC\\UdfEditor\\Output\\Output' => __DIR__ . '/..' . '/srag/dic/src/Output/Output.php',
+        'srag\\DIC\\UdfEditor\\Output\\OutputInterface' => __DIR__ . '/..' . '/srag/dic/src/Output/OutputInterface.php',
+        'srag\\DIC\\UdfEditor\\PHPVersionChecker' => __DIR__ . '/..' . '/srag/dic/src/PHPVersionChecker.php',
+        'srag\\DIC\\UdfEditor\\Plugin\\Plugin' => __DIR__ . '/..' . '/srag/dic/src/Plugin/Plugin.php',
+        'srag\\DIC\\UdfEditor\\Plugin\\PluginInterface' => __DIR__ . '/..' . '/srag/dic/src/Plugin/PluginInterface.php',
+        'srag\\DIC\\UdfEditor\\Plugin\\Pluginable' => __DIR__ . '/..' . '/srag/dic/src/Plugin/Pluginable.php',
+        'srag\\DIC\\UdfEditor\\Util\\LibraryLanguageInstaller' => __DIR__ . '/..' . '/srag/dic/src/Util/LibraryLanguageInstaller.php',
+        'srag\\DIC\\UdfEditor\\Version\\Version' => __DIR__ . '/..' . '/srag/dic/src/Version/Version.php',
+        'srag\\DIC\\UdfEditor\\Version\\VersionInterface' => __DIR__ . '/..' . '/srag/dic/src/Version/VersionInterface.php',
+        'srag\\LibrariesNamespaceChanger\\Libraries' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/Libraries.php',
+        'srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/LibrariesNamespaceChanger.php',
+        'srag\\LibrariesNamespaceChanger\\PHP7Backport' => __DIR__ . '/..' . '/srag/librariesnamespacechanger/src/PHP7Backport.php',
+        'srag\\Plugins\\UdfEditor\\Exception\\UDFNotFoundException' => __DIR__ . '/../..' . '/src/Exception/UDFNotFoundException.php',
         'xudfContentElement' => __DIR__ . '/../..' . '/classes/Content/class.xudfContentElement.php',
         'xudfContentFormGUI' => __DIR__ . '/../..' . '/classes/Content/class.xudfContentFormGUI.php',
         'xudfContentGUI' => __DIR__ . '/../..' . '/classes/Content/class.xudfContentGUI.php',
@@ -600,6 +646,8 @@ class ComposerStaticInit1c22df155950907b6fe5aeed56cd3404
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInit1c22df155950907b6fe5aeed56cd3404::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit1c22df155950907b6fe5aeed56cd3404::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit1c22df155950907b6fe5aeed56cd3404::$classMap;
 
         }, null, ClassLoader::class);
