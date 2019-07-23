@@ -1,5 +1,8 @@
 <?php
 
+use srag\Plugins\UdfEditor\Exception\UDFNotFoundException;
+use srag\DIC\UdfEditor\DICTrait;
+
 /**
  * Class xudfContentGUI
  *
@@ -8,6 +11,9 @@
  * @ilCtrl_isCalledBy xudfContentGUI: ilObjUdfEditorGUI
  */
 class xudfContentGUI extends xudfGUI {
+
+	use DICTrait;
+	const PLUGIN_CLASS_NAME = ilUdfEditorPlugin::class;
 
     const SUBTAB_SHOW = 'show';
     const SUBTAB_EDIT_PAGE = 'edit_page';
@@ -20,9 +26,9 @@ class xudfContentGUI extends xudfGUI {
      */
     protected function setSubtabs() {
         if (ilObjUdfEditorAccess::hasWriteAccess()) {
-            $this->tabs->addSubTab(self::SUBTAB_SHOW, $this->lng->txt(self::SUBTAB_SHOW), $this->ctrl->getLinkTarget($this));
-            $this->tabs->addSubTab(self::SUBTAB_EDIT_PAGE, $this->lng->txt(self::SUBTAB_EDIT_PAGE), $this->ctrl->getLinkTargetByClass(xudfPageObjectGUI::class, 'edit'));
-            $this->tabs->setSubTabActive(self::SUBTAB_SHOW);
+            self::dic()->tabs()->addSubTab(self::SUBTAB_SHOW, $this->lng->txt(self::SUBTAB_SHOW), self::dic()->ctrl()->getLinkTarget($this));
+            self::dic()->tabs()->addSubTab(self::SUBTAB_EDIT_PAGE, $this->lng->txt(self::SUBTAB_EDIT_PAGE), self::dic()->ctrl()->getLinkTargetByClass(xudfPageObjectGUI::class, 'edit'));
+            self::dic()->tabs()->setSubTabActive(self::SUBTAB_SHOW);
         }
     }
 
@@ -31,28 +37,28 @@ class xudfContentGUI extends xudfGUI {
      */
     public function executeCommand() {
         $this->setSubtabs();
-        $next_class = $this->ctrl->getNextClass();
+        $next_class = self::dic()->ctrl()->getNextClass();
         switch ($next_class) {
             case 'xudfpageobjectgui':
                 if (!ilObjUdfEditorAccess::hasWriteAccess()) {
-                    ilUtil::sendFailure($this->pl->txt('access_denied'), true);
-                    $this->ctrl->returnToParent($this);
+                    ilUtil::sendFailure(self::plugin()->translate('access_denied'), true);
+                    self::dic()->ctrl()->returnToParent($this);
                 }
-                $this->tabs->activateSubTab(self::SUBTAB_EDIT_PAGE);
+                self::dic()->tabs()->activateSubTab(self::SUBTAB_EDIT_PAGE);
                 $xudfPageObjectGUI = new xudfPageObjectGUI($this);
-                $html = $this->ctrl->forwardCommand($xudfPageObjectGUI);
+                $html = self::dic()->ctrl()->forwardCommand($xudfPageObjectGUI);
                 $this->tpl->setContent($html);
                 break;
             default:
-                $cmd = $this->ctrl->getCmd(self::CMD_STANDARD);
+                $cmd = self::dic()->ctrl()->getCmd(self::CMD_STANDARD);
                 $this->performCommand($cmd);
                 break;
         }
         // these are automatically rendered by the pageobject gui
-        $this->tabs->removeTab('edit');
-        $this->tabs->removeTab('history');
-        $this->tabs->removeTab('clipboard');
-        $this->tabs->removeTab('pg');
+        self::dic()->tabs()->removeTab('edit');
+        self::dic()->tabs()->removeTab('history');
+        self::dic()->tabs()->removeTab('clipboard');
+        self::dic()->tabs()->removeTab('pg');
     }
 
 
@@ -63,7 +69,7 @@ class xudfContentGUI extends xudfGUI {
         $has_open_fields = false;
         $where = xudfContentElement::where(array('obj_id' => $this->getObjId()));
         if (!$_GET['edit'] && $where->count()) {
-            $udf_values = $this->user->getUserDefinedData();
+            $udf_values = self::dic()->user()->getUserDefinedData();
             /** @var xudfContentElement $element */
             foreach ($where->get() as $element) {
                 if (!$element->isSeparator() && !$udf_values['f_' . $element->getUdfFieldId()]) {
@@ -72,17 +78,17 @@ class xudfContentGUI extends xudfGUI {
                 }
             }
             if (!$has_open_fields) {
-                ilUtil::sendInfo($this->pl->txt('msg_fields_filled_out'));
+                ilUtil::sendInfo(self::plugin()->translate('msg_fields_filled_out'));
                 // return button
                 $button = ilLinkButton::getInstance();
                 $button->setCaption('back');
-                $button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_RETURN_TO_PARENT));
+                $button->setUrl(self::dic()->ctrl()->getLinkTarget($this, self::CMD_RETURN_TO_PARENT));
                 $this->toolbar->addButtonInstance($button);
                 // edit button
                 $button = ilLinkButton::getInstance();
                 $button->setCaption('edit');
-                $this->ctrl->setParameter($this, 'edit', 1);
-                $button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_STANDARD));
+                self::dic()->ctrl()->setParameter($this, 'edit', 1);
+                $button->setUrl(self::dic()->ctrl()->getLinkTarget($this, self::CMD_STANDARD));
                 $this->toolbar->addButtonInstance($button);
             }
         }
@@ -99,14 +105,14 @@ class xudfContentGUI extends xudfGUI {
         $form = new xudfContentFormGUI($this);
         $form->setValuesByPost();
         if (!$form->saveForm()) {
-            ilUtil::sendFailure($this->pl->txt('msg_incomplete'));
+            ilUtil::sendFailure(self::plugin()->translate('msg_incomplete'));
             $page_obj_gui = new xudfPageObjectGUI($this);
             $this->tpl->setContent($page_obj_gui->getHTML() . $form->getHTML());
             return;
         }
         $this->checkAndSendNotification();
-        ilUtil::sendSuccess($this->pl->txt('form_saved'), true);
-        $this->ctrl->redirect($this, self::CMD_STANDARD);
+        ilUtil::sendSuccess(self::plugin()->translate('form_saved'), true);
+        self::dic()->ctrl()->redirect($this, self::CMD_STANDARD);
     }
 
     /**
@@ -125,7 +131,7 @@ class xudfContentGUI extends xudfGUI {
             $settings = new ilSetting();
             $inst_name = $settings->get('short_inst_name');
             $mail->sendMail(
-                $this->user->getLogin(),
+                self::dic()->user()->getLogin(),
                 '',
 				$xudfSettings->getAdditionalNotification(),
                 ($inst_name ? $inst_name : 'ILIAS') . ': ' . $this->getObject()->getTitle(),
@@ -137,7 +143,8 @@ class xudfContentGUI extends xudfGUI {
     }
 
     protected function getNotificationMailBody() {
-        $body = "Sehr geehrte/r {$this->user->getFirstname()} {$this->user->getLastname()},";
+    	$user = self::dic()->user();
+        $body = "Sehr geehrte/r {$user->getFirstname()} {$user->getLastname()},";
         $body .= '
         
         ';
@@ -146,12 +153,18 @@ class xudfContentGUI extends xudfGUI {
         
         ';
 
-        $udf_data = $this->user->getUserDefinedData();
+        $udf_data = self::dic()->user()->getUserDefinedData();
         foreach (xudfContentElement::where(array('obj_id' => $this->getObjId(), 'is_separator' => false))->get() as $element) {
             /** @var xudfContentElement $element */
-            $body .= $element->getTitle() . ': ' . $udf_data['f_' . $element->getUdfFieldId()];
-            $body .= '
-            ';
+            try {
+				$body .= $element->getTitle() . ': ' . $udf_data['f_' . $element->getUdfFieldId()];
+				$body .= '
+            	';
+			} catch (UDFNotFoundException $e) {
+				self::dic()->logger()->root()->alert($e->getMessage());
+				self::dic()->logger()->root()->alert($e->getTraceAsString());
+				continue;
+			}
         }
         
         return $body;
@@ -161,7 +174,7 @@ class xudfContentGUI extends xudfGUI {
      *
      */
     protected function returnToParent() {
-        $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->tree->getParentId($_GET['ref_id']));
-        $this->ctrl->redirectByClass(ilRepositoryGUI::class);
+        self::dic()->ctrl()->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->tree->getParentId($_GET['ref_id']));
+        self::dic()->ctrl()->redirectByClass(ilRepositoryGUI::class);
     }
 }

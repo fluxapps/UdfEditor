@@ -1,5 +1,7 @@
 <?php
 
+use srag\Plugins\UdfEditor\Exception\UDFNotFoundException;
+
 /**
  * Class xudfContentElement
  *
@@ -167,16 +169,22 @@ class xudfContentElement extends ActiveRecord {
         $this->udf_field = $udf_field;
     }
 
-    /**
-     * @return array
-     */
+	/**
+	 * @return array
+	 * @throws UDFNotFoundException
+	 */
     public function getUdfFieldDefinition() {
-        return ilUserDefinedFields::_getInstance()->getDefinition($this->getUdfFieldId());
+    	$definition = ilUserDefinedFields::_getInstance()->getDefinition($this->getUdfFieldId());
+    	if (!is_array($definition) || empty($definition)) {
+    		throw new UDFNotFoundException('udf with id ' . $this->getUdfFieldId() . ' could not be found and was probably deleted');
+		}
+        return $definition;
     }
 
-    /**
-     * @return String
-     */
+	/**
+	 * @return String
+	 * @throws UDFNotFoundException
+	 */
     public function getTitle() {
         if (!$this->isSeparator()) {
             return $this->getUdfFieldDefinition()['field_name'];

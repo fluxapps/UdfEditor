@@ -1,5 +1,8 @@
 <?php
 
+use srag\DIC\UdfEditor\DICTrait;
+use srag\DIC\UdfEditor\Exception\DICException;
+
 /**
  * Class xudfFormConfigurationTableGUI
  *
@@ -7,69 +10,77 @@
  */
 class xudfFormConfigurationTableGUI extends ilTable2GUI {
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl_global;
+	use DICTrait;
+	const PLUGIN_CLASS_NAME = ilUdfEditorPlugin::class;
+
     /**
      * @var ilUdfEditorPlugin
      */
     protected $pl;
 
 
-    /**
-     * xudfFormConfigurationTableGUI constructor.
-     * @param $parent_gui
-     * @param $parent_cmd
-     */
+	/**
+	 * xudfFormConfigurationTableGUI constructor.
+	 * @param $parent_gui
+	 * @param $parent_cmd
+	 * @throws DICException
+	 * @throws arException
+	 */
     public function __construct($parent_gui, $parent_cmd) {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-        $this->ctrl = $ilCtrl;
         $this->pl = ilUdfEditorPlugin::getInstance();
-        $this->tpl_global = $tpl;
 
         parent::__construct($parent_gui, $parent_cmd);
 
-        $this->setFormAction($this->ctrl->getFormAction($parent_gui));
-        $this->setRowTemplate($this->pl->getDirectory() . '/templates/default/tpl.form_configuration_table_row.html');
+        $this->setFormAction(self::dic()->ctrl()->getFormAction($parent_gui));
+        $this->setRowTemplate(self::plugin()->directory() . '/templates/default/tpl.form_configuration_table_row.html');
 
-        $this->tpl_global->addJavaScript($this->pl->getDirectory() . '/templates/default/sortable.js');
-        $this->tpl_global->addJavaScript($this->pl->getDirectory() . '/templates/default/waiter.js');
-        $this->tpl_global->addCss($this->pl->getDirectory() . '/templates/default/waiter.css');
-        $this->tpl_global->addOnLoadCode("xoctWaiter.init();");
+        self::dic()->mainTemplate()->addJavaScript(self::plugin()->directory() . '/templates/default/sortable.js');
+        self::dic()->mainTemplate()->addJavaScript(self::plugin()->directory() . '/templates/default/waiter.js');
+        self::dic()->mainTemplate()->addCss(self::plugin()->directory() . '/templates/default/waiter.css');
+        self::dic()->mainTemplate()->addOnLoadCode("xoctWaiter.init();");
 
-        $base_link = $this->ctrl->getLinkTarget($parent_gui, xudfFormConfigurationGUI::CMD_REORDER, '', true);
-        $this->tpl_global->addOnLoadCode("xudf = {'base_link': '$base_link'};");
+        $base_link = self::dic()->ctrl()->getLinkTarget($parent_gui, xudfFormConfigurationGUI::CMD_REORDER, '', true);
+        self::dic()->mainTemplate()->addOnLoadCode("xudf = {'base_link': '$base_link'};");
 
         $this->initColumns();
         $this->setData(xudfContentElement::where(['obj_id'=> ilObjUdfEditor::_lookupObjectId(filter_input(INPUT_GET, 'ref_id'))])->orderBy('sort')->getArray());
     }
 
-    protected function initColumns() {
+	/**
+	 * @throws DICException
+	 */
+	protected function initColumns() {
         $this->addColumn('', '', 10, true);
-        $this->addColumn($this->lng->txt('title'), 'title', 50);
-        $this->addColumn($this->lng->txt('description'),'description', 100);
-        $this->addColumn($this->lng->txt('type'),'type', 30);
-        $this->addColumn($this->pl->txt('udf_type'),'udf_type', 30);
-        $this->addColumn($this->pl->txt('udf_required'),'udf_required', 30);
+        $this->addColumn(self::dic()->language()->txt('title'), 'title', 50);
+        $this->addColumn(self::dic()->language()->txt('description'),'description', 100);
+        $this->addColumn(self::dic()->language()->txt('type'),'type', 30);
+        $this->addColumn(self::plugin()->translate('udf_type'),'udf_type', 30);
+        $this->addColumn(self::plugin()->translate('udf_required'),'udf_required', 30);
         $this->addColumn('','', 10, true);
     }
 
-    protected function fillRow($a_set) {
+	/**
+	 * @param array $a_set
+	 * @throws DICException
+	 */
+	protected function fillRow($a_set) {
         $udf_definition = ilUserDefinedFields::_getInstance()->getDefinition($a_set['udf_field']);
 
-        $this->tpl->setVariable('ID', $a_set['id']);
-        $this->tpl->setVariable('TITLE', $udf_definition ? $udf_definition['field_name'] : $a_set['title']);
-        $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
-        $this->tpl->setVariable('TYPE', $a_set['is_separator'] ? 'Separator' : $this->pl->txt('udf_field'));
+        if (!$a_set['is_separator'] && !$udf_definition) {
+        	$this->showMissingUdfMessage();
+		}
 
-        $this->tpl->setVariable('UDF_TYPE', $udf_definition ? $this->pl->txt('udf_field_type_' . $udf_definition['field_type']) : '&nbsp');
+        $this->tpl->setVariable('ID', $a_set['id']);
+        $this->tpl->setVariable('TITLE',
+			$a_set['is_separator'] ?
+				$a_set['title']
+			: ($udf_definition['field_name'] ?: self::plugin()->translate('field_not_found')));
+        $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
+        $this->tpl->setVariable('TYPE', $a_set['is_separator'] ? 'Separator' : self::plugin()->translate('udf_field'));
+
+        $this->tpl->setVariable('UDF_TYPE',
+			$a_set['is_separator'] ? '&nbsp'
+				: ($udf_definition['field_type'] ? self::plugin()->translate('udf_field_type_' . $udf_definition['field_type']) : self::plugin()->translate('field_not_found')));
 
         if ($a_set['is_separator']) {
             $udf_required = '&nbsp';
@@ -84,13 +95,28 @@ class xudfFormConfigurationTableGUI extends ilTable2GUI {
         $this->tpl->setVariable('ACTIONS', $this->buildActions($a_set['id']));
     }
 
-    protected function buildActions($id) {
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setListTitle($this->lng->txt('actions'));
-        $this->ctrl->setParameter($this->parent_obj, 'element_id', $id);
+	/**
+	 * @throws DICException
+	 */
+    protected function showMissingUdfMessage() {
+		static $already_shown;
+		if (!$already_shown) {
+			ilUtil::sendFailure(self::plugin()->translate('msg_missing_udf'), true);
+			$already_shown = true;
+		}
+	}
 
-        $actions->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTarget($this->parent_obj, xudfFormConfigurationGUI::CMD_EDIT));
-        $actions->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTarget($this->parent_obj, xudfFormConfigurationGUI::CMD_DELETE));
+	/**
+	 * @param $id
+	 * @return string
+	 */
+	protected function buildActions($id) {
+        $actions = new ilAdvancedSelectionListGUI();
+        $actions->setListTitle(self::dic()->language()->txt('actions'));
+        self::dic()->ctrl()->setParameter($this->parent_obj, 'element_id', $id);
+
+        $actions->addItem(self::dic()->language()->txt('edit'), 'edit', self::dic()->ctrl()->getLinkTarget($this->parent_obj, xudfFormConfigurationGUI::CMD_EDIT));
+        $actions->addItem(self::dic()->language()->txt('delete'), 'delete', self::dic()->ctrl()->getLinkTarget($this->parent_obj, xudfFormConfigurationGUI::CMD_DELETE));
         return $actions->getHTML();
     }
 
