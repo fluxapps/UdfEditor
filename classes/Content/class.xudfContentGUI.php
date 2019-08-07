@@ -78,7 +78,6 @@ class xudfContentGUI extends xudfGUI {
                 }
             }
             if (!$has_open_fields) {
-                ilUtil::sendInfo(self::plugin()->translate('msg_fields_filled_out'));
                 // return button
                 $button = ilLinkButton::getInstance();
                 $button->setPrimary(true);
