@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.2]
+- change: removed infobox
+- change: back button is now primary
+
 ## [1.2.1]
 - bugfix: deleting udf led to fatal errors
 
