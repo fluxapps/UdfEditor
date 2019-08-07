@@ -81,6 +81,7 @@ class xudfContentGUI extends xudfGUI {
                 ilUtil::sendInfo(self::plugin()->translate('msg_fields_filled_out'));
                 // return button
                 $button = ilLinkButton::getInstance();
+                $button->setPrimary(true);
                 $button->setCaption('back');
                 $button->setUrl(self::dic()->ctrl()->getLinkTarget($this, self::CMD_RETURN_TO_PARENT));
                 $this->toolbar->addButtonInstance($button);
