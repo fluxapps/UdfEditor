@@ -11,12 +11,14 @@ class xudfSettingsGUI extends xudfGUI {
 
     const SUBTAB_SETTINGS = 'settings';
     const SUBTAB_FORM_CONFIGURATION = 'form_configuration';
+    const SUBTAB_MAIL_TEMPLATE = 'mail_template';
 
     const CMD_UPDATE = 'update';
 
     protected function setSubtabs() {
         $this->tabs->addSubTab(self::SUBTAB_SETTINGS, $this->lng->txt(self::SUBTAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_STANDARD));
         $this->tabs->addSubTab(self::SUBTAB_FORM_CONFIGURATION, $this->pl->txt(self::SUBTAB_FORM_CONFIGURATION), $this->ctrl->getLinkTargetByClass(xudfFormConfigurationGUI::class));
+        $this->tabs->addSubTab(self::SUBTAB_MAIL_TEMPLATE, $this->pl->txt(self::SUBTAB_MAIL_TEMPLATE), $this->ctrl->getLinkTargetByClass(xudfFormConfigurationGUI::class));
         $this->tabs->setSubTabActive(self::SUBTAB_SETTINGS);
     }
 

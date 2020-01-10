@@ -113,13 +113,18 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
             return false;
         }
 
+        $log_values = [];
         $udf_data = self::dic()->user()->getUserDefinedData();
         /** @var xudfContentElement $element */
         foreach (xudfContentElement::where(array('obj_id' => $this->obj_id, 'is_separator' => false))->get() as $element) {
-            $udf_data[$element->getUdfFieldId()] = $this->getInput($element->getUdfFieldId());
+            $value = $this->getInput($element->getUdfFieldId());
+            $udf_data[$element->getUdfFieldId()] = $value;
+            $log_values[$element->getTitle()] = $value;
         }
         self::dic()->user()->setUserDefinedData($udf_data);
         self::dic()->user()->update();
+
+        xudfLogEntry::createNew($this->obj_id, self::dic()->user()->getId(), $log_values);
 
         return true;
     }

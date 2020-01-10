@@ -41,3 +41,4 @@ field_not_found#:#[Field not found]
 msg_missing_udf#:#At least one user defined field could not be found and was possibly deleted from the system.
 msg_choose_new_type#:#The selected type couldn't be found. Please choose a new type from the dropdown list.
 is_required#:#Mandatory Field
+values#:#Values

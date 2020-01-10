@@ -21,6 +21,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
     const TAB_CONTENT = 'content';
     const TAB_INFO = 'info';
     const TAB_SETTINGS = 'settings';
+    const TAB_HISTORY = 'log_history';
     const TAB_PERMISSIONS = 'permissions';
 
     const CMD_INDEX = 'index';
@@ -40,7 +41,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
     public function executeCommand() {
         $next_class = self::dic()->ctrl()->getNextClass();
         $cmd = self::dic()->ctrl()->getCmd();
-        if (!ilObjUdfEditorAccess::hasReadAccess() && $next_class != "ilinfoscreengui" && $cmd != "infoScreen") {
+        if (!ilObjUdfEditorAccess::hasReadAccess() && $next_class != strtolower(ilInfoScreenGUI::class) && $cmd != "infoScreen") {
             ilUtil::sendFailure(self::plugin()->translate('access_denied'), true);
             self::dic()->ctrl()->returnToParent($this);
         }
@@ -48,7 +49,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
 
         try {
             switch ($next_class) {
-                case 'xudfcontentgui':
+                case strtolower(xudfContentGUI::class):
                     if (!self::dic()->ctrl()->isAsynch()) {
                         $this->initHeader();
                         $this->setTabs();
@@ -58,7 +59,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
                     self::dic()->ctrl()->forwardCommand($xvmpGUI);
                     $this->tpl->show();
                     break;
-                case 'xudfsettingsgui':
+                case strtolower(xudfSettingsGUI::class):
                     if (!ilObjUdfEditorAccess::hasWriteAccess()) {
                         ilUtil::sendFailure(self::plugin()->translate('access_denied'), true);
                         self::dic()->ctrl()->returnToParent($this);
@@ -72,7 +73,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
                     self::dic()->ctrl()->forwardCommand($xvmpGUI);
                     $this->tpl->show();
                     break;
-                case 'xudfformconfigurationgui':
+                case strtolower(xudfFormConfigurationGUI::class):
                     if (!ilObjUdfEditorAccess::hasWriteAccess()) {
                         ilUtil::sendFailure(self::plugin()->translate('access_denied'), true);
                         self::dic()->ctrl()->returnToParent($this);
@@ -86,8 +87,21 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
                     self::dic()->ctrl()->forwardCommand($xvmpGUI);
                     $this->tpl->show();
                     break;
-
-                case "ilinfoscreengui":
+                case strtolower(xudfLogGUI::class):
+                    if (!ilObjUdfEditorAccess::hasWriteAccess()) {
+                        ilUtil::sendFailure(self::plugin()->translate('access_denied'), true);
+                        self::dic()->ctrl()->returnToParent($this);
+                    }
+                    if (!self::dic()->ctrl()->isAsynch()) {
+                        $this->initHeader();
+                        $this->setTabs();
+                    }
+                    self::dic()->tabs()->activateTab(self::TAB_HISTORY);
+                    $xvmpGUI = new xudfLogGUI($this);
+                    self::dic()->ctrl()->forwardCommand($xvmpGUI);
+                    $this->tpl->show();
+                    break;
+                case strtolower(ilInfoScreenGUI::class):
                     if (!self::dic()->ctrl()->isAsynch()) {
                         $this->initHeader();
                         $this->setTabs();
@@ -97,7 +111,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
                     $this->infoScreen();	// forwards command
                     $this->tpl->show();
                     break;
-                case 'ilpermissiongui':
+                case strtolower(ilPermissionGUI::class):
                     $this->initHeader(false);
                     parent::executeCommand();
                     break;
@@ -194,6 +208,8 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI {
 
         if (ilObjUdfEditorAccess::hasWriteAccess()) {
             self::dic()->tabs()->addTab(self::TAB_SETTINGS, self::dic()->language()->txt(self::TAB_SETTINGS), self::dic()->ctrl()->getLinkTargetByClass(xudfSettingsGUI::class, xudfSettingsGUI::CMD_STANDARD));
+
+            self::dic()->tabs()->addTab(self::TAB_HISTORY, self::dic()->language()->txt('history'), self::dic()->ctrl()->getLinkTargetByClass(xudfLogGUI::class, xudfLogGUI::CMD_STANDARD));
         }
 
         if ($this->checkPermissionBool("edit_permission")) {
