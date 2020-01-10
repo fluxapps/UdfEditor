@@ -13,7 +13,7 @@ class ilObjUdfEditorListGUI extends ilObjectPluginListGUI {
     }
 
     function initCommands() {
-        $this->timings_enabled = false;
+        $this->timings_enabled = true;
         $this->subscribe_enabled = false;
         $this->payment_enabled = false;
         $this->link_enabled = false;
