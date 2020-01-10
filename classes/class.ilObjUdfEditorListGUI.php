@@ -20,7 +20,7 @@ class ilObjUdfEditorListGUI extends ilObjectPluginListGUI {
         $this->info_screen_enabled = true;
         $this->delete_enabled = true;
         $this->cut_enabled = true;
-        $this->copy_enabled = false;
+        $this->copy_enabled = true;
         $this->comments_enabled = false;
         $this->tags_enabled = false;
         $this->notes_enabled = false;
