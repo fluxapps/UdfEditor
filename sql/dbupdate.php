@@ -39,3 +39,7 @@ if ($DIC->database()->numRows($sql_query) === 0) {
 <?php
 xudfSetting::updateDB();
 ?>
+<#6>
+<?php
+xudfContentElement::updateDB();
+?>

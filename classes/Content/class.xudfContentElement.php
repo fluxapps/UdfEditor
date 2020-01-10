@@ -98,6 +98,14 @@ class xudfContentElement extends ActiveRecord {
      * @con_length       256
      */
     protected $description;
+    /**
+     * @var bool
+     *
+     * @con_has_field    true
+     * @con_fieldtype    integer
+     * @con_length       1
+     */
+    protected $is_required = false;
 
     /**
      * @return int
@@ -211,6 +219,24 @@ class xudfContentElement extends ActiveRecord {
      */
     public function setDescription($description) {
         $this->description = $description;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isRequired()
+    {
+        return (bool) $this->is_required;
+    }
+
+
+    /**
+     * @param bool $is_required
+     */
+    public function setIsRequired($is_required)
+    {
+        $this->is_required = $is_required;
     }
 
 }

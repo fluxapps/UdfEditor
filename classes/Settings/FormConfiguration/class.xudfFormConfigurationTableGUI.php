@@ -55,7 +55,7 @@ class xudfFormConfigurationTableGUI extends ilTable2GUI {
         $this->addColumn(self::dic()->language()->txt('description'),'description', 100);
         $this->addColumn(self::dic()->language()->txt('type'),'type', 30);
         $this->addColumn(self::plugin()->translate('udf_type'),'udf_type', 30);
-        $this->addColumn(self::plugin()->translate('udf_required'),'udf_required', 30);
+        $this->addColumn(self::plugin()->translate('is_required'),'is_required', 30);
         $this->addColumn('','', 10, true);
     }
 
@@ -84,13 +84,13 @@ class xudfFormConfigurationTableGUI extends ilTable2GUI {
 
         if ($a_set['is_separator']) {
             $udf_required = '&nbsp';
-        } else if ($udf_definition['required'] == 1) {
+        } else if ($a_set['is_required'] == 1) {
             $udf_required = '<img src="./templates/default/images/icon_ok.svg">';
         } else {
             $udf_required = '<img src="./templates/default/images/icon_not_ok.svg">';
         }
 
-        $this->tpl->setVariable('UDF_REQUIRED', $udf_required);
+        $this->tpl->setVariable('IS_REQUIRED', $udf_required);
 
         $this->tpl->setVariable('ACTIONS', $this->buildActions($a_set['id']));
     }

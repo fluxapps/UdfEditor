@@ -23,16 +23,19 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
      */
     protected $obj_id;
 
+
     /**
      * xudfContentFormGUI constructor.
+     *
      * @param xudfContentGUI $parent_gui
-     * @param boolean $editable
+     * @param boolean        $editable
+     *
+     * @throws UnknownUdfTypeException
      */
     public function __construct(xudfContentGUI $parent_gui, $editable = true) {
+        parent::__construct();
         $this->parent_gui = $parent_gui;
         $this->obj_id = $parent_gui->getObjId();
-
-//        $this->setTitle(self::dic()->language()->txt('settings'));
         $this->setFormAction(self::dic()->ctrl()->getFormAction($parent_gui));
         $this->initForm($editable);
     }
@@ -77,7 +80,7 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
                 }
 
                 $input->setInfo($element->getDescription());
-                $input->setRequired($definition['required']);
+                $input->setRequired($element->isRequired());
                 $input->setDisabled(!$editable);
                 $this->addItem($input);
             }

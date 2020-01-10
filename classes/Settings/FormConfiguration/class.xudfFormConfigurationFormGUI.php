@@ -14,8 +14,7 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
     const F_UDF_FIELD = 'udf_field';
     const F_IS_SEPARATOR = 'is_separator';
     const F_ELEMENT_ID = 'element_id';
-
-
+    const F_REQUIRED = 'is_required';
     /**
      * @var ilCtrl
      */
@@ -100,6 +99,11 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
         // DESCRIPTION
         $input = new ilTextInputGUI($this->lng->txt(self::F_DESCRIPTION), self::F_DESCRIPTION);
         $this->addItem($input);
+
+
+        // REQUIRED
+        $input = new ilCheckboxInputGUI($this->pl->txt(self::F_REQUIRED), self::F_REQUIRED);
+        $this->addItem($input);
     }
 
 	/**
@@ -129,6 +133,7 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
             self::F_TITLE => $title,
             self::F_DESCRIPTION => $this->element->getDescription(),
             self::F_UDF_FIELD => $this->element->getUdfFieldId(),
+            self::F_REQUIRED => $this->element->isRequired()
         );
 
         $this->setValuesByArray($values, true);
@@ -147,6 +152,7 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
         $this->element->setTitle($this->getInput(self::F_TITLE));
         $this->element->setDescription($this->getInput(self::F_DESCRIPTION));
         $this->element->setUdfFieldId($this->getInput(self::F_UDF_FIELD));
+        $this->element->setIsRequired($this->getInput(self::F_REQUIRED));
         $this->element->store();
 
         return true;
