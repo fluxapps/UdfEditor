@@ -134,8 +134,9 @@ class xudfLogTableGUI extends TableGUI
      */
     protected function formatValues(array $values) : string
     {
+        // this should be a template, but i'm too lazy
         $string = '<table class="xudf_log_values">';
-        $string .= '<tr><th>UDF Title</th><th>Value</th></tr>';
+        $string .= '<tr><th>' . self::plugin()->translate('udf_field') . '</th><th>' . self::dic()->language()->txt('value') . '</th></tr>';
         foreach ($values as $title => $value) {
             $string .= '<tr>';
             $string .= '<td>' . $title . '</td>';
