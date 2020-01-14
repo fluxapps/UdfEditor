@@ -112,6 +112,7 @@ class xudfContentGUI extends xudfGUI {
         }
         $this->checkAndSendNotification();
         ilUtil::sendSuccess(self::plugin()->translate('form_saved'), true);
+        $this->redirectAfterSave();
         self::dic()->ctrl()->redirect($this, self::CMD_STANDARD);
     }
 
@@ -176,5 +177,27 @@ class xudfContentGUI extends xudfGUI {
     protected function returnToParent() {
         self::dic()->ctrl()->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->tree->getParentId($_GET['ref_id']));
         self::dic()->ctrl()->redirectByClass(ilRepositoryGUI::class);
+    }
+
+
+    /**
+     *
+     */
+    protected function redirectAfterSave()
+    {
+       switch ($this->getObject()->getSettings()->getRedirectType())  {
+           case xudfSetting::REDIRECT_STAY_IN_FORM:
+               $this->ctrl->redirect($this);
+               break;
+           case xudfSetting::REDIRECT_TO_ILIAS_OBJECT:
+               $ref_id = $this->getObject()->getSettings()->getRedirectValue();
+               $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $ref_id);
+               $this->ctrl->redirectByClass(ilRepositoryGUI::class);
+               break;
+           case xudfSetting::REDIRECT_TO_URL:
+               $url = $this->getObject()->getSettings()->getRedirectValue();
+               $this->ctrl->redirectToURL($url);
+               break;
+       }
     }
 }

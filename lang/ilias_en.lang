@@ -42,3 +42,8 @@ msg_missing_udf#:#At least one user defined field could not be found and was pos
 msg_choose_new_type#:#The selected type couldn't be found. Please choose a new type from the dropdown list.
 is_required#:#Mandatory Field
 values#:#Values
+redirect_type#:#Redirect after save
+redirect_type_info#:#Choose here where a user should be redirected to after saving the form.
+stay_in_form#:#stay in form
+to_ilias_object#:#to ILIAS object
+to_url#:#to URL

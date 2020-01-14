@@ -117,8 +117,11 @@ class xudfLogTableGUI extends TableGUI
         $this->setTitle(self::dic()->language()->txt('history'));
     }
 
+
     /**
      * @param array $row
+     *
+     * @throws DICException
      */
     protected function fillRow($row) {
         $this->tpl->setVariable('VALUES', $this->formatValues($row['values']));
@@ -131,6 +134,7 @@ class xudfLogTableGUI extends TableGUI
      * @param array $values
      *
      * @return string
+     * @throws DICException
      */
     protected function formatValues(array $values) : string
     {

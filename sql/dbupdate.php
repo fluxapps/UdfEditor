@@ -43,4 +43,5 @@ xudfSetting::updateDB();
 <?php
 xudfContentElement::updateDB();
 xudfLogEntry::updateDB();
+xudfSetting::updateDB();
 ?>
