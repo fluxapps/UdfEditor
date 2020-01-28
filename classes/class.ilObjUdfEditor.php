@@ -9,33 +9,40 @@ require_once __DIR__ . "/../vendor/autoload.php";
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-class ilObjUdfEditor extends ilObjectPlugin {
+class ilObjUdfEditor extends ilObjectPlugin
+{
 
     /**
      * @var xudfSetting
      */
     protected $settings;
 
+
     /**
      * @return string
      */
-    protected function initType() {
+    protected function initType()
+    {
         $this->type = ilUdfEditorPlugin::PLUGIN_ID;
     }
+
 
     /**
      *
      */
-    protected function doCreate() {
+    protected function doCreate()
+    {
         $xudfSetting = new xudfSetting();
         $xudfSetting->setObjId($this->getId());
         $xudfSetting->create();
     }
 
+
     /**
      *
      */
-    protected function beforeDelete() {
+    protected function beforeDelete()
+    {
         xudfSetting::find($this->getId())->delete();
     }
 
@@ -56,7 +63,8 @@ class ilObjUdfEditor extends ilObjectPlugin {
     /**
      *
      */
-    public function getStyleSheetId() {
+    public function getStyleSheetId()
+    {
         ilObjStyleSheet::lookupObjectStyle($this->getId());
     }
 
@@ -69,6 +77,7 @@ class ilObjUdfEditor extends ilObjectPlugin {
         if (!($this->settings instanceof xudfSetting)) {
             $this->settings = xudfSetting::find($this->id);
         }
+
         return $this->settings;
     }
 

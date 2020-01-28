@@ -93,7 +93,7 @@ class xudfLogTableGUI extends TableGUI
     {
         $this->filter_fields = [
             "user" => [
-                PropertyFormGUI::PROPERTY_CLASS => ilSelectInputGUI::class,
+                PropertyFormGUI::PROPERTY_CLASS   => ilSelectInputGUI::class,
                 PropertyFormGUI::PROPERTY_OPTIONS => $this->getUserFilterOptions()
             ]
         ];
@@ -123,7 +123,8 @@ class xudfLogTableGUI extends TableGUI
      *
      * @throws DICException
      */
-    protected function fillRow($row) {
+    protected function fillRow($row)
+    {
         $this->tpl->setVariable('VALUES', $this->formatValues($row['values']));
         $this->tpl->setVariable('USER', ilObjUser::_lookupFullname($row['usr_id']) . ', [' . ilObjUser::_lookupLogin($row['usr_id']) . ']');
         $this->tpl->setVariable('DATE', $row['timestamp']->get(IL_CAL_FKT_DATE, 'd.m.Y H:i:s'));
@@ -147,6 +148,7 @@ class xudfLogTableGUI extends TableGUI
             $string .= '<td>' . $value . '</td>';
             $string .= '</tr>';
         }
+
         return $string . '</table>';
     }
 
@@ -164,7 +166,7 @@ class xudfLogTableGUI extends TableGUI
         while ($rec = self::dic()->database()->fetchAssoc($result)) {
             $options[$rec['usr_id']] = ilObjUser::_lookupFullname($rec['usr_id']) . ', [' . ilObjUser::_lookupLogin($rec['usr_id']) . ']';
         }
+
         return $options;
     }
-
 }

@@ -1,7 +1,7 @@
 <?php
 
-use srag\Plugins\UdfEditor\Exception\UDFNotFoundException;
 use srag\DIC\UdfEditor\DICTrait;
+use srag\Plugins\UdfEditor\Exception\UDFNotFoundException;
 use srag\Plugins\UdfEditor\Exception\UnknownUdfTypeException;
 
 /**
@@ -9,11 +9,11 @@ use srag\Plugins\UdfEditor\Exception\UnknownUdfTypeException;
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-class xudfContentFormGUI extends ilPropertyFormGUI {
+class xudfContentFormGUI extends ilPropertyFormGUI
+{
 
-	use DICTrait;
-	const PLUGIN_CLASS_NAME = ilUdfEditorPlugin::class;
-
+    use DICTrait;
+    const PLUGIN_CLASS_NAME = ilUdfEditorPlugin::class;
     /**
      * @var xudfContentGUI
      */
@@ -32,7 +32,8 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
      *
      * @throws UnknownUdfTypeException
      */
-    public function __construct(xudfContentGUI $parent_gui, $editable = true) {
+    public function __construct(xudfContentGUI $parent_gui, $editable = true)
+    {
         parent::__construct();
         $this->parent_gui = $parent_gui;
         $this->obj_id = $parent_gui->getObjId();
@@ -40,10 +41,12 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
         $this->initForm($editable);
     }
 
+
     /**
      *
      */
-    protected function initForm($editable) {
+    protected function initForm($editable)
+    {
         /** @var xudfContentElement $element */
         foreach (xudfContentElement::where(array('obj_id' => $this->obj_id))->orderBy('sort')->get() as $element) {
             if ($element->isSeparator()) {
@@ -52,13 +55,13 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
                 $input->setInfo($element->getDescription());
                 $this->addItem($input);
             } else {
-               	try {
-					$definition = $element->getUdfFieldDefinition();
-				} catch (UDFNotFoundException $e) {
-               		self::dic()->logger()->root()->alert($e->getMessage());
-					self::dic()->logger()->root()->alert($e->getTraceAsString());
-					continue;
-				}
+                try {
+                    $definition = $element->getUdfFieldDefinition();
+                } catch (UDFNotFoundException $e) {
+                    self::dic()->logger()->root()->alert($e->getMessage());
+                    self::dic()->logger()->root()->alert($e->getTraceAsString());
+                    continue;
+                }
 
                 switch ($definition['field_type']) {
                     case 1:
@@ -75,8 +78,8 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
                     case 3:
                         $input = new ilTextAreaInputGUI($element->getTitle(), $element->getUdfFieldId());
                         break;
-					default:
-						throw new UnknownUdfTypeException('field_type ' . $definition['field_type'] . ' of udf field with id ' . $element->getUdfFieldId() . ' is unknown to the udfeditor plugin');
+                    default:
+                        throw new UnknownUdfTypeException('field_type ' . $definition['field_type'] . ' of udf field with id ' . $element->getUdfFieldId() . ' is unknown to the udfeditor plugin');
                 }
 
                 $input->setInfo($element->getDescription());
@@ -91,10 +94,12 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
         }
     }
 
+
     /**
      *
      */
-    public function fillForm() {
+    public function fillForm()
+    {
         $udf_data = self::dic()->user()->getUserDefinedData();
         $values = array();
         /** @var xudfContentElement $element */
@@ -108,7 +113,8 @@ class xudfContentFormGUI extends ilPropertyFormGUI {
     /**
      * @return bool
      */
-    public function saveForm() {
+    public function saveForm()
+    {
         if (!$this->checkInput()) {
             return false;
         }

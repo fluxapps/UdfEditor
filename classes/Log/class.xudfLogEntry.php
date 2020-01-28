@@ -7,7 +7,9 @@
  */
 class xudfLogEntry extends ActiveRecord
 {
+
     const TABLE_NAME = 'xudf_log_entry';
+
 
     /**
      * @return string
@@ -17,11 +19,12 @@ class xudfLogEntry extends ActiveRecord
         return self::TABLE_NAME;
     }
 
+
     /**
      * @var int
      *
      * @con_has_field    true
-     * @con_sequence    true
+     * @con_sequence     true
      * @con_fieldtype    integer
      * @con_length       8
      * @con_is_notnull   true
@@ -81,6 +84,7 @@ class xudfLogEntry extends ActiveRecord
         $new->values = $values;
         $new->timestamp = new ilDateTime(time(), IL_CAL_UNIX);
         $new->create();
+
         return $new;
     }
 
@@ -92,6 +96,7 @@ class xudfLogEntry extends ActiveRecord
     {
         return $this->id;
     }
+
 
     /**
      * @return int
@@ -128,6 +133,7 @@ class xudfLogEntry extends ActiveRecord
         return $this->timestamp;
     }
 
+
     /**
      * @param $field_name
      *
@@ -161,7 +167,7 @@ class xudfLogEntry extends ActiveRecord
             case 'timestamp':
                 return new ilDateTime($field_value, IL_CAL_DATETIME);
         }
+
         return parent::wakeUp($field_name, $field_value);
     }
-
 }

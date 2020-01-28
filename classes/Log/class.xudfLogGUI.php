@@ -5,7 +5,7 @@ use srag\DIC\UdfEditor\Exception\DICException;
 /**
  * Class xudfLogGUI
  *
- * @author Theodor Truffer <tt@studer-raimann.ch>
+ * @author            Theodor Truffer <tt@studer-raimann.ch>
  *
  * @ilCtrl_isCalledBy xudfLogGUI: ilObjUdfEditorGUI
  */

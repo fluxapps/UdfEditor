@@ -7,7 +7,8 @@ use srag\Plugins\UdfEditor\Exception\UDFNotFoundException;
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
+class xudfFormConfigurationFormGUI extends ilPropertyFormGUI
+{
 
     const F_TITLE = 'title';
     const F_DESCRIPTION = 'description';
@@ -36,12 +37,15 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
      */
     protected $element;
 
+
     /**
      * xudfFormConfigurationFormGUI constructor.
+     *
      * @param xudfFormConfigurationGUI $parent_gui
-     * @param xudfContentElement $element
+     * @param xudfContentElement       $element
      */
-    public function __construct(xudfFormConfigurationGUI $parent_gui, xudfContentElement $element) {
+    public function __construct(xudfFormConfigurationGUI $parent_gui, xudfContentElement $element)
+    {
         global $DIC;
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
@@ -52,13 +56,14 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
         $this->setFormAction($this->ctrl->getFormAction($parent_gui));
 
         $this->initForm();
-
     }
+
 
     /**
      *
      */
-    protected function initForm() {
+    protected function initForm()
+    {
         $input = new ilHiddenInputGUI(self::F_IS_SEPARATOR);
         $input->setValue($this->element->isSeparator());
         $this->addItem($input);
@@ -79,10 +84,12 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
         $this->addCommandButton(xudfFormConfigurationGUI::CMD_STANDARD, $this->lng->txt('cancel'));
     }
 
+
     /**
      *
      */
-    protected function initUdfFieldForm() {
+    protected function initUdfFieldForm()
+    {
         // UDF FIELD
         $input = new ilSelectInputGUI($this->pl->txt(self::F_UDF_FIELD), self::F_UDF_FIELD);
 
@@ -100,16 +107,17 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
         $input = new ilTextInputGUI($this->lng->txt(self::F_DESCRIPTION), self::F_DESCRIPTION);
         $this->addItem($input);
 
-
         // REQUIRED
         $input = new ilCheckboxInputGUI($this->pl->txt(self::F_REQUIRED), self::F_REQUIRED);
         $this->addItem($input);
     }
 
-	/**
-	 *
-	 */
-	protected function initSeparatorForm() {
+
+    /**
+     *
+     */
+    protected function initSeparatorForm()
+    {
         // TITLE
         $input = new ilTextInputGUI($this->lng->txt(self::F_TITLE), self::F_TITLE);
         $this->addItem($input);
@@ -119,21 +127,23 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
         $this->addItem($input);
     }
 
+
     /**
      *
      */
-    public function fillForm() {
-    	try {
-			$title = $this->element->getTitle();
-		} catch (UDFNotFoundException $e) {
-    		ilUtil::sendInfo($this->pl->txt('msg_choose_new_type'));
-    		$title = '';
-		}
+    public function fillForm()
+    {
+        try {
+            $title = $this->element->getTitle();
+        } catch (UDFNotFoundException $e) {
+            ilUtil::sendInfo($this->pl->txt('msg_choose_new_type'));
+            $title = '';
+        }
         $values = array(
-            self::F_TITLE => $title,
+            self::F_TITLE       => $title,
             self::F_DESCRIPTION => $this->element->getDescription(),
-            self::F_UDF_FIELD => $this->element->getUdfFieldId(),
-            self::F_REQUIRED => $this->element->isRequired()
+            self::F_UDF_FIELD   => $this->element->getUdfFieldId(),
+            self::F_REQUIRED    => $this->element->isRequired()
         );
 
         $this->setValuesByArray($values, true);
@@ -143,7 +153,8 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI {
     /**
      * @return bool
      */
-    public function saveForm() {
+    public function saveForm()
+    {
         if (!$this->checkInput()) {
             return false;
         }

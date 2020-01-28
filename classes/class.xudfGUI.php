@@ -5,10 +5,10 @@
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-abstract class xudfGUI {
+abstract class xudfGUI
+{
 
     const CMD_STANDARD = 'index';
-
     /**
      * @var ilCtrl
      */
@@ -42,11 +42,14 @@ abstract class xudfGUI {
      */
     protected $parent_gui;
 
+
     /**
      * xudfGUI constructor.
+     *
      * @param ilObjUdfEditorGUI $parent_gui
      */
-    public function __construct(ilObjUdfEditorGUI $parent_gui) {
+    public function __construct(ilObjUdfEditorGUI $parent_gui)
+    {
         global $DIC;
         $this->ctrl = $DIC['ilCtrl'];
         $this->user = $DIC['ilUser'];
@@ -59,10 +62,12 @@ abstract class xudfGUI {
         $this->parent_gui = $parent_gui;
     }
 
+
     /**
      *
      */
-    public function executeCommand() {
+    public function executeCommand()
+    {
         $this->setSubtabs();
         $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
@@ -73,33 +78,42 @@ abstract class xudfGUI {
         }
     }
 
+
     /**
      * @param $cmd
      */
-    protected function performCommand($cmd) {
+    protected function performCommand($cmd)
+    {
         $this->{$cmd}();
     }
+
 
     /**
      *
      */
-    protected function setSubtabs() {
+    protected function setSubtabs()
+    {
         // overwrite if class has subtabs
     }
+
 
     /**
      * @return int
      */
-    public function getObjId() {
-       return $this->parent_gui->getObjId();
+    public function getObjId()
+    {
+        return $this->parent_gui->getObjId();
     }
+
 
     /**
      * @return ilObjUdfEditor
      */
-    public function getObject() {
+    public function getObject()
+    {
         return $this->parent_gui->getObject();
     }
+
 
     /**
      *

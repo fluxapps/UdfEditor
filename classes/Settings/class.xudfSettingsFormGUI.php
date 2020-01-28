@@ -3,11 +3,12 @@
 /**
  * Class xudfSettingsFormGUI
  *
- * @author Theodor Truffer <tt@studer-raimann.ch>
+ * @author            Theodor Truffer <tt@studer-raimann.ch>
  *
  * @ilCtrl_Calls      xudfSettingsFormGUI: ilFormPropertyDispatchGUI
  */
-class xudfSettingsFormGUI extends ilPropertyFormGUI {
+class xudfSettingsFormGUI extends ilPropertyFormGUI
+{
 
     const F_TITLE = 'title';
     const F_DESCRIPTION = 'description';
@@ -21,12 +22,12 @@ class xudfSettingsFormGUI extends ilPropertyFormGUI {
     /**
      * @var array
      */
-    protected static $redirect_type_to_postvar = [
-        xudfSetting::REDIRECT_STAY_IN_FORM => false,
-        xudfSetting::REDIRECT_TO_ILIAS_OBJECT => self::F_REF_ID,
-        xudfSetting::REDIRECT_TO_URL => self::F_URL
-    ];
-
+    protected static $redirect_type_to_postvar
+        = [
+            xudfSetting::REDIRECT_STAY_IN_FORM    => false,
+            xudfSetting::REDIRECT_TO_ILIAS_OBJECT => self::F_REF_ID,
+            xudfSetting::REDIRECT_TO_URL          => self::F_URL
+        ];
     /**
      * @var ilCtrl
      */
@@ -43,16 +44,19 @@ class xudfSettingsFormGUI extends ilPropertyFormGUI {
      * @var xudfSettingsGUI
      */
     protected $parent_gui;
-	/**
-	 * @var xudfSetting
-	 */
+    /**
+     * @var xudfSetting
+     */
     protected $settings;
+
 
     /**
      * xudfSettingsFormGUI constructor.
+     *
      * @param xudfSettingsGUI $parent_gui
      */
-    public function __construct(xudfSettingsGUI $parent_gui) {
+    public function __construct(xudfSettingsGUI $parent_gui)
+    {
         global $DIC;
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
@@ -68,7 +72,8 @@ class xudfSettingsFormGUI extends ilPropertyFormGUI {
     /**
      *
      */
-    protected function initForm() {
+    protected function initForm()
+    {
         // TITLE
         $input = new ilTextInputGUI($this->lng->txt(self::F_TITLE), self::F_TITLE);
         $input->setRequired(true);
@@ -118,18 +123,20 @@ class xudfSettingsFormGUI extends ilPropertyFormGUI {
         $this->addCommandButton(xudfSettingsGUI::CMD_UPDATE, $this->lng->txt('save'));
     }
 
+
     /**
      *
      */
-    public function fillForm() {
+    public function fillForm()
+    {
         $values = array(
-            self::F_TITLE => $this->parent_gui->getObject()->getTitle(),
-            self::F_DESCRIPTION => $this->parent_gui->getObject()->getDescription(),
-            self::F_ONLINE => $this->settings->isOnline(),
-            self::F_SHOW_INFOTAB => $this->settings->isShowInfoTab(),
-            self::F_MAIL_NOTIFICATION => $this->settings->hasMailNotification(),
+            self::F_TITLE                   => $this->parent_gui->getObject()->getTitle(),
+            self::F_DESCRIPTION             => $this->parent_gui->getObject()->getDescription(),
+            self::F_ONLINE                  => $this->settings->isOnline(),
+            self::F_SHOW_INFOTAB            => $this->settings->isShowInfoTab(),
+            self::F_MAIL_NOTIFICATION       => $this->settings->hasMailNotification(),
             self::F_ADDITIONAL_NOTIFICATION => $this->settings->getAdditionalNotification(),
-            self::F_REDIRECT_TYPE => $this->settings->getRedirectType()
+            self::F_REDIRECT_TYPE           => $this->settings->getRedirectType()
         );
         $redirect_value_postvar = self::$redirect_type_to_postvar[$this->settings->getRedirectType()];
         if ($redirect_value_postvar !== false) {
@@ -143,7 +150,8 @@ class xudfSettingsFormGUI extends ilPropertyFormGUI {
     /**
      * @return bool
      */
-    public function saveForm() {
+    public function saveForm()
+    {
         if (!$this->checkInput()) {
             return false;
         }
