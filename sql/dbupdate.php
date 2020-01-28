@@ -45,3 +45,8 @@ xudfContentElement::updateDB();
 xudfLogEntry::updateDB();
 xudfSetting::updateDB();
 ?>
+<#7>
+<?php
+\srag\Notifications4Plugin\UdfEditor\Repository::getInstance()->installTables();
+\xudfSetting::updateDB();
+?>

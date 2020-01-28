@@ -1,7 +1,9 @@
 # Changelog
 
 ## [1.3.0]
-- compatability: dropped 5.3 support
+- Min. ILIAS 5.4
+- Min. PHP 7.0
+- Notifications templates- compatability: dropped 5.3 support
 - feature: copy object
 - feature: configuration for 'required'
 - feature: enable availability settings
