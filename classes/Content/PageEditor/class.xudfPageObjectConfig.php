@@ -5,7 +5,8 @@
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-class xudfPageObjectConfig extends ilPageConfig  {
+class xudfPageObjectConfig extends ilPageConfig
+{
 
     /**
      * Init
@@ -18,5 +19,4 @@ class xudfPageObjectConfig extends ilPageConfig  {
         $this->setEnableWikiLinks(false);
         $this->setEnableActivation(false);
     }
-
 }

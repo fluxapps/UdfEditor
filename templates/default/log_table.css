@@ -1,0 +1,15 @@
+.xudf_log_values table, .xudf_log_values th, .xudf_log_values td {
+	border-bottom: 1px solid #ddd;
+}
+
+.xudf_log_values th, .xudf_log_values td {
+	padding: 5px 15px;
+}
+
+.xudf_log_values th {
+	font-weight: bold;
+}
+
+.xudf_log_values tr:nth-child(even) {
+	background-color: #f2f2f2;
+}

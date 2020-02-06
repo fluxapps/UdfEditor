@@ -6,18 +6,21 @@ require_once __DIR__ . "/../vendor/autoload.php";
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-class ilObjUdfEditorAccess extends ilObjectPluginAccess {
+class ilObjUdfEditorAccess extends ilObjectPluginAccess
+{
 
     /**
      * @var ilObjUdfEditorAccess
      */
-    protected static $instance = NULL;
+    protected static $instance = null;
+
 
     /**
      * @return ilObjUdfEditorAccess
      */
-    public static function getInstance() {
-        if (self::$instance === NULL) {
+    public static function getInstance()
+    {
+        if (self::$instance === null) {
             self::$instance = new self();
         }
 
@@ -38,7 +41,8 @@ class ilObjUdfEditorAccess extends ilObjectPluginAccess {
     /**
      *
      */
-    public function __construct() {
+    public function __construct()
+    {
         global $DIC;
 
         $this->access = $DIC->access();
@@ -55,16 +59,17 @@ class ilObjUdfEditorAccess extends ilObjectPluginAccess {
      *
      * @return bool
      */
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id = NULL, $a_obj_id = NULL, $a_user_id = NULL) {
-        if ($a_ref_id === NULL) {
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id = null, $a_obj_id = null, $a_user_id = null)
+    {
+        if ($a_ref_id === null) {
             $a_ref_id = filter_input(INPUT_GET, "ref_id");
         }
 
-        if ($a_obj_id === NULL) {
+        if ($a_obj_id === null) {
             $a_obj_id = ilObjUdfEditor::_lookupObjectId($a_ref_id);
         }
 
-        if ($a_user_id == NULL) {
+        if ($a_user_id == null) {
             $a_user_id = $this->usr->getId();
         }
 
@@ -95,7 +100,8 @@ class ilObjUdfEditorAccess extends ilObjectPluginAccess {
      *
      * @return bool
      */
-    protected static function checkAccess($a_cmd, $a_permission, $a_ref_id = NULL, $a_obj_id = NULL, $a_user_id = NULL) {
+    protected static function checkAccess($a_cmd, $a_permission, $a_ref_id = null, $a_obj_id = null, $a_user_id = null)
+    {
         return self::getInstance()->_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id);
     }
 
@@ -104,7 +110,8 @@ class ilObjUdfEditorAccess extends ilObjectPluginAccess {
      * @param class|string $class
      * @param string       $cmd
      */
-    public static function redirectNonAccess($class, $cmd = "") {
+    public static function redirectNonAccess($class, $cmd = "")
+    {
         global $DIC;
 
         $ctrl = $DIC->ctrl();
@@ -120,12 +127,14 @@ class ilObjUdfEditorAccess extends ilObjectPluginAccess {
         }
     }
 
+
     /**
      * @param int|null $ref_id
      *
      * @return bool
      */
-    public static function hasVisibleAccess($ref_id = NULL) {
+    public static function hasVisibleAccess($ref_id = null)
+    {
         return self::checkAccess("visible", "visible", $ref_id);
     }
 
@@ -135,7 +144,8 @@ class ilObjUdfEditorAccess extends ilObjectPluginAccess {
      *
      * @return bool
      */
-    public static function hasReadAccess($ref_id = NULL) {
+    public static function hasReadAccess($ref_id = null)
+    {
         return self::checkAccess("read", "read", $ref_id);
     }
 
@@ -145,7 +155,8 @@ class ilObjUdfEditorAccess extends ilObjectPluginAccess {
      *
      * @return bool
      */
-    public static function hasWriteAccess($ref_id = NULL) {
+    public static function hasWriteAccess($ref_id = null)
+    {
         return self::checkAccess("write", "write", $ref_id);
     }
 
@@ -155,7 +166,8 @@ class ilObjUdfEditorAccess extends ilObjectPluginAccess {
      *
      * @return bool
      */
-    public static function hasDeleteAccess($ref_id = NULL) {
+    public static function hasDeleteAccess($ref_id = null)
+    {
         return self::checkAccess("delete", "delete", $ref_id);
     }
 
@@ -165,7 +177,8 @@ class ilObjUdfEditorAccess extends ilObjectPluginAccess {
      *
      * @return bool
      */
-    public static function hasEditPermissionAccess($ref_id = NULL) {
+    public static function hasEditPermissionAccess($ref_id = null)
+    {
         return self::checkAccess("edit_permission", "edit_permission", $ref_id);
     }
 }

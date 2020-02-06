@@ -39,3 +39,10 @@ xudf_edit_permission#:#Rechteeinstellungen ändern: Rechteeinstellungen ändern
 field_not_found#:#[Feld nicht gefunden]
 msg_missing_udf#:#Mindestens ein benutzerdefiniertes Feld konnte nicht gefunden werden und wurde möglicherweise aus dem System gelöscht.
 msg_choose_new_type#:#Der ausgewählte Typ konnte nicht gefunden werden. Bitte wählen Sie einen neuen Typen aus der Liste aus.
+is_required#:#Pflichtfeld
+values#:#Werte
+redirect_type#:#Weiterleitung nach Speichern
+redirect_type_info#:#Wählen Sie hier aus, wohin ein Benutzer nach dem Speichern des Formulares weitergeleitet werden soll.
+stay_in_form#:#Im Formular bleiben
+to_ilias_object#:#ILIAS-Objekt
+to_url#:#URL

@@ -3,26 +3,26 @@
 /**
  * Class xudfPageObjectGUI
  *
- * @author Theodor Truffer <tt@studer-raimann.ch>
+ * @author            Theodor Truffer <tt@studer-raimann.ch>
  *
  * @ilCtrl_isCalledBy xudfPageObjectGUI: xudfContentGUI
- * @ilCtrl_Calls xudfPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls xudfPageObjectGUI: ilPublicUserProfileGUI, ilPageObjectGUI
+ * @ilCtrl_Calls      xudfPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
+ * @ilCtrl_Calls      xudfPageObjectGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
-class xudfPageObjectGUI extends ilPageObjectGUI {
+class xudfPageObjectGUI extends ilPageObjectGUI
+{
 
-
-    public function __construct(xudfContentGUI $parent_gui) {
-    	$this->checkAndAddCOPageDefinition();
+    public function __construct(xudfContentGUI $parent_gui)
+    {
+        $this->checkAndAddCOPageDefinition();
 
         // we always need a page object - create on demand
-        if (! xudfPageObject::_exists(xudfPageObject::PARENT_TYPE, $parent_gui->getObjId())) {
+        if (!xudfPageObject::_exists(xudfPageObject::PARENT_TYPE, $parent_gui->getObjId())) {
             $page_obj = new xudfPageObject();
             $page_obj->setId($parent_gui->getObjId());
             $page_obj->setParentId($parent_gui->getObjId());
             $page_obj->create();
         }
-
 
         parent::__construct(xudfPageObject::PARENT_TYPE, $parent_gui->getObjId());
 
@@ -42,25 +42,27 @@ class xudfPageObjectGUI extends ilPageObjectGUI {
         $tpl->parseCurrentBlock();
     }
 
-    function executeCommand() {
+
+    function executeCommand()
+    {
         return parent::executeCommand();
     }
 
 
-	/**
-	 * for some reason the entry in copg_pobj_def gets deleted from time to time, so we check and add it everytime now
-	 */
-    protected function checkAndAddCOPageDefinition() {
-	    global $DIC;
-    	$sql_query = $DIC->database()->query('SELECT * FROM copg_pobj_def WHERE parent_type = "xudf"');
-	    if ($DIC->database()->numRows($sql_query) === 0) {
-		    $DIC->database()->insert('copg_pobj_def', array(
-			    'parent_type' => array('text', 'xudf'),
-			    'class_name' => array('text', 'xudfPageObject'),
-			    'directory' => array('text', 'classes/Content/PageEditor'),
-			    'component' => array('text', 'Customizing/global/plugins/Services/Repository/RepositoryObject/UdfEditor')
-		    ));
-	    }
+    /**
+     * for some reason the entry in copg_pobj_def gets deleted from time to time, so we check and add it everytime now
+     */
+    protected function checkAndAddCOPageDefinition()
+    {
+        global $DIC;
+        $sql_query = $DIC->database()->query('SELECT * FROM copg_pobj_def WHERE parent_type = "xudf"');
+        if ($DIC->database()->numRows($sql_query) === 0) {
+            $DIC->database()->insert('copg_pobj_def', array(
+                'parent_type' => array('text', 'xudf'),
+                'class_name'  => array('text', 'xudfPageObject'),
+                'directory'   => array('text', 'classes/Content/PageEditor'),
+                'component'   => array('text', 'Customizing/global/plugins/Services/Repository/RepositoryObject/UdfEditor')
+            ));
+        }
     }
-
 }

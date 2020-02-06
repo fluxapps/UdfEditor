@@ -21,6 +21,15 @@ class ilUdfEditorPlugin extends ilRepositoryObjectPlugin {
 
 
     /**
+     * @return bool
+     */
+    public function allowCopy()
+    {
+        return true;
+    }
+
+
+    /**
      * @return ilUdfEditorPlugin
      */
     public static function getInstance() {

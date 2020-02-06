@@ -9,6 +9,10 @@ class xudfSetting extends ActiveRecord {
 
     const DB_TABLE_NAME = 'xudf_setting';
 
+    const REDIRECT_STAY_IN_FORM = 'stay_in_form';
+    const REDIRECT_TO_ILIAS_OBJECT = 'to_ilias_object';
+    const REDIRECT_TO_URL = 'to_url';
+
     public function getConnectorContainerName() {
         return self::DB_TABLE_NAME;
     }
@@ -58,6 +62,23 @@ class xudfSetting extends ActiveRecord {
 	 * @con_length       256
 	 */
     protected $additional_notification = '';
+    /**
+     * @var string
+     *
+     * @con_has_field    true
+     * @con_fieldtype    text
+     * @con_length       64
+     */
+    protected $redirect_type = self::REDIRECT_STAY_IN_FORM;
+    /**
+     * @var string
+     *
+     * @con_has_field    true
+     * @con_fieldtype    text
+     * @con_length       256
+     */
+    protected $redirect_value;
+
 
     /**
      * @return int
@@ -128,6 +149,42 @@ class xudfSetting extends ActiveRecord {
 	public function setAdditionalNotification($additional_notification) {
 		$this->additional_notification = $additional_notification;
 	}
+
+
+    /**
+     * @return string
+     */
+    public function getRedirectType() : string
+    {
+        return $this->redirect_type ?: self::REDIRECT_STAY_IN_FORM;
+    }
+
+
+    /**
+     * @param string $redirect_type
+     */
+    public function setRedirectType(string $redirect_type)
+    {
+        $this->redirect_type = $redirect_type;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getRedirectValue() : string
+    {
+        return $this->redirect_value;
+    }
+
+
+    /**
+     * @param string $redirect_value
+     */
+    public function setRedirectValue(string $redirect_value)
+    {
+        $this->redirect_value = $redirect_value;
+    }
 
     /**
      * @param $primary_key

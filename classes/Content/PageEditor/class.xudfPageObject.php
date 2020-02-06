@@ -5,13 +5,14 @@
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-class xudfPageObject extends ilPageObject {
+class xudfPageObject extends ilPageObject
+{
 
     const PARENT_TYPE = 'xudf';
 
 
-    function getParentType() {
+    function getParentType()
+    {
         return 'xudf';
     }
-
 }

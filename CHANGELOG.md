@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0]
+- compatability: dropped 5.3 support
+- feature: copy object
+- feature: configuration for 'required'
+- feature: enable availability settings
+- feature: log all filled out forms and display them in a new 'history' tab
+- feature: configure redirect destination after saving form
+
 ## [1.2.2]
 - change: removed infobox
 - change: back button is now primary
