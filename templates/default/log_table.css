@@ -13,3 +13,7 @@
 .xudf_log_values tr:nth-child(even) {
 	background-color: #f2f2f2;
 }
+
+select[name='user'].form-control {
+	max-width: initial;
+}

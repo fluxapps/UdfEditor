@@ -12,6 +12,7 @@ delete_confirmation_text#:#Do you really want to delete the following element?
 msg_successfully_deleted#:#Element deleted successfully.
 msg_no_udfs#:#There are no user defined fields on this platform. These can be created in the user administration.
 form_saved#:#Changes saved successfully.
+content_form_saved#:#Changes in form saved successfully.
 msg_incomplete#:#One or several of the mandatory fields are not yet filled out.
 msg_fields_filled_out#:#The mandatory fields have already been filled out. They can still be edited, what may lead to additional assignments to courses - however existing courses will not be deassigned.
 objs_xudf#:#UDF Editors
