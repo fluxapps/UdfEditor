@@ -47,3 +47,4 @@ redirect_type_info#:#Choose here where a user should be redirected to after savi
 stay_in_form#:#stay in form
 to_ilias_object#:#to ILIAS object
 to_url#:#to URL
+notification#:#Notification
