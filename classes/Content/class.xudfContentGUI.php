@@ -114,7 +114,7 @@ class xudfContentGUI extends xudfGUI {
             return;
         }
         $this->checkAndSendNotification();
-        ilUtil::sendSuccess(self::plugin()->translate('form_saved'), true);
+        ilUtil::sendSuccess(self::plugin()->translate('content_form_saved'), true);
         $this->redirectAfterSave();
         self::dic()->ctrl()->redirect($this, self::CMD_STANDARD);
     }
