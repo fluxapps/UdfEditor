@@ -1,12 +1,18 @@
 <?php
 
+use srag\DIC\UdfEditor\DICTrait;
+use srag\Notifications4Plugin\UdfEditor\Notification\NotificationInterface;
+use srag\Notifications4Plugin\UdfEditor\Utils\Notifications4PluginTrait;
+
 /**
  * Class xudfSetting
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
 class xudfSetting extends ActiveRecord {
-
+    use DICTrait;
+    use Notifications4PluginTrait;
+    const PLUGIN_CLASS_NAME = ilUdfEditorPlugin::class;
     const DB_TABLE_NAME = 'xudf_setting';
 
     const REDIRECT_STAY_IN_FORM = 'stay_in_form';
@@ -78,6 +84,14 @@ class xudfSetting extends ActiveRecord {
      * @con_length       256
      */
     protected $redirect_value;
+    /**
+     * @var string
+     *
+     * @con_has_field    true
+     * @con_fieldtype    text
+     * @con_is_notnull   true
+     */
+    protected $notification_name = "";
 
 
     /**
@@ -196,4 +210,41 @@ class xudfSetting extends ActiveRecord {
     }
 
 
+    /**
+     * @return NotificationInterface
+     */
+    public function getNotification() : NotificationInterface
+    {
+        if (empty($this->notification_name)) {
+            $this->notification_name = "object_" . $this->getObjId();
+
+            $this->store();
+        }
+
+        $notification = self::notifications4plugin()->notifications()->getNotificationByName($this->notification_name);
+
+        if ($notification === null) {
+            $notification = self::notifications4plugin()->notifications()->factory()->newInstance();
+
+            $notification->setTitle(self::plugin()->translate("notification"));
+
+            $notification->setName($this->notification_name);
+
+            $notification->setSubject("ILIAS: {{ object.getTitle }}", "default");
+
+            $notification->setText("Sehr geehrte/r {{ user.getFullname }},
+
+Sie haben im Objekt „{{ object.getTitle }}“ die folgenden Angaben ausgewählt:
+
+{% for key, value in user_defined_data %}
+{{ key }} : {{ value }}
+
+{% endfor %}
+{{ \"now\"|date('d.m.Y H:i') }}", "default");
+
+            self::notifications4plugin()->notifications()->storeNotification($notification);
+        }
+
+        return $notification;
+    }
 }

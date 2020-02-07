@@ -1,5 +1,7 @@
 <?php
 
+use srag\Notifications4Plugin\UdfEditor\Exception\Notifications4PluginException;
+use srag\Notifications4Plugin\UdfEditor\Utils\Notifications4PluginTrait;
 use srag\Plugins\UdfEditor\Exception\UDFNotFoundException;
 use srag\DIC\UdfEditor\DICTrait;
 
@@ -13,6 +15,7 @@ use srag\DIC\UdfEditor\DICTrait;
 class xudfContentGUI extends xudfGUI {
 
 	use DICTrait;
+	use Notifications4PluginTrait;
 	const PLUGIN_CLASS_NAME = ilUdfEditorPlugin::class;
 
     const SUBTAB_SHOW = 'show';
@@ -120,56 +123,44 @@ class xudfContentGUI extends xudfGUI {
      *
      */
     protected function checkAndSendNotification() {
-    	$xudfSettings = xudfSetting::find($this->getObjId());
+        $xudfSettings = $this->getObject()->getSettings();
+
         if ($xudfSettings->hasMailNotification()) {
-            $mail = new ilMail(ANONYMOUS_USER_ID);
 
-            $type = array('normal');
+            $notification = $xudfSettings->getNotification();
 
-            $mail->setSaveInSentbox(false);
-            $mail->appendInstallationSignature(true);
+            $sender = self::notifications4plugin()->sender()->factory()->internalMail(ANONYMOUS_USER_ID, self::dic()->user()->getId());
 
-            $settings = new ilSetting();
-            $inst_name = $settings->get('short_inst_name');
-            $mail->sendMail(
-                self::dic()->user()->getLogin(),
-                '',
-				$xudfSettings->getAdditionalNotification(),
-                ($inst_name ? $inst_name : 'ILIAS') . ': ' . $this->getObject()->getTitle(),
-                $this->getNotificationMailBody(),
-                array(),
-                $type
-            );
-        }
-    }
+            $sender->setBcc($xudfSettings->getAdditionalNotification());
 
-    protected function getNotificationMailBody() {
-    	$user = self::dic()->user();
-        $body = "Sehr geehrte/r {$user->getFirstname()} {$user->getLastname()},";
-        $body .= '
-        
-        ';
-        $body .= 'Sie haben im Objekt „' . $this->getObject()->getTitle() . '“ die folgenden Angaben ausgewählt:';
-        $body .= '
-        
-        ';
+            $user_defined_data = [];
+            $udf_data = self::dic()->user()->getUserDefinedData();
+            foreach (xudfContentElement::where(array('obj_id' => $this->getObjId(), 'is_separator' => false))->get() as $element) {
+                /** @var xudfContentElement $element */
+                try {
+                    $user_defined_data[$element->getTitle()] = $udf_data['f_' . $element->getUdfFieldId()];
+                } catch (UDFNotFoundException $e) {
+                    self::dic()->logger()->root()->alert($e->getMessage());
+                    self::dic()->logger()->root()->alert($e->getTraceAsString());
+                    continue;
+                }
+            }
 
-        $udf_data = self::dic()->user()->getUserDefinedData();
-        foreach (xudfContentElement::where(array('obj_id' => $this->getObjId(), 'is_separator' => false))->get() as $element) {
-            /** @var xudfContentElement $element */
+            $placeholders = [
+                "object" => $this->getObject(),
+                "user" => self::dic()->user(),
+                "user_defined_data" => $user_defined_data
+            ];
+
             try {
-				$body .= $element->getTitle() . ': ' . $udf_data['f_' . $element->getUdfFieldId()];
-				$body .= '
-            	';
-			} catch (UDFNotFoundException $e) {
-				self::dic()->logger()->root()->alert($e->getMessage());
-				self::dic()->logger()->root()->alert($e->getTraceAsString());
-				continue;
-			}
+                self::notifications4plugin()->sender()->send($sender, $notification, $placeholders, $placeholders["user"]->getLanguage());
+            } catch (Notifications4PluginException $e) {
+                self::dic()->logger()->root()->alert($e->getMessage());
+                self::dic()->logger()->root()->alert($e->getTraceAsString());
+            }
         }
-        
-        return $body;
     }
+
 
     /**
      *
