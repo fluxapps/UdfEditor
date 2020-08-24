@@ -55,7 +55,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function addParser(Parser $parser) : void
+    public function addParser(Parser $parser)/* : void*/
     {
         $this->parsers[$parser->getClass()] = $parser;
     }
@@ -64,7 +64,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function dropTables() : void
+    public function dropTables()/* : void*/
     {
 
     }
@@ -113,7 +113,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function installTables() : void
+    public function installTables()/* : void*/
     {
 
     }
@@ -122,7 +122,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function parseSubject(Parser $parser, NotificationInterface $notification, array $placeholders = [], ?string $language = null) : string
+    public function parseSubject(Parser $parser, NotificationInterface $notification, array $placeholders = [], /*?string*/ $language = null) : string
     {
         return $parser->parse($notification->getSubject($language), $placeholders, $notification->getParserOptions());
     }
@@ -131,7 +131,7 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function parseText(Parser $parser, NotificationInterface $notification, array $placeholders = [], ?string $language = null) : string
+    public function parseText(Parser $parser, NotificationInterface $notification, array $placeholders = [], /*?string*/ $language = null) : string
     {
         return $parser->parse($notification->getText($language), $placeholders, $notification->getParserOptions());
     }
