@@ -26,20 +26,7 @@
   "autoload": {
     "classmap": [
       "./classes/",
-      "./src/",
-      "../../../../../../../Services/User/classes/class.ilUserDefinedFields.php",
-      "../../../../../../../Services/Table",
-      "../../../../../../../Services/Form",
-      "../../../../../../../Services/Repository",
-      "../../../../../../../Services/Object",
-      "../../../../../../../Services/Component",
-      "../../../../../../../Services/ActiveRecord",
-      "../../../../../../../Services/UIComponent",
-      "../../../../../../../Services/Utilities",
-      "../../../../../../../Services/AccessControl",
-      "../../../../../../../Services/InfoScreen",
-      "../../../../../../../Services/COPage",
-      "../../../../../../../Services/Style"
+      "./src/"
     ]
   },
   "config": {

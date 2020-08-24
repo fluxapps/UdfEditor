@@ -1,5 +1,6 @@
 # Changelog
 ## [x]
+- Remove core autoload, incompatible since min. ILIAS 5.3
 - updated composer dependencies
 
 ## [1.3.0]
