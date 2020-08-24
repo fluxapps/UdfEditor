@@ -4,6 +4,8 @@ namespace srag\Notifications4Plugin\UdfEditor\Notification;
 
 use ilDateTime;
 use srag\DIC\UdfEditor\DICTrait;
+use srag\Notifications4Plugin\UdfEditor\Notification\Form\FormBuilder;
+use srag\Notifications4Plugin\UdfEditor\Notification\Table\TableBuilder;
 use srag\Notifications4Plugin\UdfEditor\Utils\Notifications4PluginTrait;
 use stdClass;
 
@@ -19,10 +21,20 @@ final class Factory implements FactoryInterface
 
     use DICTrait;
     use Notifications4PluginTrait;
+
     /**
      * @var FactoryInterface|null
      */
     protected static $instance = null;
+
+
+    /**
+     * Factory constructor
+     */
+    private function __construct()
+    {
+
+    }
 
 
     /**
@@ -39,16 +51,7 @@ final class Factory implements FactoryInterface
 
 
     /**
-     * Factory constructor
-     */
-    private function __construct()
-    {
-
-    }
-
-
-    /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function fromDB(stdClass $data) : NotificationInterface
     {
@@ -59,6 +62,7 @@ final class Factory implements FactoryInterface
         $notification->setTitle($data->title);
         $notification->setDescription($data->description);
         $notification->setParser($data->parser);
+        $notification->setParserOptions(json_decode($data->parser_options, true) ?? []);
         $notification->setSubjects(json_decode($data->subject, true) ?? []);
         $notification->setTexts(json_decode($data->text, true) ?? []);
         $notification->setCreatedAt(new ilDateTime($data->created_at, IL_CAL_DATETIME));
@@ -73,7 +77,18 @@ final class Factory implements FactoryInterface
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
+     */
+    public function newFormBuilderInstance(NotificationCtrl $parent, NotificationInterface $notification) : FormBuilder
+    {
+        $form = new FormBuilder($parent, $notification);
+
+        return $form;
+    }
+
+
+    /**
+     * @inheritDoc
      */
     public function newInstance() : NotificationInterface
     {
@@ -84,23 +99,12 @@ final class Factory implements FactoryInterface
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function newTableInstance(NotificationsCtrl $parent, string $cmd = NotificationsCtrl::CMD_LIST_NOTIFICATIONS) : NotificationsTableGUI
+    public function newTableBuilderInstance(NotificationsCtrl $parent) : TableBuilder
     {
-        $table = new NotificationsTableGUI($parent, $cmd);
+        $table = new TableBuilder($parent);
 
         return $table;
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function newFormInstance(NotificationCtrl $parent, NotificationInterface $notification) : NotificationFormGUI
-    {
-        $form = new NotificationFormGUI($parent, $notification);
-
-        return $form;
     }
 }

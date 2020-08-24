@@ -1,4 +1,6 @@
 # Changelog
+## [x]
+- updated composer dependencies
 
 ## [1.3.0]
 - Min. ILIAS 5.4

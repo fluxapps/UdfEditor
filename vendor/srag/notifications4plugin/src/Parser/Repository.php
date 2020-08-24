@@ -19,10 +19,24 @@ final class Repository implements RepositoryInterface
 
     use DICTrait;
     use Notifications4PluginTrait;
+
     /**
      * @var RepositoryInterface|null
      */
     protected static $instance = null;
+    /**
+     * @var Parser[]
+     */
+    protected $parsers = [];
+
+
+    /**
+     * Repository constructor
+     */
+    private function __construct()
+    {
+        $this->addParser($this->factory()->twig());
+    }
 
 
     /**
@@ -39,45 +53,25 @@ final class Repository implements RepositoryInterface
 
 
     /**
-     * @var array
+     * @inheritDoc
      */
-    protected $parsers
-        = [
-            twigParser::class => twigParser::NAME
-        ];
-
-
-    /**
-     * Repository constructor
-     */
-    private function __construct()
+    public function addParser(Parser $parser) : void
     {
-
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function addParser(Parser $parser)/*:void*/
-    {
-        $parser_class = get_class($parser);
-
-        $this->parsers[$parser_class] = $parser_class::NAME;
+        $this->parsers[$parser->getClass()] = $parser;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function dropTables()/*:void*/
+    public function dropTables() : void
     {
 
     }
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function factory() : FactoryInterface
     {
@@ -86,21 +80,12 @@ final class Repository implements RepositoryInterface
 
 
     /**
-     * @inheritdoc
-     */
-    public function getPossibleParsers() : array
-    {
-        return $this->parsers;
-    }
-
-
-    /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getParserByClass(string $parser_class) : Parser
     {
         if (isset($this->getPossibleParsers()[$parser_class])) {
-            return new $parser_class();
+            return $this->getPossibleParsers()[$parser_class];
         } else {
             throw new Notifications4PluginException("Invalid parser class $parser_class");
         }
@@ -108,7 +93,7 @@ final class Repository implements RepositoryInterface
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function getParserForNotification(NotificationInterface $notification) : Parser
     {
@@ -119,26 +104,35 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function installTables()/*:void*/
+    public function getPossibleParsers() : array
+    {
+        return $this->parsers;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function installTables() : void
     {
 
     }
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function parseSubject(Parser $parser, NotificationInterface $notification, array $placeholders = [], /*?*/ string $language = null) : string
+    public function parseSubject(Parser $parser, NotificationInterface $notification, array $placeholders = [], ?string $language = null) : string
     {
-        return $parser->parse($notification->getSubject($language), $placeholders);
+        return $parser->parse($notification->getSubject($language), $placeholders, $notification->getParserOptions());
     }
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function parseText(Parser $parser, NotificationInterface $notification, array $placeholders = [], /*?*/ string $language = null) : string
+    public function parseText(Parser $parser, NotificationInterface $notification, array $placeholders = [], ?string $language = null) : string
     {
-        return $parser->parse($notification->getText($language), $placeholders);
+        return $parser->parse($notification->getText($language), $placeholders, $notification->getParserOptions());
     }
 }
