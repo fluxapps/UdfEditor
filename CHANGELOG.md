@@ -1,5 +1,6 @@
 # Changelog
 ## [x]
+- ILIAS 6 support
 - Remove core autoload, incompatible since min. ILIAS 5.3
 - Fix. PHP 7.2 Backport
 - updated composer dependencies
