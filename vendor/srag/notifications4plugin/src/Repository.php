@@ -3,15 +3,17 @@
 namespace srag\Notifications4Plugin\UdfEditor;
 
 use LogicException;
+use srag\DataTableUI\UdfEditor\Implementation\Utils\DataTableUITrait;
 use srag\DIC\UdfEditor\DICTrait;
 use srag\DIC\UdfEditor\Plugin\PluginInterface;
 use srag\DIC\UdfEditor\Util\LibraryLanguageInstaller;
-use srag\Notifications4Plugin\UdfEditor\Notification\Repository as NotificationRepository;
-use srag\Notifications4Plugin\UdfEditor\Notification\RepositoryInterface as NotificationRepositoryInterface;
+use srag\Notifications4Plugin\UdfEditor\Notification\Repository as NotificationsRepository;
+use srag\Notifications4Plugin\UdfEditor\Notification\RepositoryInterface as NotificationsRepositoryInterface;
 use srag\Notifications4Plugin\UdfEditor\Parser\Repository as ParserRepository;
 use srag\Notifications4Plugin\UdfEditor\Parser\RepositoryInterface as ParserRepositoryInterface;
 use srag\Notifications4Plugin\UdfEditor\Sender\Repository as SenderRepository;
 use srag\Notifications4Plugin\UdfEditor\Sender\RepositoryInterface as SenderRepositoryInterface;
+use srag\Notifications4Plugin\UdfEditor\Utils\Notifications4PluginTrait;
 
 /**
  * Class Repository
@@ -24,10 +26,34 @@ final class Repository implements RepositoryInterface
 {
 
     use DICTrait;
+    use Notifications4PluginTrait;
+    use DataTableUITrait;
+
     /**
      * @var RepositoryInterface|null
      */
     protected static $instance = null;
+    /**
+     * @var array
+     */
+    protected $placeholder_types;
+    /**
+     * @var PluginInterface
+     */
+    protected $plugin;
+    /**
+     * @var string
+     */
+    protected $table_name_prefix = "";
+
+
+    /**
+     * Repository constructor
+     */
+    private function __construct()
+    {
+
+    }
 
 
     /**
@@ -44,18 +70,9 @@ final class Repository implements RepositoryInterface
 
 
     /**
-     * Repository constructor
-     */
-    private function __construct()
-    {
-
-    }
-
-
-    /**
      * @inheritDoc
      */
-    public function dropTables()/*: void*/
+    public function dropTables()/* : void*/
     {
         $this->notifications()->dropTables();
         $this->parser()->dropTables();
@@ -105,17 +122,19 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function installLanguages()/*:void*/
+    public function installLanguages()/* : void*/
     {
         LibraryLanguageInstaller::getInstance()->withPlugin($this->getPlugin())->withLibraryLanguageDirectory(__DIR__
             . "/../lang")->updateLanguages();
+
+        self::dataTableUI()->installLanguages($this->plugin);
     }
 
 
     /**
      * @inheritDoc
      */
-    public function installTables()/*:void*/
+    public function installTables()/* : void*/
     {
         $this->notifications()->installTables();
         $this->parser()->installTables();
@@ -126,9 +145,9 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function notifications() : NotificationRepositoryInterface
+    public function notifications() : NotificationsRepositoryInterface
     {
-        return NotificationRepository::getInstance();
+        return NotificationsRepository::getInstance();
     }
 
 

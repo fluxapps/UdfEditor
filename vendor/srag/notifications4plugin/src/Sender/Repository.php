@@ -18,10 +18,20 @@ final class Repository implements RepositoryInterface
 
     use DICTrait;
     use Notifications4PluginTrait;
+
     /**
      * @var RepositoryInterface|null
      */
     protected static $instance = null;
+
+
+    /**
+     * Repository constructor
+     */
+    private function __construct()
+    {
+
+    }
 
 
     /**
@@ -38,9 +48,9 @@ final class Repository implements RepositoryInterface
 
 
     /**
-     * Repository constructor
+     * @inheritDoc
      */
-    private function __construct()
+    public function dropTables()/* : void*/
     {
 
     }
@@ -48,15 +58,6 @@ final class Repository implements RepositoryInterface
 
     /**
      * @inheritDoc
-     */
-    public function dropTables()/*:void*/
-    {
-
-    }
-
-
-    /**
-     * @inheritdoc
      */
     public function factory() : FactoryInterface
     {
@@ -67,16 +68,16 @@ final class Repository implements RepositoryInterface
     /**
      * @inheritDoc
      */
-    public function installTables()/*:void*/
+    public function installTables()/* : void*/
     {
 
     }
 
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function send(Sender $sender, NotificationInterface $notification, array $placeholders = [], /*?*/ string $language = null)/*: void*/
+    public function send(Sender $sender, NotificationInterface $notification, array $placeholders = [], /*?string*/ $language = null)/* : void*/
     {
         $parser = self::notifications4plugin()->parser()->getParserForNotification($notification);
 
