@@ -1,5 +1,6 @@
 # Changelog
-## [x.x.x]
+
+## [1.5.0]
 - feature: CascadingSelect support
 
 ## [1.4.0]
