@@ -1,4 +1,6 @@
 # Changelog
+## [x.x.x]
+- feature: CascadingSelect support
 
 ## [1.4.0]
 - ILIAS 6 support
