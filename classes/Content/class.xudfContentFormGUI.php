@@ -86,6 +86,9 @@ class xudfContentFormGUI extends ilPropertyFormGUI
                         throw new UnknownUdfTypeException('field_type ' . $definition['field_type'] . ' of udf field with id ' . $element->getUdfFieldId() . ' is unknown to the udfeditor plugin');
                 }
 
+                if ($input === null)
+                    continue;
+
                 $input->setInfo($element->getDescription());
                 $input->setRequired($element->isRequired());
                 $input->setDisabled(!$editable);
