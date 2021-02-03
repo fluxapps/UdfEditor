@@ -55,8 +55,7 @@ class xudfContentFormGUI extends ilPropertyFormGUI
                 $input->setInfo($element->getDescription());
                 $this->addItem($input);
             } else {
-                try {
-                    $definition = $element->getUdfFieldDefinition();
+                try {$definition = $element->getUdfFieldDefinition();
                 } catch (UDFNotFoundException $e) {
                     self::dic()->logger()->root()->alert($e->getMessage());
                     self::dic()->logger()->root()->alert($e->getTraceAsString());
@@ -77,6 +76,11 @@ class xudfContentFormGUI extends ilPropertyFormGUI
                         break;
                     case 3:
                         $input = new ilTextAreaInputGUI($element->getTitle(), $element->getUdfFieldId());
+                        break;
+                    case 51:
+                        include_once './Services/User/classes/class.ilCustomUserFieldsHelper.php';
+                        $input = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition($definition, true);
+
                         break;
                     default:
                         throw new UnknownUdfTypeException('field_type ' . $definition['field_type'] . ' of udf field with id ' . $element->getUdfFieldId() . ' is unknown to the udfeditor plugin');
@@ -105,6 +109,9 @@ class xudfContentFormGUI extends ilPropertyFormGUI
         /** @var xudfContentElement $element */
         foreach (xudfContentElement::where(array('obj_id' => $this->obj_id, 'is_separator' => false))->get() as $element) {
             $values[$element->getUdfFieldId()] = $udf_data['f_' . $element->getUdfFieldId()];
+
+            if ($element->getUdfFieldDefinition()['field_type'] === "51")
+                $values["udf_" . $element->getUdfFieldId()] = $udf_data['f_' . $element->getUdfFieldId()];
         }
         $this->setValuesByArray($values);
     }
@@ -124,6 +131,10 @@ class xudfContentFormGUI extends ilPropertyFormGUI
         /** @var xudfContentElement $element */
         foreach (xudfContentElement::where(array('obj_id' => $this->obj_id, 'is_separator' => false))->get() as $element) {
             $value = $this->getInput($element->getUdfFieldId());
+
+            if ($value === null)
+                $value = $this->getInput("udf_" . $element->getUdfFieldId());
+
             $udf_data[$element->getUdfFieldId()] = $value;
             $log_values[$element->getTitle()] = $value;
         }

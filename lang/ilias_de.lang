@@ -47,4 +47,5 @@ redirect_type_info#:#Wählen Sie hier aus, wohin ein Benutzer nach dem Speichern
 stay_in_form#:#Im Formular bleiben
 to_ilias_object#:#ILIAS-Objekt
 to_url#:#URL
+msg_cascading_plugin_install#:#Bitte installieren und aktivieren Sie das CascadingSelect Plugin
 notification#:#Benachrichtigung

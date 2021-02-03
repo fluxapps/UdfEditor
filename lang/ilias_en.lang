@@ -42,6 +42,7 @@ field_not_found#:#[Field not found]
 msg_missing_udf#:#At least one user defined field could not be found and was possibly deleted from the system.
 msg_choose_new_type#:#The selected type couldn't be found. Please choose a new type from the dropdown list.
 is_required#:#Mandatory Field
+msg_cascading_plugin_install#:#Please install and activate the CascadingSelect Plugin first!
 values#:#Values
 redirect_type#:#Redirect after save
 redirect_type_info#:#Choose here where a user should be redirected to after saving the form.
