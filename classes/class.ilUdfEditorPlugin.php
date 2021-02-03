@@ -45,6 +45,34 @@ class ilUdfEditorPlugin extends ilRepositoryObjectPlugin {
         }
     }
 
+    protected function beforeUpdate()
+    {
+        /**
+         * @var ilPluginAdmin $ilPluginAdmin
+         * MyMarker
+         */
+        global $ilPluginAdmin;
+        if (!$ilPluginAdmin->isActive(IL_COMP_SERVICE, 'User', 'udfd', 'CascadingSelect')) {
+            ilUtil::sendFailure($this->txt("msg_cascading_plugin_install"), true);
+            return false;
+        }
+        return true;
+    }
+
+    protected function beforeActivation()
+    {
+        /**
+         * @var ilPluginAdmin $ilPluginAdmin
+         * MyMarker
+         */
+        global $ilPluginAdmin;
+        if (!$ilPluginAdmin->isActive(IL_COMP_SERVICE, 'User', 'udfd', 'CascadingSelect')) {
+            ilUtil::sendFailure($this->txt("msg_cascading_plugin_install"), true);
+            return false;
+        }
+
+        return parent::beforeActivation();
+    }
 
     /**
      * @var ilUdfEditorPlugin
