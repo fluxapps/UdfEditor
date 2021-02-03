@@ -1,19 +1,19 @@
 ## Installation
 
-### Install CascadingSelect plugin
-Start at your ILIAS root directory 
-```bash
-mkdir -p Customizing/global/plugins/Services/User/UDFDefinition
-cd Customizing/global/plugins/Services/User/UDFDefinition
-git clone https://github.com/leifos-gmbh/CascadingSelect.git CascadingSelect
-```
-
 ### Install UdfEditor repository plugin
 Start at your ILIAS root directory 
 ```bash
 mkdir -p Customizing/global/plugins/Services/Repository/RepositoryObject
 cd Customizing/global/plugins/Services/Repository/RepositoryObject
 git clone https://github.com/studer-raimann/UdfEditor.git UdfEditor
+```
+
+### Install CascadingSelect plugin (optional)
+Start at your ILIAS root directory
+```bash
+mkdir -p Customizing/global/plugins/Services/User/UDFDefinition
+cd Customizing/global/plugins/Services/User/UDFDefinition
+git clone https://github.com/leifos-gmbh/CascadingSelect.git CascadingSelect
 ```
 
 ### Adjustment suggestions
