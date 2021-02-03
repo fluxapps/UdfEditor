@@ -78,9 +78,15 @@ class xudfContentFormGUI extends ilPropertyFormGUI
                     case 3:
                         $input = new ilTextAreaInputGUI($element->getTitle(), $element->getUdfFieldId());
                         break;
+                    case 51:
+                        $input = ilCustomUserFieldsHelper::getInstance()->getFormPropertyForDefinition($definition, true);
+                        break;
                     default:
                         throw new UnknownUdfTypeException('field_type ' . $definition['field_type'] . ' of udf field with id ' . $element->getUdfFieldId() . ' is unknown to the udfeditor plugin');
                 }
+
+                if ($input === null)
+                    continue;
 
                 $input->setInfo($element->getDescription());
                 $input->setRequired($element->isRequired());
@@ -105,6 +111,10 @@ class xudfContentFormGUI extends ilPropertyFormGUI
         /** @var xudfContentElement $element */
         foreach (xudfContentElement::where(array('obj_id' => $this->obj_id, 'is_separator' => false))->get() as $element) {
             $values[$element->getUdfFieldId()] = $udf_data['f_' . $element->getUdfFieldId()];
+
+            if ($element->getUdfFieldDefinition()['field_type'] === "51") {
+                $values["udf_" . $element->getUdfFieldId()] = $udf_data['f_' . $element->getUdfFieldId()];
+            }
         }
         $this->setValuesByArray($values);
     }
@@ -124,6 +134,11 @@ class xudfContentFormGUI extends ilPropertyFormGUI
         /** @var xudfContentElement $element */
         foreach (xudfContentElement::where(array('obj_id' => $this->obj_id, 'is_separator' => false))->get() as $element) {
             $value = $this->getInput($element->getUdfFieldId());
+
+            if ($value === null) {
+                $value = $this->getInput("udf_" . $element->getUdfFieldId());
+            }
+
             $udf_data[$element->getUdfFieldId()] = $value;
             $log_values[$element->getTitle()] = $value;
         }

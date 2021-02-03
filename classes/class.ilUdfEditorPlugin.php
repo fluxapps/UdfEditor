@@ -45,7 +45,6 @@ class ilUdfEditorPlugin extends ilRepositoryObjectPlugin {
         }
     }
 
-
     /**
      * @var ilUdfEditorPlugin
      */

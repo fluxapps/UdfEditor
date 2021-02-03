@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.5.0]
+- feature: CascadingSelect support
+
 ## [1.4.0]
 - ILIAS 6 support
 - Remove core autoload, incompatible since min. ILIAS 5.3
