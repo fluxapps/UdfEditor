@@ -7,6 +7,7 @@ udf_field#:#UDF
 udf_field_type_1#:#Text
 udf_field_type_2#:#Selector
 udf_field_type_3#:#Textarea
+udf_field_type_51#:#Cascading
 show_infotab#:#Show Tab "Info"
 delete_confirmation_text#:#Do you really want to delete the following element?
 msg_successfully_deleted#:#Element deleted successfully.
