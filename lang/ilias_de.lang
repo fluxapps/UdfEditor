@@ -7,6 +7,7 @@ udf_field#:#UDF
 udf_field_type_1#:#Text
 udf_field_type_2#:#Auswahlliste
 udf_field_type_3#:#Textbereich
+udf_field_type_51#:#Kaskadiert
 show_infotab#:#Tab "Info" anzeigen
 delete_confirmation_text#:#Sind Sie sicher, dass Sie folgendes Element löschen möchten?
 msg_successfully_deleted#:#Element erfolgreich gelöscht.
