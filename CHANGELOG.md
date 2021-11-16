@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.6.0]
+- ILIAS 7 support
+- dropped ILIAS 5.4 support
+
 ## [1.5.0]
 - feature: CascadingSelect support
 

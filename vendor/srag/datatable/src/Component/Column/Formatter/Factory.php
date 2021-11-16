@@ -8,8 +8,6 @@ use srag\DataTableUI\UdfEditor\Component\Column\Formatter\Actions\Factory as Act
  * Interface Factory
  *
  * @package srag\DataTableUI\UdfEditor\Component\Column\Formatter
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 interface Factory
 {
@@ -47,6 +45,12 @@ interface Factory
 
 
     /**
+     * @return Formatter
+     */
+    public function image() : Formatter;
+
+
+    /**
      * @param string $prefix
      *
      * @return Formatter
@@ -64,4 +68,10 @@ interface Factory
      * @return Formatter
      */
     public function link() : Formatter;
+
+
+    /**
+     * @return Formatter
+     */
+    public function multiline() : Formatter;
 }

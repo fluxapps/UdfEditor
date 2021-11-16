@@ -6,8 +6,6 @@ namespace srag\DIC\UdfEditor\Plugin;
  * Interface Pluginable
  *
  * @package srag\DIC\UdfEditor\Plugin
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 interface Pluginable
 {

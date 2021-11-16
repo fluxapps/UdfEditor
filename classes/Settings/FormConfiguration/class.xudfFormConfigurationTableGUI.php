@@ -37,13 +37,13 @@ class xudfFormConfigurationTableGUI extends ilTable2GUI
         $this->setFormAction(self::dic()->ctrl()->getFormAction($parent_gui));
         $this->setRowTemplate(self::plugin()->directory() . '/templates/default/tpl.form_configuration_table_row.html');
 
-        self::dic()->mainTemplate()->addJavaScript(self::plugin()->directory() . '/templates/default/sortable.js');
-        self::dic()->mainTemplate()->addJavaScript(self::plugin()->directory() . '/templates/default/waiter.js');
-        self::dic()->mainTemplate()->addCss(self::plugin()->directory() . '/templates/default/waiter.css');
-        self::dic()->mainTemplate()->addOnLoadCode("xoctWaiter.init();");
+        self::dic()->ui()->mainTemplate()->addJavaScript(self::plugin()->directory() . '/templates/default/sortable.js');
+        self::dic()->ui()->mainTemplate()->addJavaScript(self::plugin()->directory() . '/templates/default/waiter.js');
+        self::dic()->ui()->mainTemplate()->addCss(self::plugin()->directory() . '/templates/default/waiter.css');
+        self::dic()->ui()->mainTemplate()->addOnLoadCode("xoctWaiter.init();");
 
         $base_link = self::dic()->ctrl()->getLinkTarget($parent_gui, xudfFormConfigurationGUI::CMD_REORDER, '', true);
-        self::dic()->mainTemplate()->addOnLoadCode("xudf = {'base_link': '$base_link'};");
+        self::dic()->ui()->mainTemplate()->addOnLoadCode("xudf = {'base_link': '$base_link'};");
 
         $this->initColumns();
         $this->setData(xudfContentElement::where(['obj_id' => ilObjUdfEditor::_lookupObjectId(filter_input(INPUT_GET, 'ref_id'))])->orderBy('sort')->getArray());

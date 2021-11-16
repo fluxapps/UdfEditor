@@ -8,8 +8,6 @@ use srag\DataTableUI\UdfEditor\Component\Column\Formatter\Factory as FormatterFa
  * Interface Factory
  *
  * @package srag\DataTableUI\UdfEditor\Component\Column
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 interface Factory
 {

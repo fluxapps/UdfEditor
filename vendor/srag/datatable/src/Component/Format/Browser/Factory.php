@@ -8,8 +8,6 @@ use srag\DataTableUI\UdfEditor\Component\Format\Browser\Filter\Factory as Filter
  * Interface Factory
  *
  * @package srag\DataTableUI\UdfEditor\Component\Format\Browser
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 interface Factory
 {

@@ -33,7 +33,7 @@ class xudfLogTableGUI extends TableGUI
     {
         $this->parent_obj = $parent;
         parent::__construct($parent, $parent_cmd);
-        self::dic()->mainTemplate()->addCss(self::plugin()->directory() . '/templates/default/log_table.css');
+        self::dic()->ui()->mainTemplate()->addCss(self::plugin()->directory() . '/templates/default/log_table.css');
     }
 
 
@@ -61,7 +61,7 @@ class xudfLogTableGUI extends TableGUI
     /**
      * @throws DICException
      */
-    protected function initColumns()
+    protected function initColumns() : void
     {
         $this->addColumn(self::plugin()->translate('values'));
         $this->addColumn(self::dic()->language()->txt('user'), 'user');
@@ -73,7 +73,7 @@ class xudfLogTableGUI extends TableGUI
      *
      * @throws Exception
      */
-    protected function initData()
+    protected function initData() : void
     {
         $filter_values = $this->getFilterValues();
         $filter_user = $filter_values['user'];
@@ -89,7 +89,7 @@ class xudfLogTableGUI extends TableGUI
     /**
      *
      */
-    protected function initFilterFields()
+    protected function initFilterFields() : void
     {
         $this->filter_fields = [
             "user" => [
@@ -103,7 +103,7 @@ class xudfLogTableGUI extends TableGUI
     /**
      *
      */
-    protected function initId()
+    protected function initId() : void
     {
         $this->setId(self::ID_PREFIX . $this->parent_obj->getObjId());
     }
@@ -112,7 +112,7 @@ class xudfLogTableGUI extends TableGUI
     /**
      *
      */
-    protected function initTitle()
+    protected function initTitle() : void
     {
         $this->setTitle(self::dic()->language()->txt('history'));
     }
@@ -123,7 +123,7 @@ class xudfLogTableGUI extends TableGUI
      *
      * @throws DICException
      */
-    protected function fillRow($row)
+    protected function fillRow($row) : void
     {
         $this->tpl->setVariable('VALUES', $this->formatValues($row['values']));
         $this->tpl->setVariable('USER', ilObjUser::_lookupFullname($row['usr_id']) . ', [' . ilObjUser::_lookupLogin($row['usr_id']) . ']');
