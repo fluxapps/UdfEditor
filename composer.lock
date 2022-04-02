@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a8e61ff0f99197cad6c00b9fd51e0d1a",
+    "content-hash": "c519c9f2f99452126dd05b2da333c101",
     "packages": [
         {
             "name": "srag/custominputguis",
-            "version": "0.43.2",
+            "version": "0.43.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fluxapps/CustomInputGUIs.git",
-                "reference": "547ac0aaf7056848aac936b965e8847deb1cf415"
+                "reference": "5e211fb161d3ae77b79c8ce0a5c6be5fe5147c23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fluxapps/CustomInputGUIs/zipball/547ac0aaf7056848aac936b965e8847deb1cf415",
-                "reference": "547ac0aaf7056848aac936b965e8847deb1cf415",
+                "url": "https://api.github.com/repos/fluxapps/CustomInputGUIs/zipball/5e211fb161d3ae77b79c8ce0a5c6be5fe5147c23",
+                "reference": "5e211fb161d3ae77b79c8ce0a5c6be5fe5147c23",
                 "shasum": ""
             },
             "require": {
@@ -36,7 +36,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "srag\\CustomInputGUIs\\UdfEditor\\": "src/"
+                    "srag\\CustomInputGUIs\\": "src/"
                 },
                 "classmap": [
                     "src/MultiSelectSearchNewInputGUI/class.ObjectChildrenAjaxAutoCompleteCtrl.php",
@@ -66,7 +66,10 @@
                 "input",
                 "table"
             ],
-            "time": "2021-08-31T08:50:12+00:00"
+            "support": {
+                "source": "https://github.com/fluxapps/CustomInputGUIs/tree/v0.43.1"
+            },
+            "time": "2021-07-20T08:32:21+00:00"
         },
         {
             "name": "srag/datatable",
@@ -100,7 +103,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "srag\\DataTableUI\\UdfEditor\\": "src/"
+                    "srag\\DataTableUI\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -122,20 +125,23 @@
                 "table",
                 "ui"
             ],
+            "support": {
+                "source": "https://github.com/fluxapps/DataTableUI/tree/v0.32.1"
+            },
             "time": "2021-07-20T08:32:15+00:00"
         },
         {
             "name": "srag/dic",
-            "version": "0.33.2",
+            "version": "0.34.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fluxapps/DIC.git",
-                "reference": "a3b217ecba4964b7dc71ed332c503d35edfc78fe"
+                "reference": "d07315f7303e82982f78cdecce5f5aa83205a9e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fluxapps/DIC/zipball/a3b217ecba4964b7dc71ed332c503d35edfc78fe",
-                "reference": "a3b217ecba4964b7dc71ed332c503d35edfc78fe",
+                "url": "https://api.github.com/repos/fluxapps/DIC/zipball/d07315f7303e82982f78cdecce5f5aa83205a9e4",
+                "reference": "d07315f7303e82982f78cdecce5f5aa83205a9e4",
                 "shasum": ""
             },
             "require": {
@@ -153,7 +159,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "srag\\DIC\\UdfEditor\\": "src/"
+                    "srag\\DIC\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -176,7 +182,10 @@
                 "globals",
                 "trait"
             ],
-            "time": "2021-07-20T11:49:07+00:00"
+            "support": {
+                "source": "https://github.com/fluxapps/DIC/tree/v0.34.1"
+            },
+            "time": "2022-03-17T09:36:38+00:00"
         },
         {
             "name": "srag/librariesnamespacechanger",
@@ -223,6 +232,10 @@
                 "libraries",
                 "namespace"
             ],
+            "support": {
+                "source": "https://github.com/fluxapps/LibrariesNamespaceChanger/tree/v0.16.1"
+            },
+            "abandoned": "https://github.com/flux-eco/flux-namespace-changer",
             "time": "2021-07-20T08:31:26+00:00"
         },
         {
@@ -255,7 +268,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "srag\\LibraryLanguageInstaller\\UdfEditor\\": "src/"
+                    "srag\\LibraryLanguageInstaller\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -278,6 +291,9 @@
                 "language",
                 "library"
             ],
+            "support": {
+                "source": "https://github.com/fluxapps/LibraryLanguageInstaller/tree/v1.2.1"
+            },
             "time": "2021-07-20T08:31:18+00:00"
         },
         {
@@ -314,7 +330,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "srag\\Notifications4Plugin\\UdfEditor\\": "src/"
+                    "srag\\Notifications4Plugin\\": "src/"
                 },
                 "classmap": [
                     "src/Notification/class.NotificationsCtrl.php",
@@ -339,6 +355,9 @@
                 "ILIAS",
                 "notifications"
             ],
+            "support": {
+                "source": "https://github.com/fluxapps/Notifications4Plugin/tree/v5.7.4"
+            },
             "time": "2021-08-20T07:51:57+00:00"
         },
         {
@@ -396,6 +415,11 @@
             "keywords": [
                 "templating"
             ],
+            "support": {
+                "forum": "https://groups.google.com/forum/#!forum/twig-users",
+                "issues": "https://github.com/twigphp/Twig/issues",
+                "source": "https://github.com/twigphp/Twig/tree/v1.18.0"
+            },
             "time": "2015-01-25T17:32:08+00:00"
         }
     ],
@@ -406,8 +430,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.0"
+        "php": ">=7.4"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.3.0"
 }

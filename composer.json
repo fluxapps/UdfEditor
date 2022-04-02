@@ -1,27 +1,33 @@
 {
-  "name": "studer-raimann.ch/opencast",
-  "description": "ILIAS 5.x Opencast plugin",
-  "type": "project",
+  "name": "fluxapp/udf-editor",
+  "version": "2.0.0",
+  "description": "ILIAS UDFEditor Plugin",
+  "keywords": [
+    "ilias",
+    "fluxlabs",
+    "udf-editor"
+  ],
+  "type": "plugin",
   "license": "GPL-3.0+",
   "authors": [
     {
-      "name": "Theodor Truffer",
-      "email": "tt@studer-raimann.ch",
-      "homepage": "https://studer-raimann.ch",
-      "role": "Project Manager, Software Engineer"
+      "name": "Martin Studer",
+      "email": "martin@fluxlabs.ch",
+      "homepage": "https://fluxlabs.ch",
+      "role": "Maintainer, Developer"
     }
   ],
   "support": {
-    "issues": "https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_PLUDFE"
+    "issues": "https://git.fluxlabs.ch"
   },
   "minimum-stability": "beta",
   "prefer-stable": true,
   "require": {
-    "php": ">=7.0",
-    "srag/librariesnamespacechanger": ">=0.1.0",
-    "srag/dic": ">=0.1.0",
-    "srag/notifications4plugin": ">=0.1.0",
-    "srag/custominputguis": ">=0.1.0"
+    "php": ">=7.4",
+    "srag/librariesnamespacechanger": "0.16.1",
+    "srag/dic": "0.34.1",
+    "srag/notifications4plugin": "5.7.4",
+    "srag/custominputguis": "0.43.1"
   },
   "autoload": {
     "classmap": [

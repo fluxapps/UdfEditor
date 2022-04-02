@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.0]
+- Updated composer libs
+- 
+
 ## [1.6.0]
 - ILIAS 7 support
 - dropped ILIAS 5.4 support
