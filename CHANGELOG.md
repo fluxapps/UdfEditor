@@ -1,8 +1,11 @@
 # Changelog
 
+## [2.1.0]
+- ILIAS 8 compatibility
+- dropped ILIAS 7 support
+
 ## [2.0.0]
 - Updated composer libs
-- 
 
 ## [1.6.0]
 - ILIAS 7 support

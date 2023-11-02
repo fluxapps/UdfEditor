@@ -179,7 +179,7 @@ abstract class TableGUI extends ilTable2GUI
                 throw new TableGUIException("\$field needs to be an array!", TableGUIException::CODE_INVALID_FIELD);
             }
 
-            if ($field[PropertyFormGUI::PROPERTY_NOT_ADD]) {
+            if (array_key_exists(PropertyFormGUI::PROPERTY_NOT_ADD, $field) && $field[PropertyFormGUI::PROPERTY_NOT_ADD]) {
                 continue;
             }
 

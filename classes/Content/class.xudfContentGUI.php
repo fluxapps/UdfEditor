@@ -108,13 +108,13 @@ class xudfContentGUI extends xudfGUI {
         $form = new xudfContentFormGUI($this);
         $form->setValuesByPost();
         if (!$form->saveForm()) {
-            ilUtil::sendFailure(self::plugin()->translate('msg_incomplete'));
+            $this->tpl->setOnScreenMessage('failure', $this->pl->txt('msg_incomplete'), true);
             $page_obj_gui = new xudfPageObjectGUI($this);
             $this->tpl->setContent($page_obj_gui->getHTML() . $form->getHTML());
             return;
         }
         $this->checkAndSendNotification();
-        ilUtil::sendSuccess(self::plugin()->translate('content_form_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->pl->txt('content_form_saved'), true);
         $this->redirectAfterSave();
         self::dic()->ctrl()->redirect($this, self::CMD_STANDARD);
     }

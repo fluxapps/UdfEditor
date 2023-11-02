@@ -119,14 +119,19 @@ class MultilangualTabsInputGUI
             $lang_key = self::dic()->language()->getLangKey();
         }
 
-        $value = $values[$lang_key];
+        $value = "";
+        if(array_key_exists($lang_key, $values)) {
+            $value = $values[$lang_key];
+        }
 
         if (!empty($sub_key)) {
             if (!is_array($value)) {
                 $value = [];
             }
 
-            $value = $value[$sub_key];
+            if(array_key_exists($sub_key, $value)) {
+                $value = $value[$sub_key];
+            }
         }
 
         if (!empty($value)) {
