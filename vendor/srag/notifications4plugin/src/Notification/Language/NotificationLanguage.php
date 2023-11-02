@@ -126,7 +126,12 @@ class NotificationLanguage extends ActiveRecord
      */
     public static function getTableName() : string
     {
-        return self::notifications4plugin()->getTableNamePrefix() . "_" . self::TABLE_NAME_SUFFIX;
+        //todo
+        //return self::notifications4plugin()->getTableNamePrefix() . "_" . self::TABLE_NAME_SUFFIX;
+
+        return "xudf". "_" . self::TABLE_NAME_SUFFIX;
+
+        //return self::notifications4plugin()->getTableNamePrefix() . "_" . self::TABLE_NAME_SUFFIX;
     }
 
 

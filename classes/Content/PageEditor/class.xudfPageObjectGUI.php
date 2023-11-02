@@ -37,13 +37,13 @@ class xudfPageObjectGUI extends ilPageObjectGUI
         $tpl->parseCurrentBlock();
 
         $tpl->setCurrentBlock("ContentStyle");
-        $tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath($parent_gui->getObject()->getStyleSheetId()));
+       /* $tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+            ilObjStyleSheet::getContentStylePath($parent_gui->getObject()->getStyleSheetId()));*/
         $tpl->parseCurrentBlock();
     }
 
 
-    function executeCommand()
+    function executeCommand(): string
     {
         return parent::executeCommand();
     }
@@ -52,7 +52,7 @@ class xudfPageObjectGUI extends ilPageObjectGUI
     /**
      * for some reason the entry in copg_pobj_def gets deleted from time to time, so we check and add it everytime now
      */
-    protected function checkAndAddCOPageDefinition()
+    protected function checkAndAddCOPageDefinition(): void
     {
         global $DIC;
         $sql_query = $DIC->database()->query('SELECT * FROM copg_pobj_def WHERE parent_type = "xudf"');

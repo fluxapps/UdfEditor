@@ -144,7 +144,7 @@ abstract class TableGUI extends ilTable2GUI
      *
      * @deprecated
      */
-    public final function getSelectableColumns() : array
+    public function getSelectableColumns() : array
     {
         return array_map(function (array &$column) : array {
             if (!isset($column["txt"])) {
@@ -164,7 +164,7 @@ abstract class TableGUI extends ilTable2GUI
      *
      * @deprecated
      */
-    public final function initFilter() : void
+    public function initFilter() : void
     {
         $this->setDisableFilterHiding(true);
 
@@ -486,7 +486,7 @@ abstract class TableGUI extends ilTable2GUI
      *
      * @deprecated
      */
-    protected final function getFilterValues() : array
+    protected function getFilterValues() : array
     {
         return array_map(function ($item) {
             return Items::getValueFromItem($item);
@@ -509,7 +509,7 @@ abstract class TableGUI extends ilTable2GUI
      *
      * @deprecated
      */
-    protected final function hasSessionValue(string $field_id) : bool
+    protected function hasSessionValue(string $field_id) : bool
     {
         // Not set (null) on first visit, false on reset filter, string if is set
         return (isset($_SESSION["form_" . $this->getId()][$field_id]) && $_SESSION["form_" . $this->getId()][$field_id] !== false);
@@ -585,7 +585,7 @@ abstract class TableGUI extends ilTable2GUI
      *
      * @deprecated
      */
-    private final function checkRowTemplateConst() : bool
+    private function checkRowTemplateConst() : bool
     {
         return (defined("static::ROW_TEMPLATE") && !empty(static::ROW_TEMPLATE));
     }
@@ -594,7 +594,7 @@ abstract class TableGUI extends ilTable2GUI
     /**
      * @deprecated
      */
-    private final function initRowTemplate() : void
+    private function initRowTemplate() : void
     {
         if ($this->checkRowTemplateConst()) {
             $this->setRowTemplate(static::ROW_TEMPLATE, self::plugin()->directory());
@@ -609,7 +609,7 @@ abstract class TableGUI extends ilTable2GUI
     /**
      * @deprecated
      */
-    private final function initTable() : void
+    private function initTable() : void
     {
         if (!(strpos($this->parent_cmd, "applyFilter") === 0
             || strpos($this->parent_cmd, "resetFilter") === 0)

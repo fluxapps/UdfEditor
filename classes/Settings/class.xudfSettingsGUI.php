@@ -58,8 +58,12 @@ class xudfSettingsGUI extends xudfGUI {
         $this->tabs->addSubTab(self::SUBTAB_FORM_CONFIGURATION, $this->pl->txt(self::SUBTAB_FORM_CONFIGURATION), $this->ctrl->getLinkTargetByClass(xudfFormConfigurationGUI::class));
         $this->ctrl->setParameterByClass(NotificationCtrl::class, NotificationCtrl::GET_PARAM_NOTIFICATION_ID, $this->getObject()->getSettings()->getNotification()->getId());
         if ($this->getObject()->getSettings()->hasMailNotification()) {
+            //todo
+            /*
             $this->tabs->addSubTab(self::SUBTAB_MAIL_TEMPLATE, $this->pl->txt("notification"),
                 $this->ctrl->getLinkTargetByClass([NotificationsCtrl::class, NotificationCtrl::class], NotificationCtrl::CMD_EDIT_NOTIFICATION));
+
+            */
         }
         $this->tabs->setSubTabActive(self::SUBTAB_SETTINGS);
     }
@@ -78,11 +82,12 @@ class xudfSettingsGUI extends xudfGUI {
         $xudfSettingsFormGUI = new xudfSettingsFormGUI($this);
         $xudfSettingsFormGUI->setValuesByPost();
         if (!$xudfSettingsFormGUI->saveForm()) {
-            ilUtil::sendFailure($this->pl->txt('msg_incomplete'));
+
+            $this->tpl->setOnScreenMessage('failure', $this->pl->txt('msg_incomplete'), true);
             $this->tpl->setContent($xudfSettingsFormGUI->getHTML());
             return;
         }
-        ilUtil::sendSuccess($this->pl->txt('form_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->pl->txt('form_saved'), true);
         $this->ctrl->redirect($this, self::CMD_STANDARD);
     }
 

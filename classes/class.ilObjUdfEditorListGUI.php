@@ -9,13 +9,13 @@ require_once __DIR__ . "/../vendor/autoload.php";
 class ilObjUdfEditorListGUI extends ilObjectPluginListGUI
 {
 
-    function getGuiClass()
+    function getGuiClass(): string
     {
         return ilObjUdfEditorGUI::class;
     }
 
 
-    function initCommands()
+    function initCommands(): array
     {
         $this->timings_enabled = true;
         $this->subscribe_enabled = false;
@@ -60,7 +60,7 @@ class ilObjUdfEditorListGUI extends ilObjectPluginListGUI
      *
      * @return array
      */
-    public function getAlertProperties()
+    public function getAlertProperties(): array
     {
         $alert = array();
         foreach ((array) $this->getCustomProperties(array()) as $prop) {
@@ -81,20 +81,25 @@ class ilObjUdfEditorListGUI extends ilObjectPluginListGUI
      *                        'property' (string) => property name
      *                        'value' (string) => property value
      */
-    public function getCustomProperties($a_prop)
+    public function getCustomProperties(array $prop): array
     {
         $props = parent::getCustomProperties(array());
 
-        $settings = xudfSetting::find($this->obj_id);
-        if (!$settings->isOnline()) {
-            $props[] = array(
-                'alert'               => true,
-                'newline'             => true,
-                'property'            => 'Status',
-                'value'               => 'Offline',
-                'propertyNameVisible' => true
-            );
-        }
+        //todo
+        /*
+            $settings = xudfSetting::find($this->obj_id);
+            if (!$settings->isOnline()) {
+                $props[] = array(
+                    'alert'               => true,
+                    'newline'             => true,
+                    'property'            => 'Status',
+                    'value'               => 'Offline',
+                    'propertyNameVisible' => true
+                );
+            }
+        */
+
+
 
         return $props;
     }

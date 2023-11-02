@@ -23,7 +23,7 @@
   "minimum-stability": "beta",
   "prefer-stable": true,
   "require": {
-    "php": ">=7.4",
+    "php": ">=8.0",
     "srag/librariesnamespacechanger": "0.16.1",
     "srag/dic": "0.34.1",
     "srag/notifications4plugin": "5.7.4",

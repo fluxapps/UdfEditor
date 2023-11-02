@@ -75,7 +75,7 @@ class xudfContentGUI extends xudfGUI {
             $udf_values = self::dic()->user()->getUserDefinedData();
             /** @var xudfContentElement $element */
             foreach ($where->get() as $element) {
-                if (!$element->isSeparator() && !$udf_values['f_' . $element->getUdfFieldId()]) {
+                if (!$element->isSeparator() && array_key_exists('f_' . $element->getUdfFieldId(),$udf_values) && !$udf_values['f_' . $element->getUdfFieldId()]) {
                     $has_open_fields = true;
                     break;
                 }

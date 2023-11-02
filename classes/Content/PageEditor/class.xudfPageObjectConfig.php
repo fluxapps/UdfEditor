@@ -11,7 +11,7 @@ class xudfPageObjectConfig extends ilPageConfig
     /**
      * Init
      */
-    function init()
+    function init(): void
     {
         // config
         $this->setPreventHTMLUnmasking(true);

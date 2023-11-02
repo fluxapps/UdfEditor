@@ -50,10 +50,15 @@ class xudfFormConfigurationGUI extends xudfGUI
         $this->tabs->addSubTab(self::SUBTAB_SETTINGS, $this->lng->txt(self::SUBTAB_SETTINGS), $this->ctrl->getLinkTargetByClass(xudfSettingsGUI::class));
         $this->tabs->addSubTab(self::SUBTAB_FORM_CONFIGURATION, $this->pl->txt(self::SUBTAB_FORM_CONFIGURATION), $this->ctrl->getLinkTargetByClass(xudfFormConfigurationGUI::class, self::CMD_STANDARD));
         $this->ctrl->setParameterByClass(NotificationCtrl::class, NotificationCtrl::GET_PARAM_NOTIFICATION_ID, $this->getObject()->getSettings()->getNotification()->getId());
+
+        //todo
+        /*
         if ($this->getObject()->getSettings()->hasMailNotification()) {
             $this->tabs->addSubTab(xudfSettingsGUI::SUBTAB_MAIL_TEMPLATE, $this->pl->txt("notification"),
                 $this->ctrl->getLinkTargetByClass([xudfSettingsGUI::class, NotificationsCtrl::class, NotificationCtrl::class], NotificationCtrl::CMD_EDIT_NOTIFICATION));
-        }   $this->tabs->setSubTabActive(self::SUBTAB_FORM_CONFIGURATION);
+        }
+        */
+        $this->tabs->setSubTabActive(self::SUBTAB_FORM_CONFIGURATION);
 
     }
 
@@ -123,12 +128,14 @@ class xudfFormConfigurationGUI extends xudfGUI
         $xudfFormConfigurationFormGUI = new xudfFormConfigurationFormGUI($this, $element);
         $xudfFormConfigurationFormGUI->setValuesByPost();
         if (!$xudfFormConfigurationFormGUI->saveForm()) {
-            ilUtil::sendFailure($this->pl->txt('msg_incomplete'));
+            $this->tpl->setOnScreenMessage('failure', $this->pl->txt('msg_incomplete'), true);
             $this->tpl->setContent($xudfFormConfigurationFormGUI->getHTML());
 
             return;
         }
-        ilUtil::sendSuccess($this->pl->txt('form_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->pl->txt('form_saved'), true);
+
+
         $this->ctrl->redirect($this, self::CMD_STANDARD);
     }
 
@@ -143,12 +150,13 @@ class xudfFormConfigurationGUI extends xudfGUI
         $xudfFormConfigurationFormGUI = new xudfFormConfigurationFormGUI($this, $element);
         $xudfFormConfigurationFormGUI->setValuesByPost();
         if (!$xudfFormConfigurationFormGUI->saveForm()) {
-            ilUtil::sendFailure($this->pl->txt('msg_incomplete'));
+            $this->tpl->setOnScreenMessage('failure', $this->pl->txt('msg_incomplete'), true);
             $this->tpl->setContent($xudfFormConfigurationFormGUI->getHTML());
 
             return;
         }
-        ilUtil::sendSuccess($this->pl->txt('form_saved'), true);
+        $this->tpl->setOnScreenMessage('success', $this->pl->txt('form_saved'), true);
+
         $this->ctrl->redirect($this, self::CMD_STANDARD);
     }
 
@@ -194,7 +202,7 @@ class xudfFormConfigurationGUI extends xudfGUI
     {
         $element = new xudfContentElement($_POST['element_id']);
         $element->delete();
-        ilUtil::sendSuccess($this->pl->txt('msg_successfully_deleted'), true);
+        $this->tpl->setOnScreenMessage('success', $this->pl->txt('msg_successfully_deleted'), true);
         $this->ctrl->redirect($this, self::CMD_STANDARD);
     }
 

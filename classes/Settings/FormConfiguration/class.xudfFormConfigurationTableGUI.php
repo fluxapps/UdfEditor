@@ -30,7 +30,12 @@ class xudfFormConfigurationTableGUI extends ilTable2GUI
      */
     public function __construct($parent_gui, $parent_cmd)
     {
-        $this->pl = ilUdfEditorPlugin::getInstance();
+        global $DIC;
+
+        /** @var $component_factory ilComponentFactory */
+        $component_factory = $DIC['component.factory'];
+        /** @var $plugin ilUdfEditorPlugin */
+        $this->pl  = $component_factory->getPlugin(ilUdfEditorPlugin::PLUGIN_ID);
 
         parent::__construct($parent_gui, $parent_cmd);
 
@@ -70,7 +75,7 @@ class xudfFormConfigurationTableGUI extends ilTable2GUI
      *
      * @throws DICException
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
         $udf_definition = ilUserDefinedFields::_getInstance()->getDefinition($a_set['udf_field']);
 

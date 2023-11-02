@@ -16,7 +16,7 @@ class xudfContentElement extends ActiveRecord
     /**
      * @return string
      */
-    public function getConnectorContainerName()
+    public function getConnectorContainerName(): string
     {
         return self::DB_TABLE_NAME;
     }
@@ -25,7 +25,7 @@ class xudfContentElement extends ActiveRecord
     /**
      *
      */
-    public function create()
+    public function create(): void
     {
         $element = self::orderBy('sort')->first();
         $sort = $element ? ($element->getSort() + 10) : 10;
@@ -40,7 +40,7 @@ class xudfContentElement extends ActiveRecord
      *
      * @return self
      */
-    public static function find($primary_key, array $add_constructor_args = array())
+    public static function find($primary_key, array $add_constructor_args = array()): xudfContentElement
     {
         return parent::find($primary_key, $add_constructor_args);
     }
@@ -119,7 +119,7 @@ class xudfContentElement extends ActiveRecord
     /**
      * @return int
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -128,7 +128,7 @@ class xudfContentElement extends ActiveRecord
     /**
      * @param int $id
      */
-    public function setId($id)
+    public function setId($id): void
     {
         $this->id = $id;
     }
@@ -137,7 +137,7 @@ class xudfContentElement extends ActiveRecord
     /**
      * @return int
      */
-    public function getObjId()
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
@@ -146,7 +146,7 @@ class xudfContentElement extends ActiveRecord
     /**
      * @param int $obj_id
      */
-    public function setObjId($obj_id)
+    public function setObjId($obj_id): void
     {
         $this->obj_id = $obj_id;
     }
@@ -155,7 +155,7 @@ class xudfContentElement extends ActiveRecord
     /**
      * @return int
      */
-    public function getSort()
+    public function getSort(): int
     {
         return $this->sort;
     }
@@ -164,7 +164,7 @@ class xudfContentElement extends ActiveRecord
     /**
      * @param int $sort
      */
-    public function setSort($sort)
+    public function setSort($sort): void
     {
         $this->sort = $sort;
     }
@@ -173,7 +173,7 @@ class xudfContentElement extends ActiveRecord
     /**
      * @return bool
      */
-    public function isSeparator()
+    public function isSeparator(): bool
     {
         return $this->is_separator;
     }
@@ -182,7 +182,7 @@ class xudfContentElement extends ActiveRecord
     /**
      * @param bool $is_separator
      */
-    public function setIsSeparator($is_separator)
+    public function setIsSeparator($is_separator): void
     {
         $this->is_separator = $is_separator;
     }
@@ -191,7 +191,7 @@ class xudfContentElement extends ActiveRecord
     /**
      * @return int
      */
-    public function getUdfFieldId()
+    public function getUdfFieldId(): int
     {
         return $this->udf_field;
     }
@@ -200,7 +200,7 @@ class xudfContentElement extends ActiveRecord
     /**
      * @param int $udf_field
      */
-    public function setUdfFieldId($udf_field)
+    public function setUdfFieldId($udf_field): void
     {
         $this->udf_field = $udf_field;
     }
@@ -210,7 +210,7 @@ class xudfContentElement extends ActiveRecord
      * @return array
      * @throws UDFNotFoundException
      */
-    public function getUdfFieldDefinition()
+    public function getUdfFieldDefinition(): array
     {
         $definition = ilUserDefinedFields::_getInstance()->getDefinition($this->getUdfFieldId());
         if (!is_array($definition) || empty($definition)) {
@@ -225,7 +225,7 @@ class xudfContentElement extends ActiveRecord
      * @return String
      * @throws UDFNotFoundException
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         if (!$this->isSeparator()) {
             return $this->getUdfFieldDefinition()['field_name'];
@@ -238,7 +238,7 @@ class xudfContentElement extends ActiveRecord
     /**
      * @param String $title
      */
-    public function setTitle($title)
+    public function setTitle($title): void
     {
         $this->title = $title;
     }
@@ -247,7 +247,7 @@ class xudfContentElement extends ActiveRecord
     /**
      * @return String
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -256,7 +256,7 @@ class xudfContentElement extends ActiveRecord
     /**
      * @param String $description
      */
-    public function setDescription($description)
+    public function setDescription($description): void
     {
         $this->description = $description;
     }
@@ -265,7 +265,7 @@ class xudfContentElement extends ActiveRecord
     /**
      * @return bool
      */
-    public function isRequired()
+    public function isRequired(): bool
     {
         return (bool) $this->is_required;
     }
@@ -274,7 +274,7 @@ class xudfContentElement extends ActiveRecord
     /**
      * @param bool $is_required
      */
-    public function setIsRequired($is_required)
+    public function setIsRequired($is_required): void
     {
         $this->is_required = $is_required;
     }

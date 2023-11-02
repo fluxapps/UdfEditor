@@ -14,7 +14,7 @@ class xudfLogEntry extends ActiveRecord
     /**
      * @return string
      */
-    public function getConnectorContainerName()
+    public function getConnectorContainerName(): string
     {
         return self::TABLE_NAME;
     }
@@ -139,7 +139,7 @@ class xudfLogEntry extends ActiveRecord
      *
      * @return false|int|mixed|string
      */
-    public function sleep($field_name)
+    public function sleep($field_name): mixed
     {
         switch ($field_name) {
             case 'values':
@@ -159,7 +159,7 @@ class xudfLogEntry extends ActiveRecord
      * @return ilDateTime|mixed
      * @throws ilDateTimeException
      */
-    public function wakeUp($field_name, $field_value)
+    public function wakeUp($field_name, $field_value): mixed
     {
         switch ($field_name) {
             case 'values':

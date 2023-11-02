@@ -18,7 +18,7 @@ class xudfLogTableGUI extends TableGUI
     /**
      * @var xudfLogGUI
      */
-    protected $parent_obj;
+    protected ?object $parent_obj;
 
 
     /**

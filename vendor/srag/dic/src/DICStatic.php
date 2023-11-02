@@ -2,8 +2,10 @@
 
 namespace srag\DIC\UdfEditor;
 
+use ilComponentFactory;
 use ilLogLevel;
 use ilPlugin;
+use ilUdfEditorPlugin;
 use srag\DIC\UdfEditor\DIC\DICInterface;
 use srag\DIC\UdfEditor\DIC\Implementation\ILIAS60DIC;
 use srag\DIC\UdfEditor\DIC\Implementation\ILIAS70DIC;
@@ -102,7 +104,14 @@ final class DICStatic implements DICStaticInterface
             if (method_exists($plugin_class_name, "getInstance")) {
                 $plugin_object = $plugin_class_name::getInstance();
             } else {
-                $plugin_object = new $plugin_class_name();
+                //TODO
+                global $DIC;
+                /** @var $component_factory ilComponentFactory */
+                $component_factory = $DIC['component.factory'];
+                /** @var $plugin ilUdfEditorPlugin */
+                $plugin_object = $component_factory->getPlugin(ilUdfEditorPlugin::PLUGIN_ID);
+
+                //$plugin_object = new $plugin_class_name();
 
                 self::dic()->log()->write("DICLog: Please implement $plugin_class_name::getInstance()!", ilLogLevel::DEBUG);
             }

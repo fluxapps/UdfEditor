@@ -128,7 +128,11 @@ class Notification extends ActiveRecord implements NotificationInterface
      */
     public static function getTableName() : string
     {
-        return self::notifications4plugin()->getTableNamePrefix() . "_" . self::TABLE_NAME_SUFFIX;
+        //todo
+        //return self::notifications4plugin()->getTableNamePrefix() . "_" . self::TABLE_NAME_SUFFIX;
+
+        return "xudf". "_" . self::TABLE_NAME_SUFFIX;
+
     }
 
 

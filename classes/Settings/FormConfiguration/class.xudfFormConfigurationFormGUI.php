@@ -16,26 +16,11 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI
     const F_IS_SEPARATOR = 'is_separator';
     const F_ELEMENT_ID = 'element_id';
     const F_REQUIRED = 'is_required';
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilUdfEditorPlugin
-     */
-    protected $pl;
-    /**
-     * @var xudfFormConfigurationGUI
-     */
-    protected $parent_gui;
-    /**
-     * @var xudfContentElement
-     */
-    protected $element;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilUdfEditorPlugin $pl;
+    protected xudfFormConfigurationGUI $parent_gui;
+    protected xudfContentElement $element;
 
 
     /**
@@ -49,7 +34,13 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI
         global $DIC;
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
-        $this->pl = ilUdfEditorPlugin::getInstance();
+        $this->http = $DIC->http();
+
+        /** @var $component_factory ilComponentFactory */
+        $component_factory = $DIC['component.factory'];
+        /** @var $plugin ilUdfEditorPlugin */
+        $this->pl  = $component_factory->getPlugin(ilUdfEditorPlugin::PLUGIN_ID);
+
         $this->parent_gui = $parent_gui;
         $this->element = $element;
         $this->setTitle($this->element->getId() ? $this->lng->txt('edit') : $this->lng->txt('create'));

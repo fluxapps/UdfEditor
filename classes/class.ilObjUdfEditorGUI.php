@@ -28,33 +28,30 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI
     const CMD_SETTINGS = 'showSettings';
 
 
-    /**
-     * ilObjUdfEditorGUI constructor.
-     */
-    public function __construct($a_ref_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_ref_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
+        global $DIC;
         parent::__construct($a_ref_id, $a_id_type, $a_parent_node_id);
-    }
 
+        /** @var $component_factory ilComponentFactory */
+        $component_factory = $DIC['component.factory'];
+        /** @var $plugin ilUdfEditorPlugin */
+        $plugin = $component_factory->getPlugin(ilUdfEditorPlugin::PLUGIN_ID);
+    }
 
     /**
      *
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $next_class = self::dic()->ctrl()->getNextClass();
         $cmd = self::dic()->ctrl()->getCmd();
         if (!ilObjUdfEditorAccess::hasReadAccess() && $next_class != strtolower(ilInfoScreenGUI::class) && $cmd != "infoScreen") {
-            ilUtil::sendFailure(self::plugin()->translate('access_denied'), true);
+            $this->tpl->setOnScreenMessage('failure',  self::dic()->language()->txt("msg_no_perm_read"), true);
             self::dic()->ctrl()->returnToParent($this);
         }
-        if (self::version()->is6()) {
-            $this->tpl->loadStandardTemplate();
-        } else {
-        $this->tpl->getStandardTemplate();
-        }
 
-        try {
+       /* try {*/
             switch ($next_class) {
                 case strtolower(xudfContentGUI::class):
                     if (!self::dic()->ctrl()->isAsynch()) {
@@ -72,7 +69,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI
                     break;
                 case strtolower(xudfSettingsGUI::class):
                     if (!ilObjUdfEditorAccess::hasWriteAccess()) {
-                        ilUtil::sendFailure(self::plugin()->translate('access_denied'), true);
+                        $this->tpl->setOnScreenMessage('failure',  self::dic()->language()->txt('access_denied'), true);
                         self::dic()->ctrl()->returnToParent($this);
                     }
                     if (!self::dic()->ctrl()->isAsynch()) {
@@ -90,7 +87,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI
                     break;
                 case strtolower(xudfFormConfigurationGUI::class):
                     if (!ilObjUdfEditorAccess::hasWriteAccess()) {
-                        ilUtil::sendFailure(self::plugin()->translate('access_denied'), true);
+                        $this->tpl->setOnScreenMessage('failure',  self::dic()->language()->txt('access_denied'), true);
                         self::dic()->ctrl()->returnToParent($this);
                     }
                     if (!self::dic()->ctrl()->isAsynch()) {
@@ -108,7 +105,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI
                     break;
                 case strtolower(xudfLogGUI::class):
                     if (!ilObjUdfEditorAccess::hasWriteAccess()) {
-                        ilUtil::sendFailure(self::plugin()->translate('access_denied'), true);
+                        $this->tpl->setOnScreenMessage('failure',  self::dic()->language()->txt('access_denied'), true);
                         self::dic()->ctrl()->returnToParent($this);
                     }
                     if (!self::dic()->ctrl()->isAsynch()) {
@@ -151,8 +148,8 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI
                     parent::executeCommand();
                     break;
             }
-        } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+        /*} catch (Exception $e) {
+            $this->tpl->setOnScreenMessage('failure',  $e->getMessage(), true);
             if (!$this->creation_mode) {
                 if (self::version()->is6()) {
                     $this->tpl->printToStdout();
@@ -160,7 +157,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI
                 $this->tpl->show();
                 }
             }
-        }
+        }*/
     }
 
 
@@ -176,7 +173,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI
     /**
      * @return ilObjUdfEditor
      */
-    public function getObject()
+    public function getObject(): ?ilObject
     {
         return $this->object;
     }
@@ -185,7 +182,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI
     /**
      * @param $cmd
      */
-    protected function performCommand($cmd)
+    public function performCommand(string $cmd): void
     {
         $this->{$cmd}();
     }
@@ -234,7 +231,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI
     /**
      * @return bool
      */
-    protected function setTabs()
+    protected function setTabs(): void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -259,8 +256,6 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI
                 "ilpermissiongui",
             ), "perm"));
         }
-
-        return true;
     }
 
 
@@ -269,7 +264,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI
      *
      * @throws DICException
      */
-    function addInfoItems($info)
+    function addInfoItems(ilInfoScreenGUI $info): void
     {
         $info->addSection(self::plugin()->translate('info_section_title'));
         $fields_string = '';
@@ -289,7 +284,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI
     /**
      * @return string
      */
-    function getAfterCreationCmd()
+    function getAfterCreationCmd(): string
     {
         return self::CMD_SETTINGS;
     }
@@ -298,7 +293,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI
     /**
      * @return string
      */
-    function getStandardCmd()
+    function getStandardCmd(): string
     {
         return self::CMD_INDEX;
     }
@@ -307,7 +302,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI
     /**
      * @return string
      */
-    function getType()
+    function getType(): string
     {
         return ilUdfEditorPlugin::PLUGIN_ID;
     }
@@ -316,7 +311,7 @@ class ilObjUdfEditorGUI extends ilObjectPluginGUI
     /**
      * @return bool
      */
-    protected function supportsCloning()
+    protected function supportsCloning(): bool
     {
         return false;
     }

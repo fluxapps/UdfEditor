@@ -3,6 +3,7 @@
 namespace srag\Notifications4Plugin\UdfEditor;
 
 use LogicException;
+use Matrix\Exception;
 use srag\DataTableUI\UdfEditor\Implementation\Utils\DataTableUITrait;
 use srag\DIC\UdfEditor\DICTrait;
 use srag\DIC\UdfEditor\Plugin\PluginInterface;

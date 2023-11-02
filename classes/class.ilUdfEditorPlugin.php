@@ -13,20 +13,18 @@ use srag\Notifications4Plugin\UdfEditor\Utils\Notifications4PluginTrait;
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
 class ilUdfEditorPlugin extends ilRepositoryObjectPlugin {
-    use DICTrait;
-    use Notifications4PluginTrait;
+
     const PLUGIN_ID = 'xudf';
     const PLUGIN_CLASS_NAME = self::class;
 
-    function getPluginName() {
+    /**
+     * @var IContainer
+     */
+    protected $udfeditor_container;
+
+    function getPluginName(): string {
         return 'UdfEditor';
     }
-
-
-    /**
-     * @var bool
-     */
-    protected static $init_notifications = false;
 
 
     /**
@@ -34,7 +32,7 @@ class ilUdfEditorPlugin extends ilRepositoryObjectPlugin {
      */
     public static function initNotifications()/*:void*/
     {
-        if (!self::$init_notifications) {
+       /* if (!self::$init_notifications) {
             self::$init_notifications = true;
 
             self::notifications4plugin()->withTableNamePrefix(self::PLUGIN_ID)->withPlugin(self::plugin())->withPlaceholderTypes([
@@ -43,6 +41,7 @@ class ilUdfEditorPlugin extends ilRepositoryObjectPlugin {
                 "user_defined_data" => "array"
             ]);
         }
+       */
     }
 
     /**
@@ -54,30 +53,42 @@ class ilUdfEditorPlugin extends ilRepositoryObjectPlugin {
     /**
      * @return bool
      */
-    public function allowCopy()
+    public function allowCopy(): bool
     {
         return true;
     }
 
-
     /**
-     * @return ilUdfEditorPlugin
+     * @inheritDoc
      */
-    public static function getInstance() {
-        if (self::$instance === NULL) {
-            self::$instance = new self();
+    public function __construct(
+        ilDBInterface $db,
+        ilComponentRepositoryWrite $component_repository,
+        string $id
+    ) {
+        global $DIC;
+        parent::__construct($db, $component_repository, $id);
+
+        // this plugin might be called by the cron-hook plugin, which allows
+        // this class to be called in CLI context, where the ILIAS_HTTP_PATH
+        // is not defined.
+        if (!defined('ILIAS_HTTP_PATH')) {
+            define('ILIAS_HTTP_PATH', ilUtil::_getHttpPath());
         }
 
-        return self::$instance;
+        //$this->udfeditor_container = new ilH5PContainer($this, $DIC);
     }
+
+
+
 
 
     /**
      * @inheritDoc
      */
-    protected function init()/*:void*/
+    protected function init():void
     {
-        self::initNotifications();
+
     }
 
 
@@ -87,17 +98,14 @@ class ilUdfEditorPlugin extends ilRepositoryObjectPlugin {
     public function updateLanguages(/*array*/ $a_lang_keys = null)/*:void*/
     {
         parent::updateLanguages($a_lang_keys);
-
-        self::notifications4plugin()->installLanguages();
     }
 
 
-    protected function uninstallCustom() {
+    protected function uninstallCustom(): void {
         global $DIC;
         $DIC->database()->dropTable(xudfSetting::DB_TABLE_NAME, false);
         $DIC->database()->dropTable(xudfContentElement::DB_TABLE_NAME, false);
         $DIC->database()->manipulateF('DELETE FROM copg_pobj_def WHERE component=%s', [ 'text' ], [ 'Customizing/global/plugins/Services/Repository/RepositoryObject/UdfEditor' ]);
-        self::notifications4plugin()->dropTables();
     }
 
 

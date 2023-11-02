@@ -110,7 +110,10 @@ class xudfContentFormGUI extends ilPropertyFormGUI
         $values = array();
         /** @var xudfContentElement $element */
         foreach (xudfContentElement::where(array('obj_id' => $this->obj_id, 'is_separator' => false))->get() as $element) {
-            $values[$element->getUdfFieldId()] = $udf_data['f_' . $element->getUdfFieldId()];
+            $values[$element->getUdfFieldId()] = "";
+            if(array_key_exists('f_' . $element->getUdfFieldId(),$udf_data)) {
+                $values[$element->getUdfFieldId()] = $udf_data['f_' . $element->getUdfFieldId()];
+            }
 
             if ($element->getUdfFieldDefinition()['field_type'] === "51") {
                 $values["udf_" . $element->getUdfFieldId()] = $udf_data['f_' . $element->getUdfFieldId()];
