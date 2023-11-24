@@ -1,16 +1,6 @@
 <?php
-
-/**
- * Class xudfPageObjectConfig
- *
- * @author Theodor Truffer <tt@studer-raimann.ch>
- */
 class xudfPageObjectConfig extends ilPageConfig
 {
-
-    /**
-     * Init
-     */
     function init(): void
     {
         // config

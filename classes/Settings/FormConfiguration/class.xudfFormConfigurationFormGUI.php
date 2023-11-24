@@ -1,12 +1,5 @@
 <?php
-
 use srag\Plugins\UdfEditor\Exception\UDFNotFoundException;
-
-/**
- * Class xudfFormConfigurationFormGUI
- *
- * @author Theodor Truffer <tt@studer-raimann.ch>
- */
 class xudfFormConfigurationFormGUI extends ilPropertyFormGUI
 {
 
@@ -18,7 +11,7 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI
     const F_REQUIRED = 'is_required';
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
-    protected ilUdfEditorPlugin $pl;
+    protected ilUdfEditorPlugin|ilPlugin $pl;
     protected xudfFormConfigurationGUI $parent_gui;
     protected xudfContentElement $element;
 
@@ -27,14 +20,16 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI
      * xudfFormConfigurationFormGUI constructor.
      *
      * @param xudfFormConfigurationGUI $parent_gui
-     * @param xudfContentElement       $element
+     * @param xudfContentElement $element
+     * @throws ilCtrlException
      */
     public function __construct(xudfFormConfigurationGUI $parent_gui, xudfContentElement $element)
     {
         global $DIC;
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->lng = $DIC['lng'];
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
         $this->http = $DIC->http();
+        $this->global_tpl = $DIC->ui()->mainTemplate();
 
         /** @var $component_factory ilComponentFactory */
         $component_factory = $DIC['component.factory'];
@@ -48,11 +43,6 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI
 
         $this->initForm();
     }
-
-
-    /**
-     *
-     */
     protected function initForm()
     {
         $input = new ilHiddenInputGUI(self::F_IS_SEPARATOR);
@@ -74,11 +64,6 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI
         $this->addCommandButton(xudfFormConfigurationGUI::CMD_CREATE, $this->lng->txt('save'));
         $this->addCommandButton(xudfFormConfigurationGUI::CMD_STANDARD, $this->lng->txt('cancel'));
     }
-
-
-    /**
-     *
-     */
     protected function initUdfFieldForm()
     {
         // UDF FIELD
@@ -102,12 +87,7 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI
         $input = new ilCheckboxInputGUI($this->pl->txt(self::F_REQUIRED), self::F_REQUIRED);
         $this->addItem($input);
     }
-
-
-    /**
-     *
-     */
-    protected function initSeparatorForm()
+    protected function initSeparatorForm(): void
     {
         // TITLE
         $input = new ilTextInputGUI($this->lng->txt(self::F_TITLE), self::F_TITLE);
@@ -117,17 +97,12 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI
         $input = new ilTextInputGUI($this->lng->txt(self::F_DESCRIPTION), self::F_DESCRIPTION);
         $this->addItem($input);
     }
-
-
-    /**
-     *
-     */
     public function fillForm()
     {
         try {
             $title = $this->element->getTitle();
         } catch (UDFNotFoundException $e) {
-            ilUtil::sendInfo($this->pl->txt('msg_choose_new_type'));
+            $this->global_tpl->setOnScreenMessage("info",$this->pl->txt('msg_choose_new_type'), true);
             $title = '';
         }
         $values = array(
@@ -139,12 +114,7 @@ class xudfFormConfigurationFormGUI extends ilPropertyFormGUI
 
         $this->setValuesByArray($values, true);
     }
-
-
-    /**
-     * @return bool
-     */
-    public function saveForm()
+    public function saveForm(): bool
     {
         if (!$this->checkInput()) {
             return false;

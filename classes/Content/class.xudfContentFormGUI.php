@@ -1,18 +1,9 @@
 <?php
-
-use srag\DIC\UdfEditor\DICTrait;
 use srag\Plugins\UdfEditor\Exception\UDFNotFoundException;
 use srag\Plugins\UdfEditor\Exception\UnknownUdfTypeException;
 
-/**
- * Class xudfContentFormGUI
- *
- * @author Theodor Truffer <tt@studer-raimann.ch>
- */
 class xudfContentFormGUI extends ilPropertyFormGUI
 {
-
-    use DICTrait;
     const PLUGIN_CLASS_NAME = ilUdfEditorPlugin::class;
     /**
      * @var xudfContentGUI
@@ -22,6 +13,7 @@ class xudfContentFormGUI extends ilPropertyFormGUI
      * @var int
      */
     protected $obj_id;
+    protected \ILIAS\DI\LoggingServices $log;
 
 
     /**
@@ -34,10 +26,15 @@ class xudfContentFormGUI extends ilPropertyFormGUI
      */
     public function __construct(xudfContentGUI $parent_gui, $editable = true)
     {
+        global $DIC;
         parent::__construct();
+        $this->log = $DIC->logger();
+        $this->user = $DIC->user();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
         $this->parent_gui = $parent_gui;
         $this->obj_id = $parent_gui->getObjId();
-        $this->setFormAction(self::dic()->ctrl()->getFormAction($parent_gui));
+        $this->setFormAction($this->ctrl->getFormAction($parent_gui));
         $this->initForm($editable);
     }
 
@@ -58,8 +55,8 @@ class xudfContentFormGUI extends ilPropertyFormGUI
                 try {
                     $definition = $element->getUdfFieldDefinition();
                 } catch (UDFNotFoundException $e) {
-                    self::dic()->logger()->root()->alert($e->getMessage());
-                    self::dic()->logger()->root()->alert($e->getTraceAsString());
+                    $this->log->root()->alert($e->getMessage());
+                    $this->log->root()->alert($e->getTraceAsString());
                     continue;
                 }
 
@@ -69,7 +66,7 @@ class xudfContentFormGUI extends ilPropertyFormGUI
                         break;
                     case 2:
                         $input = new ilSelectInputGUI($element->getTitle(), $element->getUdfFieldId());
-                        $options = array('' => self::dic()->language()->txt('please_choose'));
+                        $options = array('' => $this->lng->txt('please_choose'));
                         foreach ($definition['field_values'] as $key => $values) {
                             $options[$values] = $values;
                         }
@@ -96,7 +93,7 @@ class xudfContentFormGUI extends ilPropertyFormGUI
         }
 
         if ($editable) {
-            $this->addCommandButton(xudfSettingsGUI::CMD_UPDATE, self::dic()->language()->txt('save'));
+            $this->addCommandButton(xudfSettingsGUI::CMD_UPDATE, $this->lng->txt('save'));
         }
     }
 
@@ -106,7 +103,7 @@ class xudfContentFormGUI extends ilPropertyFormGUI
      */
     public function fillForm()
     {
-        $udf_data = self::dic()->user()->getUserDefinedData();
+        $udf_data = $this->user->getUserDefinedData();
         $values = array();
         /** @var xudfContentElement $element */
         foreach (xudfContentElement::where(array('obj_id' => $this->obj_id, 'is_separator' => false))->get() as $element) {
@@ -133,7 +130,7 @@ class xudfContentFormGUI extends ilPropertyFormGUI
         }
 
         $log_values = [];
-        $udf_data = self::dic()->user()->getUserDefinedData();
+        $udf_data = $this->user->getUserDefinedData();
         /** @var xudfContentElement $element */
         foreach (xudfContentElement::where(array('obj_id' => $this->obj_id, 'is_separator' => false))->get() as $element) {
             $value = $this->getInput($element->getUdfFieldId());
@@ -145,10 +142,10 @@ class xudfContentFormGUI extends ilPropertyFormGUI
             $udf_data[$element->getUdfFieldId()] = $value;
             $log_values[$element->getTitle()] = $value;
         }
-        self::dic()->user()->setUserDefinedData($udf_data);
-        self::dic()->user()->update();
+        $this->user->setUserDefinedData($udf_data);
+        $this->user->update();
 
-        xudfLogEntry::createNew($this->obj_id, self::dic()->user()->getId(), $log_values);
+        xudfLogEntry::createNew($this->obj_id, $this->user->getId(), $log_values);
 
         return true;
     }

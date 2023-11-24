@@ -1,10 +1,5 @@
 <?php
-
 /**
- * Class xudfPageObjectGUI
- *
- * @author            Theodor Truffer <tt@studer-raimann.ch>
- *
  * @ilCtrl_isCalledBy xudfPageObjectGUI: xudfContentGUI
  * @ilCtrl_Calls      xudfPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls      xudfPageObjectGUI: ilPublicUserProfileGUI, ilPageObjectGUI

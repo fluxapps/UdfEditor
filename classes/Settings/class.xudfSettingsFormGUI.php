@@ -1,15 +1,9 @@
 <?php
-
 /**
- * Class xudfSettingsFormGUI
- *
- * @author            Theodor Truffer <tt@studer-raimann.ch>
- *
  * @ilCtrl_Calls      xudfSettingsFormGUI: ilFormPropertyDispatchGUI
  */
 class xudfSettingsFormGUI extends ilPropertyFormGUI
 {
-
     const F_TITLE = 'title';
     const F_DESCRIPTION = 'description';
     const F_ONLINE = 'online';
@@ -30,7 +24,7 @@ class xudfSettingsFormGUI extends ilPropertyFormGUI
         ];
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
-    protected ilUdfEditorPlugin $pl;
+    protected ilUdfEditorPlugin|ilPlugin $pl;
     protected xudfSettingsGUI $parent_gui;
     protected ?xudfSetting $xudfSetting;
 
@@ -50,11 +44,8 @@ class xudfSettingsFormGUI extends ilPropertyFormGUI
 
         /** @var $component_factory ilComponentFactory */
         $component_factory = $DIC['component.factory'];
-        /** @var $plugin ilUdfEditorPlugin */
         $this->pl  = $component_factory->getPlugin(ilUdfEditorPlugin::PLUGIN_ID);
         $this->parent_gui = $parent_gui;
-
-        //todo
         $this->xudfSetting = xudfSetting::find($this->parent_gui->getObjId());
 
         $this->setTitle($this->lng->txt('settings'));

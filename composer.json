@@ -23,11 +23,7 @@
   "minimum-stability": "beta",
   "prefer-stable": true,
   "require": {
-    "php": ">=8.0",
-    "srag/librariesnamespacechanger": "0.16.1",
-    "srag/dic": "0.34.1",
-    "srag/notifications4plugin": "5.7.4",
-    "srag/custominputguis": "0.43.1"
+    "php": ">=8.0"
   },
   "autoload": {
     "classmap": [
@@ -39,13 +35,6 @@
     "optimize-autoloader": true,
     "sort-packages": true,
     "classmap-authoritative": true
-  },
-  "scripts": {
-    "pre-autoload-dump": [
-      "vendor/srag/notifications4plugin/bin/twig_php74_patch.php",
-      "srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger::rewriteLibrariesNamespaces",
-      "srag\\LibrariesNamespaceChanger\\PHP72Backport::PHP72Backport"
-    ]
   }
 }
 

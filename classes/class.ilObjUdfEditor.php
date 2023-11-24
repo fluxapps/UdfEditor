@@ -11,25 +11,13 @@ require_once __DIR__ . "/../vendor/autoload.php";
  */
 class ilObjUdfEditor extends ilObjectPlugin
 {
+    protected xudfSetting $settings;
 
-    /**
-     * @var xudfSetting
-     */
-    protected $settings;
-
-
-    /**
-     * @return string
-     */
     protected function initType(): void
     {
         $this->type = ilUdfEditorPlugin::PLUGIN_ID;
     }
 
-
-    /**
-     *
-     */
     protected function doCreate(bool $clone_mode = false): void
     {
         $xudfSetting = new xudfSetting();
@@ -37,16 +25,11 @@ class ilObjUdfEditor extends ilObjectPlugin
         $xudfSetting->create();
     }
 
-
-    /**
-     *
-     */
     protected function beforeDelete(): bool
     {
         xudfSetting::find($this->getId())->delete();
         return true;
     }
-
 
     /**
      * @param self $new_obj
@@ -60,33 +43,18 @@ class ilObjUdfEditor extends ilObjectPlugin
         $this->clonePageObject($new_obj);
     }
 
-
-    /**
-     *
-     */
     public function getStyleSheetId(): void
     {
         ilObjStyleSheet::lookupObjectStyle($this->getId());
     }
 
-
-    /**
-     * @return xudfSetting
-     */
     public function getSettings(): xudfSetting
     {
-        if (!($this->settings instanceof xudfSetting)) {
-            $this->settings = xudfSetting::find($this->id);
-        }
-
+        $this->settings = xudfSetting::find($this->id);
         return $this->settings;
     }
 
-
-    /**
-     * @param self $new_obj
-     */
-    protected function cloneSettings($new_obj): void
+    protected function cloneSettings(ilObjUdfEditor $new_obj): void
     {
         $old_settings = $this->getSettings();
         $new_settings = $new_obj->getSettings();
@@ -97,11 +65,7 @@ class ilObjUdfEditor extends ilObjectPlugin
         $new_settings->update();
     }
 
-
-    /**
-     * @param self $new_obj
-     */
-    protected function cloneContentElements($new_obj): void
+    protected function cloneContentElements(ilObjUdfEditor $new_obj): void
     {
         /** @var xudfContentElement $old_content_element */
         foreach (xudfContentElement::where(['obj_id' => $this->getId()])->get() as $old_content_element) {
@@ -120,11 +84,7 @@ class ilObjUdfEditor extends ilObjectPlugin
         }
     }
 
-
-    /**
-     * @param self $new_obj
-     */
-    protected function clonePageObject($new_obj): void
+    protected function clonePageObject(ilObjUdfEditor $new_obj): void
     {
         $old_page_object = new xudfPageObject($this->getId());
         $old_page_object->copy($new_obj->getId());

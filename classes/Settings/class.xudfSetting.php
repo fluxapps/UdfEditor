@@ -1,17 +1,5 @@
 <?php
-
-use srag\DIC\UdfEditor\DICTrait;
-use srag\Notifications4Plugin\UdfEditor\Notification\NotificationInterface;
-use srag\Notifications4Plugin\UdfEditor\Utils\Notifications4PluginTrait;
-
-/**
- * Class xudfSetting
- *
- * @author Theodor Truffer <tt@studer-raimann.ch>
- */
 class xudfSetting extends ActiveRecord {
-    use DICTrait;
-    use Notifications4PluginTrait;
     const PLUGIN_CLASS_NAME = ilUdfEditorPlugin::class;
     const DB_TABLE_NAME = 'xudf_setting';
 

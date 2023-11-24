@@ -1,46 +1,19 @@
 <?php
 
-/**
- * Class xudfGUI
- *
- * @author Theodor Truffer <tt@studer-raimann.ch>
- */
 abstract class xudfGUI
 {
 
     const CMD_STANDARD = 'index';
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilUdfEditorPlugin
-     */
-    protected $pl;
-    /**
-     * @var
-     */
-    protected $parent_gui;
+    protected ilCtrl $ctrl;
+    protected ilObjUser $user;
+    protected ilLanguage $lng;
+    protected ilTemplate|ilGlobalTemplateInterface $tpl;
+    protected ilTabsGUI $tabs;
+    protected ilToolbarGUI $toolbar;
+    protected ilPlugin|ilUdfEditorPlugin $pl;
+    protected ilObjUdfEditorGUI $parent_gui;
+    protected ilTree $tree;
+    protected \ILIAS\DI\LoggingServices $log;
 
 
     /**
@@ -51,13 +24,14 @@ abstract class xudfGUI
     public function __construct(ilObjUdfEditorGUI $parent_gui)
     {
         global $DIC;
-        $this->ctrl = $DIC['ilCtrl'];
-        $this->user = $DIC['ilUser'];
-        $this->lng = $DIC['lng'];
-        $this->tpl = $DIC['tpl'];
-        $this->tabs = $DIC['ilTabs'];
-        $this->toolbar = $DIC['ilToolbar'];
+        $this->ctrl = $DIC->ctrl();
+        $this->user = $DIC->user();
+        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->tabs = $DIC->tabs();
+        $this->toolbar = $DIC->toolbar();
         $this->tree = $DIC->repositoryTree();
+        $this->log = $DIC->logger();
 
         /** @var $component_factory ilComponentFactory */
         $component_factory = $DIC['component.factory'];
@@ -67,11 +41,7 @@ abstract class xudfGUI
         $this->parent_gui = $parent_gui;
     }
 
-
-    /**
-     *
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $this->setSubtabs();
         $next_class = $this->ctrl->getNextClass();
@@ -83,45 +53,25 @@ abstract class xudfGUI
         }
     }
 
-
-    /**
-     * @param $cmd
-     */
-    protected function performCommand($cmd)
+    protected function performCommand($cmd): void
     {
         $this->{$cmd}();
     }
 
-
-    /**
-     *
-     */
     protected function setSubtabs()
     {
         // overwrite if class has subtabs
     }
 
-
-    /**
-     * @return int
-     */
-    public function getObjId()
+    public function getObjId(): int
     {
         return $this->parent_gui->getObjId();
     }
 
-
-    /**
-     * @return ilObjUdfEditor
-     */
-    public function getObject()
+    public function getObject(): ilObjUdfEditor
     {
         return $this->parent_gui->getObject();
     }
 
-
-    /**
-     *
-     */
     protected abstract function index();
 }

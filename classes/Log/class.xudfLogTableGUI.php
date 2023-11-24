@@ -6,8 +6,6 @@ use srag\DIC\UdfEditor\Exception\DICException;
 
 /**
  * Class xudfLogTableGUI
- *
- * @author Theodor Truffer <tt@studer-raimann.ch>
  */
 class xudfLogTableGUI extends TableGUI
 {
@@ -56,8 +54,6 @@ class xudfLogTableGUI extends TableGUI
     {
         return [];
     }
-
-
     /**
      * @throws DICException
      */
@@ -67,10 +63,7 @@ class xudfLogTableGUI extends TableGUI
         $this->addColumn(self::dic()->language()->txt('user'), 'user');
         $this->addColumn(self::dic()->language()->txt('date'), 'timestamp');
     }
-
-
     /**
-     *
      * @throws Exception
      */
     protected function initData() : void
@@ -84,11 +77,6 @@ class xudfLogTableGUI extends TableGUI
         }
         $this->setData($where->getArray());
     }
-
-
-    /**
-     *
-     */
     protected function initFilterFields() : void
     {
         $this->filter_fields = [
@@ -98,26 +86,14 @@ class xudfLogTableGUI extends TableGUI
             ]
         ];
     }
-
-
-    /**
-     *
-     */
     protected function initId() : void
     {
         $this->setId(self::ID_PREFIX . $this->parent_obj->getObjId());
     }
-
-
-    /**
-     *
-     */
     protected function initTitle() : void
     {
         $this->setTitle(self::dic()->language()->txt('history'));
     }
-
-
     /**
      * @param array $row
      *
@@ -129,8 +105,6 @@ class xudfLogTableGUI extends TableGUI
         $this->tpl->setVariable('USER', ilObjUser::_lookupFullname($row['usr_id']) . ', [' . ilObjUser::_lookupLogin($row['usr_id']) . ']');
         $this->tpl->setVariable('DATE', $row['timestamp']->get(IL_CAL_FKT_DATE, 'd.m.Y H:i:s'));
     }
-
-
     /**
      * @param array $values
      *
@@ -151,8 +125,6 @@ class xudfLogTableGUI extends TableGUI
 
         return $string . '</table>';
     }
-
-
     /**
      * @return array
      * @throws DICException

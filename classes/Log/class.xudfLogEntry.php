@@ -1,15 +1,7 @@
 <?php
-
-/**
- * Class xudfLogEntry
- *
- * @author Theodor Truffer <tt@studer-raimann.ch>
- */
 class xudfLogEntry extends ActiveRecord
 {
-
     const TABLE_NAME = 'xudf_log_entry';
-
 
     /**
      * @return string

@@ -1,19 +1,13 @@
 <?php
 require_once __DIR__ . "/../vendor/autoload.php";
 
-/**
- * Class ilObjUdfEditorListGUI
- *
- * @author Theodor Truffer <tt@studer-raimann.ch>
- */
 class ilObjUdfEditorListGUI extends ilObjectPluginListGUI
 {
-
+    protected int $obj_id = 0;
     function getGuiClass(): string
     {
         return ilObjUdfEditorGUI::class;
     }
-
 
     function initCommands(): array
     {
@@ -45,15 +39,10 @@ class ilObjUdfEditorListGUI extends ilObjectPluginListGUI
         return $commands;
     }
 
-
-    /**
-     *
-     */
-    function initType()
+    function initType(): void
     {
         $this->setType(ilUdfEditorPlugin::PLUGIN_ID);
     }
-
 
     /**
      * get all alert properties
@@ -83,10 +72,10 @@ class ilObjUdfEditorListGUI extends ilObjectPluginListGUI
      */
     public function getCustomProperties(array $prop): array
     {
+        global $DIC;
         $props = parent::getCustomProperties(array());
 
-        //todo
-        /*
+        if($this->obj_id !== 0){
             $settings = xudfSetting::find($this->obj_id);
             if (!$settings->isOnline()) {
                 $props[] = array(
@@ -97,8 +86,7 @@ class ilObjUdfEditorListGUI extends ilObjectPluginListGUI
                     'propertyNameVisible' => true
                 );
             }
-        */
-
+        }
 
 
         return $props;

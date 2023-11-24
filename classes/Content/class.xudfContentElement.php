@@ -1,18 +1,9 @@
 <?php
-
 use srag\Plugins\UdfEditor\Exception\UDFNotFoundException;
-
-/**
- * Class xudfContentElement
- *
- * @author Theodor Truffer <tt@studer-raimann.ch>
- */
 class xudfContentElement extends ActiveRecord
 {
 
     const DB_TABLE_NAME = 'xudf_element';
-
-
     /**
      * @return string
      */
@@ -20,8 +11,6 @@ class xudfContentElement extends ActiveRecord
     {
         return self::DB_TABLE_NAME;
     }
-
-
     /**
      *
      */
@@ -32,8 +21,6 @@ class xudfContentElement extends ActiveRecord
         $this->setSort($sort);
         parent::create();
     }
-
-
     /**
      * @param       $primary_key
      * @param array $add_constructor_args
